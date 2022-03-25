@@ -3,7 +3,10 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
@@ -34,6 +37,14 @@ class User extends Resource
     ];
 
     /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Settings';
+
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,23 +54,25 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-
             Gravatar::make()->maxWidth(50),
-
-            Text::make('Name')
+            Text::make('name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
+            Date::make('birthday')->onlyOnDetail(),
+            Text::make('NIN', 'nin')->onlyOnDetail(),
+            Text::make('mobile'),
             Text::make('Email')
-                ->sortable()
+                ->onlyOnDetail()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
-
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+            HasOne::make('role'),
+            BelongsTo::make('establishment')->searchable(),
+            BelongsTo::make('commune')->searchable(),
         ];
     }
 
