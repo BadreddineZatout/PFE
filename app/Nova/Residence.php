@@ -33,6 +33,24 @@ class Residence extends Resource
     public static $search = [
         'id', 'name'
     ];
+
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Hebergement';
+
+    /**
+     * Build a "relatable" query for Establishments.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public static function relatableEstablishments(NovaRequest $request, $query)
     {
         return $query->where('id', '!=', $request->resourceId)->where('type', '!=', 'résidence');

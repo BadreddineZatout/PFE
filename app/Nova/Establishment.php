@@ -3,13 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class University extends Resource
+class Establishment extends Resource
 {
     /**
      * The model the resource corresponds to.
@@ -26,47 +24,19 @@ class University extends Resource
     public static $title = 'name';
 
     /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id', 'name'
-    ];
-
-    /**
      * The logical group associated with the resource.
      *
      * @var string
      */
-    public static $group = 'Acceuil';
+    public static $group = 'Settings';
 
     /**
-     * Build a "relatable" query for Establishments.
+     * Indicates if the resource should be displayed in the sidebar.
      *
-     * This query determines which instances of the model may be attached to other resources.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Laravel\Nova\Fields\Field  $field
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @var bool
      */
-    public static function relatableEstablishments(NovaRequest $request, $query)
-    {
-        return $query->where('id', '!=', $request->resourceId)->where('type', 'résidence');
-    }
+    public static $displayInNavigation = false;
 
-    /**
-     * Build an "index" query for the given resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->where('type', '!=', 'résidence');
-    }
 
     /**
      * Get the fields displayed by the resource.
@@ -78,9 +48,7 @@ class University extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Select::make('Type')->options(['université' => 'université', 'école superieure' => 'école superieure', 'institue' => 'institue']),
-            BelongsToMany::make('Residences', 'Establishments'),
+            Text::make('name')
         ];
     }
 
