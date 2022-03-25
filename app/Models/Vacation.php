@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Vacation extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'date' => 'date'
+    ];
 }
