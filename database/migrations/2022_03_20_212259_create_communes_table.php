@@ -17,6 +17,7 @@ class CreateCommunesTable extends Migration
             $table->id();
             $table->string('postal_code');
             $table->string('name');
+            $table->foreignId('wilaya_id')->constrained();
             $table->timestamps();
         });
     }
