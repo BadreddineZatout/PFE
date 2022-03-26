@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -79,7 +80,14 @@ class University extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('name'),
-            Select::make('Type')->options(['université' => 'université', 'école superieure' => 'école superieure', 'institue' => 'institue']),
+            Select::make('Type')->options([
+                'université' => 'université',
+                'école superieure' => 'école superieure',
+                'institue' => 'institue'
+            ])->hideFromIndex(),
+            Text::make('Adresse'),
+            BelongsTo::make('wilaya'),
+            BelongsTo::make('commune'),
             BelongsToMany::make('Residences', 'Establishments'),
         ];
     }

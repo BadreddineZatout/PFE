@@ -55,14 +55,17 @@ class User extends Resource
         return [
             ID::make()->sortable(),
             Gravatar::make()->maxWidth(50),
-            Text::make('name')
+            Text::make('firstname')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            Date::make('birthday')->onlyOnDetail(),
-            Text::make('NIN', 'nin')->onlyOnDetail(),
+            Text::make('lastname')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            Date::make('birthday')->hideFromIndex(),
+            Text::make('NIN', 'nin')->hideFromIndex(),
             Text::make('mobile'),
             Text::make('Email')
-                ->onlyOnDetail()
+                ->hideFromIndex()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
@@ -70,8 +73,9 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-            HasOne::make('role'),
-            BelongsTo::make('establishment')->searchable(),
+            BelongsTo::make('role'),
+            BelongsTo::make('establishment')->nullable()->searchable(),
+            BelongsTo::make('wilaya')->searchable(),
             BelongsTo::make('commune')->searchable(),
         ];
     }

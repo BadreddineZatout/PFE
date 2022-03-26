@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -59,6 +60,7 @@ class Wilaya extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('name'),
+            HasMany::make('communes'),
         ];
     }
 

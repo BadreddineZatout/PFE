@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -81,7 +82,10 @@ class Residence extends Resource
             Text::make('name'),
             Select::make('Type')->options([
                 'résidence' => 'résidence'
-            ]),
+            ])->onlyOnDetail(),
+            Text::make('Adresse'),
+            BelongsTo::make('wilaya'),
+            BelongsTo::make('commune'),
             BelongsToMany::make('Universities', 'Establishments'),
         ];
     }

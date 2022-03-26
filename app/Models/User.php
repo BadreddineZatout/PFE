@@ -47,8 +47,18 @@ class User extends Authenticatable
         return $this->belongsTo(Establishment::class);
     }
 
+    public function wilaya()
+    {
+        return $this->belongsTo(Wilaya::class);
+    }
+
     public function commune()
     {
         return $this->belongsTo(Commune::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

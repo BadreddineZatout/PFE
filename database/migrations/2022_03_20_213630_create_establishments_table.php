@@ -16,10 +16,10 @@ class CreateEstablishmentsTable extends Migration
         Schema::create('establishments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->string('adresse');
-            // $table->foreignId('commune_id')->constrained();
+            $table->string('adresse');
+            $table->foreignId('wilaya_id')->nullable()->constrained();
+            $table->foreignId('commune_id')->nullable()->constrained();
             $table->enum('type', ['université', 'école superieure', 'institue', 'résidence']);
-            // $table->bigInteger('students_number');
             $table->foreignId('establishment_id')->nullable()->constrained();
             $table->timestamps();
         });

@@ -31,6 +31,15 @@ class Establishment extends Resource
     public static $group = 'Settings';
 
     /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'name'
+    ];
+
+    /**
      * Indicates if the resource should be displayed in the sidebar.
      *
      * @var bool

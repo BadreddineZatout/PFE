@@ -13,4 +13,14 @@ class Establishment extends Model
     {
         return $this->belongsToMany(Establishment::class, 'connected_establishments', 'establishment_id', 'connected_establishment_id');
     }
+
+    public function wilaya()
+    {
+        return $this->belongsTo(Wilaya::class);
+    }
+
+    public function commune()
+    {
+        return $this->belongsTo(Commune::class);
+    }
 }
