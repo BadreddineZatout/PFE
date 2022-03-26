@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Resident extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function establishment()
+    {
+        return $this->belongsTo(Establishment::class);
+    }
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class);
+    }
 }

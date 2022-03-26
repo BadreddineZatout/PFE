@@ -2,16 +2,12 @@
 
 namespace App\Nova;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Student extends User
 {
     /**
      * The model the resource corresponds to.
@@ -25,10 +21,10 @@ class User extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->firstname . ' ' . $this->lastname;
-    }
+    // public function title()
+    // {
+    //     return $this->firstname . ' ' . $this->lastname;
+    // }
 
     /**
      * The columns that should be searched.
@@ -36,7 +32,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'firstname', 'lastname', 'email',
+        'firstname', 'lastname'
     ];
 
     /**
@@ -44,8 +40,19 @@ class User extends Resource
      *
      * @var string
      */
-    public static $group = 'Settings';
+    public static $group = 'Acceuil';
 
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -53,35 +60,12 @@ class User extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function fields(Request $request)
+    /* public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-            Gravatar::make()->maxWidth(50),
-            Text::make('firstname')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            Text::make('lastname')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            Date::make('birthday')->hideFromIndex(),
-            Text::make('NIN', 'nin')->hideFromIndex(),
-            Text::make('mobile'),
-            Text::make('Email')
-                ->hideFromIndex()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-            BelongsTo::make('role'),
-            BelongsTo::make('establishment')->nullable()->searchable(),
-            BelongsTo::make('wilaya')->searchable(),
-            BelongsTo::make('commune')->searchable(),
+            ID::make(__('ID'), 'id')->sortable(),
         ];
-    }
+    } */
 
     /**
      * Get the cards available for the request.
