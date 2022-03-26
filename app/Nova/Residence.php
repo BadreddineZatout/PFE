@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Residence extends Resource
 {
@@ -82,10 +83,18 @@ class Residence extends Resource
             Text::make('name'),
             Select::make('Type')->options([
                 'résidence' => 'résidence'
-            ])->onlyOnDetail(),
+            ])->hideFromIndex()->default('résidence'),
             Text::make('Adresse'),
-            BelongsTo::make('wilaya')->searchable(),
-            BelongsTo::make('commune')->searchable(),
+            NovaBelongsToDepend::make('Wilaya')
+                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
+                ->options(\App\Models\Wilaya::all()),
+            NovaBelongsToDepend::make('Commune')
+                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
+                ->optionsResolve(function ($wilaya) {
+                    // Reduce the amount of unnecessary data sent
+                    return $wilaya->communes()->get(['id', 'name']);
+                })
+                ->dependsOn('Wilaya'),
             BelongsToMany::make('Universities', 'Establishments'),
         ];
     }

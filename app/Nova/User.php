@@ -2,14 +2,16 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\HasOne;
+use App\Models\Wilaya;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\HasOne;
+use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\BelongsTo;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class User extends Resource
 {
@@ -77,9 +79,17 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
             BelongsTo::make('role'),
-            BelongsTo::make('establishment')->nullable()->searchable(),
-            BelongsTo::make('wilaya')->searchable(),
-            BelongsTo::make('commune')->searchable(),
+            BelongsTo::make('establishment', 'establishment')->nullable()->searchable(),
+            NovaBelongsToDepend::make('Wilaya')
+                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
+                ->options(Wilaya::all()),
+            NovaBelongsToDepend::make('Commune')
+                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
+                ->optionsResolve(function ($wilaya) {
+                    // Reduce the amount of unnecessary data sent
+                    return $wilaya->communes()->get(['id', 'name']);
+                })
+                ->dependsOn('Wilaya'),
         ];
     }
 

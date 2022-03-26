@@ -84,11 +84,19 @@ class University extends Resource
             Select::make('Type')->options([
                 'université' => 'université',
                 'école superieure' => 'école superieure',
-                'institue' => 'institue'
+                'institue' => 'institue',
             ])->hideFromIndex(),
             Text::make('Adresse'),
-            BelongsTo::make('wilaya')->searchable(),
-            BelongsTo::make('commune')->searchable(),
+            NovaBelongsToDepend::make('wilaya')
+                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
+                ->options(\App\Models\Wilaya::all()),
+            NovaBelongsToDepend::make('commune')
+                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
+                ->optionsResolve(function ($wilaya) {
+                    // Reduce the amount of unnecessary data sent
+                    return $wilaya->communes()->get(['id', 'name']);
+                })
+                ->dependsOn('Wilaya'),
             BelongsToMany::make('Residences', 'Establishments'),
         ];
     }

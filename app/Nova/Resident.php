@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Resident extends Resource
 {
@@ -53,13 +54,21 @@ class Resident extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
-            BelongsTo::make('residence', 'establishment'),
-            // BelongsTo::make('block'),
+            NovaBelongsToDepend::make('residence', 'establishment')
+                ->placeholder('Select Residence')
+                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get()),
+            NovaBelongsToDepend::make('block')
+                ->placeholder('Select Block') // Add this just if you want to customize the placeholder
+                ->optionsResolve(function ($residence) {
+                    // Reduce the amount of unnecessary data sent
+                    return $residence->blocks()->get(['id', 'name']);
+                })
+                ->dependsOn('establishment'),
+            Number::make('chambre'),
             Select::make('State')->options([
                 'renouvlé' => 'renouvlé',
                 'non renouvlé' => 'non renouvlé'
             ]),
-            Number::make('chambre')
         ];
     }
 
