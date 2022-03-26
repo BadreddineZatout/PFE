@@ -84,8 +84,8 @@ class Residence extends Resource
                 'résidence' => 'résidence'
             ])->onlyOnDetail(),
             Text::make('Adresse'),
-            BelongsTo::make('wilaya'),
-            BelongsTo::make('commune'),
+            BelongsTo::make('wilaya')->searchable(),
+            BelongsTo::make('commune')->searchable(),
             BelongsToMany::make('Universities', 'Establishments'),
         ];
     }

@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class University extends Resource
@@ -86,8 +87,8 @@ class University extends Resource
                 'institue' => 'institue'
             ])->hideFromIndex(),
             Text::make('Adresse'),
-            BelongsTo::make('wilaya'),
-            BelongsTo::make('commune'),
+            BelongsTo::make('wilaya')->searchable(),
+            BelongsTo::make('commune')->searchable(),
             BelongsToMany::make('Residences', 'Establishments'),
         ];
     }
