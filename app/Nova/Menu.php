@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -40,6 +41,19 @@ class Menu extends Resource
      * @var string
      */
     public static $group = 'Restauration';
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->leftJoin('restaurants', 'restaurants.id', 'restaurant_id')
+            ->where('establishment_id', Auth::user()->establishment_id);
+    }
 
     /**
      * Get the fields displayed by the resource.
