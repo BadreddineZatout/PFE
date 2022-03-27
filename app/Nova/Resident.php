@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\ResidentsNonRenouvles;
+use App\Nova\Metrics\ResidentsRenouvles;
+use App\Nova\Metrics\ResidentsTotal;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -80,7 +83,11 @@ class Resident extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new ResidentsTotal(),
+            new ResidentsRenouvles(),
+            new ResidentsNonRenouvles()
+        ];
     }
 
     /**
