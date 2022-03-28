@@ -59,7 +59,6 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-            Gravatar::make()->maxWidth(50),
             Text::make('firstname')
                 ->sortable()
                 ->rules('required', 'max:255'),

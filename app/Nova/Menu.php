@@ -9,9 +9,11 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Menu extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -27,12 +29,12 @@ class Menu extends Resource
     public static $title = 'id';
 
     /**
-     * The columns that should be searched.
+     * The relationship columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id',
+    public static $searchRelations = [
+        'restaurant' => ['name'],
     ];
 
     /**

@@ -2,20 +2,24 @@
 
 namespace App\Nova;
 
-use App\Nova\Metrics\ResidentsNonRenouvles;
-use App\Nova\Metrics\ResidentsRenouvles;
-use App\Nova\Metrics\ResidentsTotal;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Metrics\ResidentsTotal;
+use App\Nova\Metrics\ResidentsRenouvles;
+use App\Nova\Metrics\ResidentsNonRenouvles;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use App\Nova\Lenses\ResidentsRenouvles as LensesResidentsRenouvles;
+use App\Nova\Lenses\ResidentsNonRenouvles as LensesResidentsNonRenouvles;
 
 class Resident extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -31,12 +35,12 @@ class Resident extends Resource
     public static $title = 'name';
 
     /**
-     * The columns that should be searched.
+     * The relationship columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'name',
+    public static $searchRelations = [
+        'user' => ['firstname', 'lastname'],
     ];
 
     /**
@@ -109,7 +113,10 @@ class Resident extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new LensesResidentsRenouvles(),
+            new LensesResidentsNonRenouvles()
+        ];
     }
 
     /**

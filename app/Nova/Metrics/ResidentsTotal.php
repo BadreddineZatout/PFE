@@ -26,7 +26,10 @@ class ResidentsTotal extends Value
      */
     public function ranges()
     {
-        return [];
+        return [
+            'ALL' => 'All Time',
+            'YTD' => 'Year To Date',
+        ];
     }
 
     /**
