@@ -32,7 +32,10 @@ class Resident extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public function title()
+    {
+        return $this->user->firstname . ' ' . $this->user->lastname;
+    }
 
     /**
      * The relationship columns that should be searched.
