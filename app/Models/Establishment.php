@@ -28,4 +28,9 @@ class Establishment extends Model
     {
         return $this->hasMany(Block::class)->where('establishment_id', $this->id);
     }
+
+    public function buses()
+    {
+        return $this->hasMany(Bus::class);
+    }
 }
