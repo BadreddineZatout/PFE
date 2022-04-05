@@ -9,6 +9,10 @@ class Menu extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'date' => 'date'
+    ];
+
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
