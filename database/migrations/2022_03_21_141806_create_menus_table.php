@@ -15,15 +15,13 @@ class CreateMenusTable extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->foreignId('restaurant_id')->constrained();
             $table->enum('type', ['breakfast', 'lunch', 'dinner']);
-            $table->string('sunday_meal');
-            $table->string('monday_meal');
-            $table->string('tuesday_meal');
-            $table->string('wednesday_meal');
-            $table->string('thursday_meal');
-            $table->string('friday_meal');
-            $table->string('saturday_meal');
+            $table->string('main_dish');
+            $table->string('secondary_dish');
+            $table->string('dessert');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

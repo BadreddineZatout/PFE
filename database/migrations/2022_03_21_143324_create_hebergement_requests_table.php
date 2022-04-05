@@ -19,7 +19,7 @@ class CreateHebergementRequestsTable extends Migration
             $table->foreignId('establishment_id')->constrained();
             $table->foreignId('block_id')->constrained();
             $table->integer('chambre');
-            $table->enum('state', ['accepté', 'non accepté']);
+            $table->enum('state', ['non traité', 'accepté', 'refusé'])->default('non traité');
             $table->timestamps();
         });
     }

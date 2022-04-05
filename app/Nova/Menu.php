@@ -5,7 +5,9 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -26,7 +28,19 @@ class Menu extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->main_dish . ' - ' . $this->secondary_dish . ' - ' . $this->dessert;
+    }
+
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'id', 'main_dish', 'secondary_dish', 'dessert',
+    ];
 
     /**
      * The relationship columns that should be searched.
@@ -67,15 +81,13 @@ class Menu extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Date::make('date'),
             BelongsTo::make('restaurant'),
             Select::make('Type')->options(['breakfast' => 'breakfast', 'lunch' => 'lunch', 'dinner' => 'dinner']),
-            Text::make('Sunday', 'sunday_meal'),
-            Text::make('Monday', 'monday_meal'),
-            Text::make('Tuesday', 'tuesday_meal'),
-            Text::make('Wednesday', 'wednesday_meal'),
-            Text::make('Thursday', 'thursday_meal'),
-            Text::make('Friday', 'friday_meal'),
-            Text::make('Saturday', 'saturday_meal'),
+            Text::make('Plat Principal', 'main_dish'),
+            Text::make('Plat Secondaire', 'secondary_dish'),
+            Text::make('dessert'),
+            Number::make('quantity'),
         ];
     }
 
