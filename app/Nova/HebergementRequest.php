@@ -14,9 +14,11 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class HebergementRequest extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -38,6 +40,11 @@ class HebergementRequest extends Resource
      */
     public static $search = [
         'id',
+    ];
+
+    public static $searchRelations = [
+        'user' => ['firstname', 'lastname'],
+        'establishment' => ['name'],
     ];
 
     /**
