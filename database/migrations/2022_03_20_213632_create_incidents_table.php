@@ -16,7 +16,6 @@ class CreateIncidentsTable extends Migration
         Schema::create('incidents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('establishment_id')->constrained();
-            $table->integer('reports_number');
             $table->string('description');
             $table->date('date');
             $table->enum('state', ['traité', 'non traité']);

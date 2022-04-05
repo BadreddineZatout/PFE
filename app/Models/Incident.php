@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Incident extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'date' => 'date'
+    ];
+
+    public function establishment()
+    {
+        return $this->belongsTo(Establishment::class);
+    }
 }
