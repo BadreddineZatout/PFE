@@ -43,6 +43,11 @@ class User extends Authenticatable
         'birthday' => 'date'
     ];
 
+    public function fullname()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function establishment()
     {
         return $this->belongsTo(Establishment::class);

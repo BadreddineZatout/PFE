@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -34,7 +35,7 @@ class Resident extends Resource
      */
     public function title()
     {
-        return $this->user->firstname . ' ' . $this->user->lastname;
+        return $this->user->fullname();
     }
 
     /**
@@ -54,6 +55,21 @@ class Resident extends Resource
     public static $group = 'Hebergement';
 
     /**
+     * Build a "relatable" query for Students.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -66,12 +82,13 @@ class Resident extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get()),
+                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get())
+                ->dependsOn('user'),
             NovaBelongsToDepend::make('block')
                 ->placeholder('Select Block') // Add this just if you want to customize the placeholder
                 ->optionsResolve(function ($residence) {
                     // Reduce the amount of unnecessary data sent
-                    return $residence->blocks()->get(['id', 'name']);
+                    return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
             Number::make('chambre'),

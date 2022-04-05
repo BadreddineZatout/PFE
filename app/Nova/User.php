@@ -29,7 +29,7 @@ class User extends Resource
      */
     public function title()
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return $this->fullname();
     }
 
     /**

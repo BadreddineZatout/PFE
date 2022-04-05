@@ -25,7 +25,7 @@ class Plan extends Resource
      */
     public function title()
     {
-        return $this->user->firstname . ' ' . $this->user->lastname . ' / ' . $this->line->start . ' - ' . $this->line->end;
+        return $this->user->fullname() . ' / ' . $this->line->name();
     }
 
     /**

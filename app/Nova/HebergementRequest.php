@@ -32,7 +32,10 @@ class HebergementRequest extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->user->fullname();
+    }
 
     /**
      * The columns that should be searched.

@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Line extends Model
 {
     use HasFactory;
+
+    public function name()
+    {
+        return $this->start . ' - ' . $this->end;
+    }
 }

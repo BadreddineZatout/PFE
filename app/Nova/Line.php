@@ -23,7 +23,7 @@ class Line extends Resource
      */
     public function title()
     {
-        return $this->start . ' - ' . $this->end;
+        return $this->name();
     }
 
     /**
