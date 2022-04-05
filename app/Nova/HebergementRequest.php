@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Role;
 use App\Nova\Metrics\TotalDemandeHebergement;
 use App\Nova\Metrics\TotalDemandeHebergementAcceptee;
 use App\Nova\Metrics\TotalDemandeHebergementNonAcceptee;
@@ -53,6 +54,21 @@ class HebergementRequest extends Resource
      * @var string
      */
     public static $group = 'Hebergement';
+
+    /**
+     * Build a "relatable" query for Students.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+    }
 
     /**
      * Get the fields displayed by the resource.

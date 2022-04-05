@@ -55,6 +55,7 @@ class Residence extends Resource
      */
     public static function relatableEstablishments(NovaRequest $request, $query)
     {
+
         return $query->where('id', '!=', $request->resourceId)->where('type', '!=', 'résidence');
     }
 

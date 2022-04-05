@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -22,7 +23,10 @@ class Plan extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->user->firstname . ' ' . $this->user->lastname . ' / ' . $this->line->start . ' - ' . $this->line->end;
+    }
 
     /**
      * The columns that should be searched.
@@ -32,6 +36,21 @@ class Plan extends Resource
     public static $search = [
         'id',
     ];
+
+    /**
+     * Build a "relatable" query for Drivers.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        return $query->where('role_id', Role::where('name', 'driver')->first()->id);
+    }
 
     /**
      * The logical group associated with the resource.
