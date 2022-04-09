@@ -13,8 +13,8 @@ class Menu extends Model
         'date' => 'date'
     ];
 
-    public function restaurant()
+    public function structure()
     {
-        return $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(Structure::class);
     }
 }

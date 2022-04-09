@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Structure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Fields\BelongsTo;
@@ -67,8 +68,23 @@ class Menu extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->leftJoin('restaurants', 'restaurants.id', 'restaurant_id')
+        return $query->leftJoin('structures', 'structures.id', 'structure_id')
             ->where('establishment_id', Auth::user()->establishment_id);
+    }
+
+    /**
+     * Build a "relatable" query for structures.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableStructures(NovaRequest $request, $query)
+    {
+        return $query->where('type', 'restaurant');
     }
 
     /**
@@ -82,7 +98,7 @@ class Menu extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Date::make('date'),
-            BelongsTo::make('restaurant'),
+            BelongsTo::make('structure'),
             Select::make('Type')->options(['breakfast' => 'breakfast', 'lunch' => 'lunch', 'dinner' => 'dinner']),
             Text::make('Plat Principal', 'main_dish'),
             Text::make('Plat Secondaire', 'secondary_dish'),
