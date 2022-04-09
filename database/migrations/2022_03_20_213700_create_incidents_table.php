@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEquipmentTable extends Migration
+class CreateIncidentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateEquipmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipment', function (Blueprint $table) {
+        Schema::create('incidents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('quantity');
-            $table->boolean('bookable');
+            $table->foreignId('lieu_id')->nullable()->constrained();
+            $table->foreignId('structure_id')->nullable()->constrained();
             $table->foreignId('establishment_id')->nullable()->constrained();
+            $table->string('description');
+            $table->date('date');
+            $table->enum('state', ['traité', 'non traité']);
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateEquipmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipment');
+        Schema::dropIfExists('incidents');
     }
 }

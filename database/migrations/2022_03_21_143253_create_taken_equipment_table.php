@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFeedbackTable extends Migration
+class CreateTakenEquipmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateFeedbackTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedback', function (Blueprint $table) {
+        Schema::create('taken_equipment', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->enum('category', ['restauration', 'hebergement', 'transport']);
-            $table->string('description');
-            $table->foreignId('establishment_id')->constrained();
+            $table->foreignId('equipment_id')->constrained();
+            $table->date('taken_date');
+            $table->date('return_date')->nullable();
+            $table->enum('state', ['prise', 'non prise']);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateFeedbackTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('taken_equipment');
     }
 }

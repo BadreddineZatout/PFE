@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIncidentsTable extends Migration
+class CreateStructuresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateIncidentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('incidents', function (Blueprint $table) {
+        Schema::create('structures', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('name_arabe');
+            $table->date('creation_date');
+            $table->enum('type', ['restaurant', 'block']);
             $table->foreignId('establishment_id')->constrained();
-            $table->string('description');
-            $table->date('date');
-            $table->enum('state', ['traité', 'non traité']);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateIncidentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incidents');
+        Schema::dropIfExists('structures');
     }
 }
