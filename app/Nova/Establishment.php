@@ -29,6 +29,13 @@ class Establishment extends Resource
     public static $title = 'name';
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['wilaya', 'commune'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string

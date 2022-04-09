@@ -36,6 +36,13 @@ class Structure extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishment'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -55,11 +62,11 @@ class Structure extends Resource
             Text::make('name'),
             Text::make('name arabe', 'name_arabe'),
             Date::make('creation date', 'creation_date')->hideFromIndex(),
+            BelongsTo::make('establishment'),
             Select::make('type')->options([
                 'restaurant' => 'restaurant',
                 'block' => 'block'
             ]),
-            BelongsTo::make('establishment')
         ];
     }
 

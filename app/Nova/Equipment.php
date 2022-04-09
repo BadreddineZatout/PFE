@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -34,6 +36,14 @@ class Equipment extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishment'];
+
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -52,6 +62,8 @@ class Equipment extends Resource
         return [
             Text::make('name'),
             Number::make('quantity'),
+            Boolean::make('bookable'),
+            BelongsTo::make('establishment')
         ];
     }
 

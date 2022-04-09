@@ -37,6 +37,13 @@ class Place extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishment', 'structure'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -54,22 +61,21 @@ class Place extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('name'),
+            NovaBelongsToDepend::make('establishment')
+                ->placeholder('Select Establishment')
+                ->options(Establishment::all()),
+            NovaBelongsToDepend::make('structure')
+                ->placeholder('Select Structure')
+                ->optionsResolve(function ($establishment) {
+                    return $establishment->structures()->get(['id', 'name']);
+                })
+                ->dependsOn('Establishment'),
             Select::make('type')->options([
                 'chambre' => 'chambre',
                 'amphi' => 'amphi',
                 'class' => 'class',
                 'sanitaire' => 'sanitaire'
             ]),
-            NovaBelongsToDepend::make('establishment')
-                ->placeholder('Select Establishment') // Add this just if you want to customize the placeholder
-                ->options(Establishment::all()),
-            NovaBelongsToDepend::make('structure')
-                ->placeholder('Select Structure') // Add this just if you want to customize the placeholder
-                ->optionsResolve(function ($establishment) {
-                    // Reduce the amount of unnecessary data sent
-                    return $establishment->structures()->get(['id', 'name']);
-                })
-                ->dependsOn('Establishment'),
             Number::make('capacity')->hideFromIndex(),
             Number::make('longitude')->hideFromIndex(),
             Number::make('latitude')->hideFromIndex(),

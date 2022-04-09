@@ -33,6 +33,13 @@ class University extends Establishment
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishments'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
