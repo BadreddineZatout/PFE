@@ -2,9 +2,14 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use App\Models\Establishment;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Place extends Resource
 {
@@ -20,7 +25,7 @@ class Place extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -28,8 +33,15 @@ class Place extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
+
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Acceuil';
 
     /**
      * Get the fields displayed by the resource.
@@ -41,6 +53,26 @@ class Place extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Text::make('name'),
+            Select::make('type')->options([
+                'chambre' => 'chambre',
+                'amphi' => 'amphi',
+                'class' => 'class',
+                'sanitaire' => 'sanitaire'
+            ]),
+            NovaBelongsToDepend::make('establishment')
+                ->placeholder('Select Establishment') // Add this just if you want to customize the placeholder
+                ->options(Establishment::all()),
+            NovaBelongsToDepend::make('structure')
+                ->placeholder('Select Structure') // Add this just if you want to customize the placeholder
+                ->optionsResolve(function ($establishment) {
+                    // Reduce the amount of unnecessary data sent
+                    return $establishment->structures()->get(['id', 'name']);
+                })
+                ->dependsOn('Establishment'),
+            Number::make('capacity')->hideFromIndex(),
+            Number::make('longitude')->hideFromIndex(),
+            Number::make('latitude')->hideFromIndex(),
         ];
     }
 

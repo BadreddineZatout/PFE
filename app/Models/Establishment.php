@@ -28,9 +28,9 @@ class Establishment extends Model
         return $this->belongsTo(Commune::class);
     }
 
-    public function blocks()
+    public function structures()
     {
-        return $this->hasMany(Block::class)->where('establishment_id', $this->id);
+        return $this->hasMany(Structure::class)->where('establishment_id', $this->id);
     }
 
     public function buses()
