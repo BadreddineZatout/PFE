@@ -56,7 +56,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        if (Auth::user()->role_id == 1) return [];
+        // if (Auth::user()->role_id == 1) return [];
+        return [
+            new Help
+        ];
     }
 
     /**

@@ -3,15 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
-use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class University extends Resource
+class University extends Establishment
 {
     /**
      * The model the resource corresponds to.
@@ -42,6 +38,13 @@ class University extends Resource
      * @var string
      */
     public static $group = 'Acceuil';
+
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = true;
 
     /**
      * Build a "relatable" query for Establishments.
@@ -78,27 +81,15 @@ class University extends Resource
      */
     public function fields(Request $request)
     {
-        return [
-            ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Select::make('Type')->options([
-                'université' => 'université',
-                'école superieure' => 'école superieure',
-                'institue' => 'institue',
-            ])->hideFromIndex(),
-            Text::make('Adresse'),
-            NovaBelongsToDepend::make('wilaya')
-                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
-                ->options(\App\Models\Wilaya::all()),
-            NovaBelongsToDepend::make('commune')
-                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
-                ->optionsResolve(function ($wilaya) {
-                    // Reduce the amount of unnecessary data sent
-                    return $wilaya->communes()->get(['id', 'name']);
-                })
-                ->dependsOn('Wilaya'),
-            BelongsToMany::make('Residences', 'Establishments'),
-        ];
+        $fields =  parent::fields($request);
+        array_splice($fields, 4, 0, [Select::make('Type')->options([
+            'université' => 'université',
+            'école superieure' => 'école superieure',
+            'institue' => 'institue',
+        ])->hideFromIndex()]);
+        $fields[] = BelongsToMany::make('Residences', 'Establishments');
+
+        return $fields;
     }
 
     /**

@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
-class Residence extends Resource
+class Residence extends Establishment
 {
     /**
      * The model the resource corresponds to.
@@ -42,6 +42,13 @@ class Residence extends Resource
      * @var string
      */
     public static $group = 'Hebergement';
+
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = true;
 
     /**
      * Build a "relatable" query for Establishments.
@@ -79,25 +86,13 @@ class Residence extends Resource
      */
     public function fields(Request $request)
     {
-        return [
-            ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Select::make('Type')->options([
-                'résidence' => 'résidence'
-            ])->hideFromIndex()->default('résidence'),
-            Text::make('Adresse'),
-            NovaBelongsToDepend::make('Wilaya')
-                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
-                ->options(\App\Models\Wilaya::all()),
-            NovaBelongsToDepend::make('Commune')
-                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
-                ->optionsResolve(function ($wilaya) {
-                    // Reduce the amount of unnecessary data sent
-                    return $wilaya->communes()->get(['id', 'name']);
-                })
-                ->dependsOn('Wilaya'),
-            BelongsToMany::make('Universities', 'Establishments'),
-        ];
+        $fields =  parent::fields($request);
+        array_splice($fields, 4, 0, [Select::make('Type')->options([
+            'résidence' => 'résidence'
+        ])->hideFromIndex()->default('résidence')]);
+        $fields[] = BelongsToMany::make('Universities', 'Establishments');
+
+        return $fields;
     }
 
     /**

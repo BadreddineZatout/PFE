@@ -9,6 +9,10 @@ class Establishment extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'creation_date' => 'date'
+    ];
+
     public function establishments()
     {
         return $this->belongsToMany(Establishment::class, 'connected_establishments', 'establishment_id', 'connected_establishment_id');

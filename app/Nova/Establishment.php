@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
@@ -61,13 +63,8 @@ class Establishment extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('name'),
-            Select::make('Type')->options([
-                'université' => 'université',
-                'école superieure' => 'école superieure',
-                'institue' => 'institue',
-                'résidence' => 'résidence'
-            ])->hideFromIndex(),
-            Text::make('Adresse'),
+            Text::make('name arabe', 'name_arabe'),
+            Date::make('creation date', 'creation_date'),
             NovaBelongsToDepend::make('wilaya')
                 ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
                 ->options(\App\Models\Wilaya::all()),
@@ -78,6 +75,8 @@ class Establishment extends Resource
                     return $wilaya->communes()->get(['id', 'name']);
                 })
                 ->dependsOn('Wilaya'),
+            Number::make('longitude')->hideFromIndex(),
+            Number::make('latitude')->hideFromIndex(),
         ];
     }
 
