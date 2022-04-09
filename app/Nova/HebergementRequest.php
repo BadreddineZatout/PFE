@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Establishment;
 use App\Models\Role;
 use App\Nova\Metrics\TotalDemandeHebergement;
 use App\Nova\Metrics\TotalDemandeHebergementAcceptee;
@@ -52,6 +53,13 @@ class HebergementRequest extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishment', 'structure', 'place'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -86,15 +94,19 @@ class HebergementRequest extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get()),
-            NovaBelongsToDepend::make('block')
-                ->placeholder('Select Block') // Add this just if you want to customize the placeholder
+                ->options(Establishment::where('type', '=', 'résidence')->get()),
+            NovaBelongsToDepend::make('structure')
+                ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
-                    // Reduce the amount of unnecessary data sent
-                    return $residence->blocks()->get(['id', 'name']);
+                    return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
-            Number::make('chambre'),
+            NovaBelongsToDepend::make('place')
+                ->placeholder('Select Chambre')
+                ->optionsResolve(function ($structure) {
+                    return $structure->chambres()->get();
+                })
+                ->dependsOn('structure'),
             Select::make('state')->options([
                 'non traité' => 'non traité',
                 'accepté' => 'accepté',

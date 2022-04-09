@@ -17,8 +17,8 @@ class CreateHebergementRequestsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('establishment_id')->constrained();
-            $table->foreignId('block_id')->constrained();
-            $table->integer('chambre');
+            $table->foreignId('structure_id')->constrained();
+            $table->foreignId('place_id')->constrained();
             $table->enum('state', ['non traité', 'accepté', 'refusé'])->default('non traité');
             $table->timestamps();
         });
