@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Structure extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'creation_date' => 'date'
+    ];
+
+    public function establishment()
+    {
+        return $this->belongsTo(Establishment::class);
+    }
 }

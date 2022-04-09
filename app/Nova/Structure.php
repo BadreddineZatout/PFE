@@ -3,7 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Structure extends Resource
@@ -32,6 +36,13 @@ class Structure extends Resource
     ];
 
     /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Acceuil';
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -41,6 +52,14 @@ class Structure extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Text::make('name'),
+            Text::make('name arabe', 'name_arabe'),
+            Date::make('creation date', 'creation_date')->hideFromIndex(),
+            Select::make('type')->options([
+                'restaurant' => 'restaurant',
+                'block' => 'block'
+            ]),
+            BelongsTo::make('establishment')
         ];
     }
 
