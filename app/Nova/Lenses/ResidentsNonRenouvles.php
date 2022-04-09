@@ -41,15 +41,20 @@ class ResidentsNonRenouvles extends Lens
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get()),
-            NovaBelongsToDepend::make('block')
-                ->placeholder('Select Block') // Add this just if you want to customize the placeholder
+                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get())
+                ->dependsOn('user'),
+            NovaBelongsToDepend::make('structure')
+                ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
-                    // Reduce the amount of unnecessary data sent
-                    return $residence->blocks()->get(['id', 'name']);
+                    return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
-            Number::make('chambre'),
+            NovaBelongsToDepend::make('place')
+                ->placeholder('Select Chambre')
+                ->optionsResolve(function ($structure) {
+                    return $structure->chambres()->get();
+                })
+                ->dependsOn('structure'),
         ];
     }
 

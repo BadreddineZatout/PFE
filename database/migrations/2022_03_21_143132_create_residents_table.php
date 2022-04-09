@@ -17,9 +17,9 @@ class CreateResidentsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('establishment_id')->constrained();
-            $table->foreignId('block_id')->nullable()->constrained();
+            $table->foreignId('structure_id')->nullable()->constrained();
+            $table->foreignId('place_id')->nullable()->constrained();
             $table->enum('state', ['renouvlé', 'non renouvlé']);
-            $table->integer('chambre');
             $table->timestamps();
         });
     }

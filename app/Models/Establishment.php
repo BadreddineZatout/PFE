@@ -33,6 +33,11 @@ class Establishment extends Model
         return $this->hasMany(Structure::class)->where('establishment_id', $this->id);
     }
 
+    public function blocks()
+    {
+        return $this->hasMany(Structure::class)->where('establishment_id', $this->id)->where('type', 'block');
+    }
+
     public function buses()
     {
         return $this->hasMany(Bus::class);

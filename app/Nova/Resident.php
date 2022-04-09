@@ -48,6 +48,13 @@ class Resident extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishment', 'structure', 'place'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -84,14 +91,18 @@ class Resident extends Resource
                 ->placeholder('Select Residence')
                 ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get())
                 ->dependsOn('user'),
-            NovaBelongsToDepend::make('block')
-                ->placeholder('Select Block') // Add this just if you want to customize the placeholder
+            NovaBelongsToDepend::make('structure')
+                ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
-                    // Reduce the amount of unnecessary data sent
                     return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
-            Number::make('chambre'),
+            NovaBelongsToDepend::make('place')
+                ->placeholder('Select Chambre')
+                ->optionsResolve(function ($structure) {
+                    return $structure->chambres()->get();
+                })
+                ->dependsOn('structure'),
             Select::make('State')->options([
                 'renouvlé' => 'renouvlé',
                 'non renouvlé' => 'non renouvlé'

@@ -19,8 +19,13 @@ class Resident extends Model
         return $this->belongsTo(Establishment::class);
     }
 
-    public function block()
+    public function structure()
     {
-        return $this->belongsTo(Block::class);
+        return $this->belongsTo(Structure::class);
+    }
+
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
     }
 }
