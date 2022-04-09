@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -55,17 +56,33 @@ class Student extends User
     }
 
     /**
+     * Build a "relatable" query for roles.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableRoles(NovaRequest $request, $query)
+    {
+        return $query->where('name', 'student');
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    /* public function fields(Request $request)
+    public function fields(Request $request)
     {
-        return [
-            ID::make(__('ID'), 'id')->sortable(),
-        ];
-    } */
+        $fields = parent::fields($request);
+        $fields[8] = BelongsTo::make('role')->default(Role::where('name', 'student')->first()->id);
+
+        return $fields;
+    }
 
     /**
      * Get the cards available for the request.
