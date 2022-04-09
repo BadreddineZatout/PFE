@@ -3,29 +3,24 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Block extends Resource
+class Structure extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Block::class;
+    public static $model = \App\Models\Structure::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -35,14 +30,6 @@ class Block extends Resource
     public static $search = [
         'id',
     ];
-
-
-    /**
-     * Indicates if the resource should be displayed in the sidebar.
-     *
-     * @var bool
-     */
-    public static $displayInNavigation = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -54,13 +41,6 @@ class Block extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Select::make('Type')->options([
-                'individuel' => 'individuel',
-                'chambre à deux' => 'chambre à deux'
-            ]),
-            Number::make('Chambers Number', 'chambers_number'),
-            BelongsTo::make('residence', 'establishment'),
         ];
     }
 
