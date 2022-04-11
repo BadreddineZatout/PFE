@@ -16,7 +16,7 @@ class LeftoverByDay extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->countByDays($request, FoodReservation::where('has_ate', true));
+        return $this->countByDays($request, FoodReservation::where('has_ate', false));
     }
 
     /**

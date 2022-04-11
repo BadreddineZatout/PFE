@@ -2,14 +2,15 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Boolean;
+use App\Nova\Metrics\PreparedMeal;
+use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Metrics\ConsumedByDay;
 use App\Nova\Metrics\LeftoverByDay;
-use App\Nova\Metrics\PreparedMeal;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Coroowicaksono\ChartJsIntegration\StackedChart;
 
 class Reservation extends Resource
 {
@@ -72,7 +73,32 @@ class Reservation extends Resource
         return [
             new PreparedMeal,
             new ConsumedByDay,
-            new LeftoverByDay
+            new LeftoverByDay,
+            (new StackedChart())
+                ->title('Plat Consommés vs Plat Restés')
+                ->model('\App\Models\FoodReservation')
+                ->series(array([
+                    'label' => 'Plats Consommés',
+                    'filter' => [
+                        'key' => 'has_ate', // State Column for Count Calculation Here
+                        'value' => true
+                    ],
+                    'backgroundColor' => '#4055B2',
+                ], [
+                    'label' => 'Plats Restés',
+                    'filter' => [
+                        'key' => 'has_ate', // State Column for Count Calculation Here
+                        'value' => 'false'
+                    ],
+                    'backgroundColor' => '#D7E1F3',
+                ]))
+                ->options([
+                    'uom' => 'day',
+                    'latestData' => 7,
+                    'showPercentage' => true,
+                    'showTotal' => false,
+                ])
+                ->width('2/3'),
         ];
     }
 
