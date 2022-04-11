@@ -16,9 +16,7 @@ class CreateFoodReservationsTable extends Migration
         Schema::create('food_reservations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('restaurant_id')->constrained();
-            $table->enum('type', ['breakfast', 'lunch', 'dinner']);
-            $table->date('date');
+            $table->foreignId('menu_id')->constrained();
             $table->boolean('has_ate');
             $table->timestamps();
         });

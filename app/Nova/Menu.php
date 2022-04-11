@@ -49,7 +49,7 @@ class Menu extends Resource
      * @var array
      */
     public static $searchRelations = [
-        'restaurant' => ['name'],
+        'structure' => ['name'],
     ];
 
     /**
@@ -68,8 +68,8 @@ class Menu extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->leftJoin('structures', 'structures.id', 'structure_id')
-            ->where('establishment_id', Auth::user()->establishment_id);
+        return $query->join('structures', 'menus.structure_id', 'structures.id')
+            ->where('establishment_id', Auth::user()->establishment_id)->select('menus.*');
     }
 
     /**
