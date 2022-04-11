@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\PreparedMeal;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -40,6 +41,8 @@ class Reservation extends Resource
      */
     public static $group = 'Restauration';
 
+    public static $tableStyle = 'tight';
+
     /**
      * Get the fields displayed by the resource.
      *
@@ -64,7 +67,9 @@ class Reservation extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new PreparedMeal,
+        ];
     }
 
     /**
