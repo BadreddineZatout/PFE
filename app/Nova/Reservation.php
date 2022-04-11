@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\ConsumedByDay;
+use App\Nova\Metrics\LeftoverByDay;
 use App\Nova\Metrics\PreparedMeal;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -69,6 +71,8 @@ class Reservation extends Resource
     {
         return [
             new PreparedMeal,
+            new ConsumedByDay,
+            new LeftoverByDay
         ];
     }
 

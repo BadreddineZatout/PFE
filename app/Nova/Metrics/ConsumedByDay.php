@@ -2,12 +2,11 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Menu;
-use Carbon\Carbon;
+use App\Models\FoodReservation;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\Trend;
 
-class PreparedMeal extends Value
+class ConsumedByDay extends Trend
 {
     /**
      * Calculate the value of the metric.
@@ -17,9 +16,7 @@ class PreparedMeal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $todayMenu = Menu::where('date', Carbon::now()->format('Y-m-d'))->first();
-        $preparedMeals = $todayMenu ? $todayMenu->quantity : 0;
-        return $this->result($preparedMeals)->format('0,0');
+        return $this->countByDays($request, FoodReservation::where('has_ate', true));
     }
 
     /**
@@ -29,7 +26,11 @@ class PreparedMeal extends Value
      */
     public function ranges()
     {
-        return [];
+        return [
+            30 => __('30 Days'),
+            60 => __('60 Days'),
+            90 => __('90 Days'),
+        ];
     }
 
     /**
@@ -49,7 +50,7 @@ class PreparedMeal extends Value
      */
     public function uriKey()
     {
-        return 'prepared-meal';
+        return 'consumed-by-day';
     }
 
     /**
@@ -59,6 +60,6 @@ class PreparedMeal extends Value
      */
     public function name()
     {
-        return "Plats Préparés Aujourd'hui";
+        return 'Plats Consommés';
     }
 }
