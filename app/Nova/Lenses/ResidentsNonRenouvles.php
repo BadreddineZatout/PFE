@@ -43,13 +43,13 @@ class ResidentsNonRenouvles extends Lens
                 ->placeholder('Select Residence')
                 ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get())
                 ->dependsOn('user'),
-            NovaBelongsToDepend::make('structure')
+            NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
                     return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
-            NovaBelongsToDepend::make('place')
+            NovaBelongsToDepend::make('chambre', 'place', 'App\Nova\Place')
                 ->placeholder('Select Chambre')
                 ->optionsResolve(function ($structure) {
                     return $structure->chambres()->get();

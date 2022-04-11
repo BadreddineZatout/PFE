@@ -95,13 +95,13 @@ class HebergementRequest extends Resource
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
                 ->options(Establishment::where('type', '=', 'résidence')->get()),
-            NovaBelongsToDepend::make('structure')
+            NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
                     return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
-            NovaBelongsToDepend::make('place')
+            NovaBelongsToDepend::make('chambre', 'place', 'App\Nova\Place')
                 ->placeholder('Select Chambre')
                 ->optionsResolve(function ($structure) {
                     return $structure->chambres()->get();

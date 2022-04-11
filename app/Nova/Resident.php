@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Establishment;
 use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -89,15 +90,15 @@ class Resident extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get())
+                ->options(Establishment::where('type', '=', 'résidence')->get())
                 ->dependsOn('user'),
-            NovaBelongsToDepend::make('structure')
+            NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
                     return $residence->blocks()->get();
                 })
                 ->dependsOn('establishment'),
-            NovaBelongsToDepend::make('place')
+            NovaBelongsToDepend::make('chambre', 'place', 'App\Nova\Place')
                 ->placeholder('Select Chambre')
                 ->optionsResolve(function ($structure) {
                     return $structure->chambres()->get();

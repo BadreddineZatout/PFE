@@ -61,9 +61,9 @@ class Equipment extends Resource
     {
         return [
             Text::make('name'),
+            BelongsTo::make('residence', 'establishment'),
             Number::make('quantity'),
             Boolean::make('bookable'),
-            BelongsTo::make('establishment')
         ];
     }
 
