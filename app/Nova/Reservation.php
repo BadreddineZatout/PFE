@@ -98,7 +98,7 @@ class Reservation extends Resource
                     'showPercentage' => true,
                     'showTotal' => false,
                 ])
-                ->width('2/3'),
+                ->width('full'),
         ];
     }
 
