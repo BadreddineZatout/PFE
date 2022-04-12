@@ -3,11 +3,15 @@
 namespace App\Nova\Metrics;
 
 use App\Models\FoodReservation;
+use App\Nova\Filters\Establishment;
+use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class ConsumedByDay extends Trend
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -16,7 +20,12 @@ class ConsumedByDay extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->countByDays($request, FoodReservation::where('has_ate', true));
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(FoodReservation::class, [
+            Wilaya::class,
+            Establishment::class
+        ]);
+        return $this->countByDays($request, $model->where('has_ate', true));
     }
 
     /**

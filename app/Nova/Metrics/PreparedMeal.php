@@ -2,10 +2,10 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Menu;
 use Carbon\Carbon;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Models\Menu;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class PreparedMeal extends Value
 {

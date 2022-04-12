@@ -2,17 +2,18 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\Establishment;
-use App\Nova\Filters\ReservationDate;
-use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Fields\ID;
+use App\Nova\Filters\Wilaya;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use App\Nova\Metrics\PreparedMeal;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\Establishment;
 use App\Nova\Metrics\ConsumedByDay;
 use App\Nova\Metrics\LeftoverByDay;
+use App\Nova\Filters\ReservationDate;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 
 class Reservation extends Resource
@@ -80,7 +81,13 @@ class Reservation extends Resource
      */
     public function cards(Request $request)
     {
+        $filter = new NovaGlobalFilter([
+            new Wilaya,
+            new Establishment,
+        ]);
+        $filter->resettable();
         return [
+            $filter,
             new PreparedMeal,
             new ConsumedByDay,
             new LeftoverByDay,
