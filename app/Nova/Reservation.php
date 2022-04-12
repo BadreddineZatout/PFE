@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\Establishment;
+use App\Nova\Filters\ReservationDate;
+use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
@@ -36,6 +39,13 @@ class Reservation extends Resource
     public static $search = [
         'id',
     ];
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['user', 'menu'];
 
     /**
      * The logical group associated with the resource.
@@ -95,7 +105,6 @@ class Reservation extends Resource
                 ->options([
                     'uom' => 'day',
                     'latestData' => 7,
-                    'showPercentage' => true,
                     'showTotal' => false,
                 ])
                 ->width('full'),
@@ -110,7 +119,11 @@ class Reservation extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new Establishment,
+            new Wilaya,
+            new ReservationDate
+        ];
     }
 
     /**
