@@ -12,6 +12,9 @@ use App\Nova\Filters\Establishment;
 use App\Nova\Metrics\ConsumedByDay;
 use App\Nova\Metrics\LeftoverByDay;
 use App\Nova\Filters\ReservationDate;
+use App\Nova\Metrics\ConsumedMeals;
+use App\Nova\Metrics\Leftovers;
+use App\Nova\Metrics\ReservationsByDay;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
@@ -82,17 +85,19 @@ class Reservation extends Resource
     public function cards(Request $request)
     {
         $filter = new NovaGlobalFilter([
-            new Wilaya,
             new Establishment,
         ]);
         $filter->resettable();
         return [
             $filter,
-            new PreparedMeal,
-            new ConsumedByDay,
-            new LeftoverByDay,
+            (new PreparedMeal)->width('1/4'),
+            (new ReservationsByDay)->width('1/4'),
+            (new ConsumedMeals)->width('1/4'),
+            (new Leftovers)->width('1/4'),
+            (new ConsumedByDay)->width('1/2'),
+            (new LeftoverByDay)->width('1/2'),
             (new StackedChart())
-                ->title('Plat Consommés vs Plat Restés')
+                ->title('Plat Reservés Consommés vs Plat Reservés Restants')
                 ->model('\App\Models\FoodReservation')
                 ->series(array([
                     'label' => 'Plats Consommés',
