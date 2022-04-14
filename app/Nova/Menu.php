@@ -69,7 +69,7 @@ class Menu extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         return $query->join('structures', 'menus.structure_id', 'structures.id')
-            ->where('establishment_id', Auth::user()->establishment_id)->select('menus.*');
+            ->select('menus.*');
     }
 
     /**

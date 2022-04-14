@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Boolean;
 use App\Nova\Metrics\PreparedMeal;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Filters\Establishment;
+use App\Nova\Filters\MealType;
 use App\Nova\Metrics\ConsumedByDay;
 use App\Nova\Metrics\LeftoverByDay;
 use App\Nova\Filters\ReservationDate;
@@ -86,6 +87,7 @@ class Reservation extends Resource
     {
         $filter = new NovaGlobalFilter([
             new Establishment,
+            new MealType
         ]);
         $filter->resettable();
         return [
@@ -134,7 +136,8 @@ class Reservation extends Resource
         return [
             new Establishment,
             new Wilaya,
-            new ReservationDate
+            new ReservationDate,
+            new MealType
         ];
     }
 

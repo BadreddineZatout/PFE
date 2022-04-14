@@ -2,12 +2,16 @@
 
 namespace App\Nova\Metrics;
 
+use App\Nova\Filters\MealType;
 use App\Models\FoodReservation;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use App\Nova\Filters\Establishment;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class Leftovers extends Value
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -16,6 +20,11 @@ class Leftovers extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(FoodReservation::class, [
+            Establishment::class,
+            MealType::class
+        ]);
         return $this->count($request, FoodReservation::where('has_ate', false));
     }
 

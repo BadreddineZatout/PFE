@@ -4,6 +4,7 @@ namespace App\Nova\Metrics;
 
 use App\Models\FoodReservation;
 use App\Nova\Filters\Establishment;
+use App\Nova\Filters\MealType;
 use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
@@ -22,8 +23,8 @@ class ConsumedByDay extends Trend
     {
         // Filter your model with existing filters
         $model = $this->globalFiltered(FoodReservation::class, [
-            Wilaya::class,
-            Establishment::class
+            Establishment::class,
+            MealType::class
         ]);
         return $this->countByDays($request, $model->where('has_ate', true));
     }

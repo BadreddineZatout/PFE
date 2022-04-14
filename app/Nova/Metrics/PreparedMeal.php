@@ -5,6 +5,7 @@ namespace App\Nova\Metrics;
 use Carbon\Carbon;
 use App\Models\Menu;
 use App\Nova\Filters\Establishment;
+use App\Nova\Filters\MealType;
 use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -23,8 +24,8 @@ class PreparedMeal extends Value
     {
         // Filter your model with existing filters
         $model = $this->globalFiltered(Menu::class, [
-            Wilaya::class,
-            Establishment::class
+            Establishment::class,
+            MealType::class
         ]);
         $todayMenu = $model->where('date', Carbon::now()->format('Y-m-d'))->first();
         $preparedMeals = $todayMenu ? $todayMenu->quantity : 0;
