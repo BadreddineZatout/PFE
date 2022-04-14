@@ -25,9 +25,13 @@ class Establishment extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
+        if ($query->getModel()::class == 'App\Models\Menu') {
+            return $query->join('structures', 'menus.structure_id', 'structures.id')
+                ->where('structures.establishment_id', $value);
+        }
         return $query->join('menus', 'menu_id', 'menus.id')
             ->join('structures', 'menus.structure_id', 'structures.id')
-            ->where('structures.establishment_id', $value + 1);
+            ->where('structures.establishment_id', $value);
     }
 
     /**
@@ -38,6 +42,10 @@ class Establishment extends Filter
      */
     public function options(Request $request)
     {
-        return ModelsEstablishment::select('id', 'name')->get()->toArray();
+        $establishments = [];
+        ModelsEstablishment::all()->each(function ($e) use (&$establishments) {
+            $establishments[$e->name] = $e->id;
+        });
+        return $establishments;
     }
 }

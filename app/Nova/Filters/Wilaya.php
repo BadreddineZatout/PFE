@@ -28,7 +28,7 @@ class Wilaya extends Filter
         return $query->join('menus as m1', 'menu_id', 'm1.id')
             ->join('structures as s1', 'm1.structure_id', 's1.id')
             ->join('establishments', 's1.establishment_id', 'establishments.id')
-            ->where('establishments.wilaya_id', $value + 1);
+            ->where('establishments.wilaya_id', $value);
     }
 
     /**
@@ -39,6 +39,10 @@ class Wilaya extends Filter
      */
     public function options(Request $request)
     {
-        return ModelsWilaya::select('id', 'name')->get()->toArray();
+        $wilayas = [];
+        ModelsWilaya::all()->each(function ($e) use (&$wilayas) {
+            $wilayas[$e->name] = $e->id;
+        });
+        return $wilayas;
     }
 }
