@@ -3,16 +3,11 @@
 namespace App\Nova\Metrics;
 
 use App\Models\FoodReservation;
-use App\Nova\Filters\Establishment;
-use App\Nova\Filters\Wilaya;
-use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Nemrutco\NovaGlobalFilter\GlobalFilterable;
+use Laravel\Nova\Metrics\Value;
 
-class LeftoverByDay extends Trend
+class ReservationsByDay extends Value
 {
-    use GlobalFilterable;
-
     /**
      * Calculate the value of the metric.
      *
@@ -21,12 +16,7 @@ class LeftoverByDay extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        // Filter your model with existing filters
-        $model = $this->globalFiltered(FoodReservation::class, [
-            Wilaya::class,
-            Establishment::class
-        ]);
-        return $this->countByDays($request, $model->where('has_ate', false));
+        return $this->count($request, FoodReservation::class);
     }
 
     /**
@@ -37,9 +27,13 @@ class LeftoverByDay extends Trend
     public function ranges()
     {
         return [
+            'TODAY' => __('Today'),
             30 => __('30 Days'),
             60 => __('60 Days'),
-            90 => __('90 Days'),
+            365 => __('365 Days'),
+            'MTD' => __('Month To Date'),
+            'QTD' => __('Quarter To Date'),
+            'YTD' => __('Year To Date'),
         ];
     }
 
@@ -60,7 +54,7 @@ class LeftoverByDay extends Trend
      */
     public function uriKey()
     {
-        return 'leftover-by-day';
+        return 'reservations-by-day';
     }
 
     /**
@@ -70,6 +64,6 @@ class LeftoverByDay extends Trend
      */
     public function name()
     {
-        return 'Plats Restants';
+        return "Plats Réservés";
     }
 }

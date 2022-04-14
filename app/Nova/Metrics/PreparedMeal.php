@@ -4,11 +4,15 @@ namespace App\Nova\Metrics;
 
 use Carbon\Carbon;
 use App\Models\Menu;
+use App\Nova\Filters\Establishment;
+use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class PreparedMeal extends Value
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -17,7 +21,12 @@ class PreparedMeal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $todayMenu = Menu::where('date', Carbon::now()->format('Y-m-d'))->first();
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(Menu::class, [
+            Wilaya::class,
+            Establishment::class
+        ]);
+        $todayMenu = $model->where('date', Carbon::now()->format('Y-m-d'))->first();
         $preparedMeals = $todayMenu ? $todayMenu->quantity : 0;
         return $this->result($preparedMeals)->format('0,0');
     }
