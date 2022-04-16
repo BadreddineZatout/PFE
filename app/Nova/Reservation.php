@@ -2,19 +2,21 @@
 
 namespace App\Nova;
 
+use App\Models\Structure;
 use Laravel\Nova\Fields\ID;
 use App\Nova\Filters\Wilaya;
 use Illuminate\Http\Request;
+use App\Nova\Filters\MealType;
+use App\Nova\Metrics\Leftovers;
 use Laravel\Nova\Fields\Boolean;
 use App\Nova\Metrics\PreparedMeal;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Filters\Establishment;
-use App\Nova\Filters\MealType;
 use App\Nova\Metrics\ConsumedByDay;
-use App\Nova\Metrics\LeftoverByDay;
-use App\Nova\Filters\ReservationDate;
 use App\Nova\Metrics\ConsumedMeals;
-use App\Nova\Metrics\Leftovers;
+use App\Nova\Metrics\LeftoverByDay;
+use Illuminate\Support\Facades\Auth;
+use App\Nova\Filters\ReservationDate;
 use App\Nova\Metrics\ReservationsByDay;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
@@ -101,6 +103,7 @@ class Reservation extends Resource
             (new StackedChart())
                 ->title('Plat Reservés Consommés vs Plat Reservés Restants')
                 ->model('\App\Models\FoodReservation')
+                ->join('menus', 'menus.id', '=', 'food_reservations.menu_id')
                 ->series(array([
                     'label' => 'Plats Consommés',
                     'filter' => [
@@ -117,6 +120,11 @@ class Reservation extends Resource
                     'backgroundColor' => '#D7E1F3',
                 ]))
                 ->options([
+                    'queryFilter' => array([
+                        'key' => 'structure_id',
+                        'operator' => '=',
+                        'value' => Structure::where('establishment_id', Auth::user()->establishment_id)->first()->id
+                    ]),
                     'uom' => 'day',
                     'latestData' => 7,
                     'showTotal' => false,
