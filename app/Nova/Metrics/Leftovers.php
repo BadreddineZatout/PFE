@@ -25,11 +25,11 @@ class Leftovers extends Value
     public function calculate(NovaRequest $request)
     {
         // Filter your model with existing filters
-        $model = $this->globalFiltered(FoodReservation::class, [
+        $model = $this->globalFiltered(Leftover::class, [
             Establishment::class,
             MealType::class
         ]);
-        return $this->sum($request, Leftover::class, 'leftovers')->format('0');
+        return $this->sum($request, $model, 'leftovers')->format('0');
     }
 
     /**

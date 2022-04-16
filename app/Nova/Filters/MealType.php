@@ -24,6 +24,10 @@ class MealType extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
+        if ($query->getModel()::class == 'App\Models\Leftover') {
+            return $query->join('menus as m', 'leftovers.id', 'm.id')
+                ->where('m.type', $value);
+        }
         if ($query->getModel()::class == 'App\Models\Menu') {
             return $query->where('menus.type', $value);
         }
