@@ -2,11 +2,15 @@
 
 namespace App\Nova\Metrics;
 
+use App\Models\Menu;
 use App\Nova\Filters\MealType;
 use App\Models\FoodReservation;
+use App\Models\Leftover;
 use Laravel\Nova\Metrics\Value;
+use Illuminate\Support\Facades\DB;
 use App\Nova\Filters\Establishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Models\Leftovers as ModelsLeftovers;
 use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class Leftovers extends Value
@@ -25,7 +29,7 @@ class Leftovers extends Value
             Establishment::class,
             MealType::class
         ]);
-        return $this->count($request, FoodReservation::where('has_ate', false));
+        return $this->sum($request, Leftover::class, 'leftovers')->format('0');
     }
 
     /**

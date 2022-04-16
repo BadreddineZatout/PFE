@@ -3,6 +3,7 @@
 namespace App\Nova\Metrics;
 
 use App\Models\FoodReservation;
+use App\Models\Leftover;
 use App\Nova\Filters\Establishment;
 use App\Nova\Filters\MealType;
 use App\Nova\Filters\Wilaya;
@@ -23,11 +24,11 @@ class LeftoverByDay extends Trend
     public function calculate(NovaRequest $request)
     {
         // Filter your model with existing filters
-        $model = $this->globalFiltered(FoodReservation::class, [
+        $model = $this->globalFiltered(Leftover::class, [
             Establishment::class,
             MealType::class
         ]);
-        return $this->countByDays($request, $model->where('has_ate', false));
+        return $this->sumByDays($request, $model, 'leftovers')->format('0');
     }
 
     /**
