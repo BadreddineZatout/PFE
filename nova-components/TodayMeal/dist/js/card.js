@@ -249,13 +249,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['card'],
+  props: ["card"],
 
-    mounted: function mounted() {
-        //
-    }
+  mounted: function mounted() {
+    //
+  }
 });
 
 /***/ }),
@@ -266,17 +282,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "card",
-    { staticClass: "flex flex-col items-center justify-center" },
-    [
-      _c("div", { staticClass: "px-3 py-3" }, [
-        _c("h1", { staticClass: "text-center text-3xl text-80 font-light" }, [
-          _vm._v("Today Meal")
+  return _c("card", { staticClass: "flex flex-col justify-start pl-4 pt-4" }, [
+    _c("h4", { staticClass: "font-bold text-primary text-2xl" }, [
+      _vm._v("Menu de la journée")
+    ]),
+    _vm._v(" "),
+    _vm.card.menu
+      ? _c("div", { staticClass: "px-3 py-3" }, [
+          _c("h1", { staticClass: "text-left text-lg text-80 font-light" }, [
+            _vm._v("\n      Plat Principal :\n      "),
+            _c("span", { staticClass: "font-semibold" }, [
+              _vm._v(_vm._s(_vm.card.menu.main_dish))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "text-left text-lg text-80 font-light" }, [
+            _vm._v("\n      Plat Secondaire :\n      "),
+            _c("span", { staticClass: "font-semibold" }, [
+              _vm._v(_vm._s(_vm.card.menu.secondary_dish))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("h1", { staticClass: "text-left text-lg text-80 font-light" }, [
+            _vm._v("\n      Dessert : "),
+            _c("span", { staticClass: "font-semibold" }, [
+              _vm._v(_vm._s(_vm.card.menu.dessert))
+            ])
+          ])
         ])
-      ])
-    ]
-  )
+      : _c("div", [
+          _c(
+            "h1",
+            { staticClass: "text-centre text-lg text-80 font-semibold" },
+            [_vm._v("\n      Pas D'information pour le moment\n    ")]
+          )
+        ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

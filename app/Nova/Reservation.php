@@ -18,7 +18,6 @@ use App\Nova\Metrics\LeftoverByDay;
 use Illuminate\Support\Facades\Auth;
 use App\Nova\Filters\ReservationDate;
 use App\Nova\Metrics\ReservationsByDay;
-use Badi\TodayMeal\TodayMeal;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
@@ -88,14 +87,11 @@ class Reservation extends Resource
      */
     public function cards(Request $request)
     {
-        $filter = new NovaGlobalFilter([
-            new Establishment,
-            new MealType
-        ]);
-        $filter->resettable();
         return [
-            new TodayMeal,
-            $filter,
+            (new NovaGlobalFilter([
+                new Establishment,
+                new MealType
+            ]))->resettable(),
             (new PreparedMeal)->width('1/4'),
             (new ReservationsByDay)->width('1/4'),
             (new ConsumedMeals)->width('1/4'),

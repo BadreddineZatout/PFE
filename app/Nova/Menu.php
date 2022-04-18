@@ -3,16 +3,17 @@
 namespace App\Nova;
 
 use App\Models\Structure;
-use App\Nova\Filters\MenuDate;
-use App\Nova\Filters\MenuRestaurant;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Badi\TodayMeal\TodayMeal;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
+use App\Nova\Filters\MenuDate;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\MenuRestaurant;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Filters\DateFilter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -118,7 +119,9 @@ class Menu extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new TodayMeal(Auth::user()->establishment_id),
+        ];
     }
 
     /**
