@@ -8,6 +8,7 @@ use Laravel\Nova\Filters\Filter;
 
 class MenuRestaurant extends Filter
 {
+    public $name = 'Restaurants';
     /**
      * The filter's component.
      *

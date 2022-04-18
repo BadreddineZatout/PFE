@@ -7,7 +7,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "build-today-meal": "cd nova-components/TodayMeal && npm run dev",
+        "build-today-meal-prod": "cd nova-components/TodayMeal && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

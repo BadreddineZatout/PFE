@@ -8,6 +8,7 @@ use Laravel\Nova\Filters\DateFilter;
 
 class MenuDate extends DateFilter
 {
+    public $name = 'Date';
     /**
      * Apply the filter to the given query.
      *
