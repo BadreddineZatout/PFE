@@ -42,4 +42,14 @@ class Establishment extends Model
     {
         return $this->hasMany(Bus::class);
     }
+
+    public function isResidence()
+    {
+        return $this->type == 'résidence';
+    }
+
+    public function isUniversity()
+    {
+        return $this->type != 'résidence';
+    }
 }

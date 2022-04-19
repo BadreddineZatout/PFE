@@ -64,6 +64,18 @@ class Menu extends Resource
     public static $group = 'Restauration';
 
     /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        $user = $request->user();
+        return $user->isAdmin() || $user->isDecider() || $user->isMinister() || $user->isAgentRestauration();
+    }
+
+    /**
      * Build an "index" query for the given resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
@@ -72,7 +84,13 @@ class Menu extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
+        $user = $request->user();
+        if ($user->isAdmin() || $user->isMinister()) {
+            return $query->join('structures', 'menus.structure_id', 'structures.id')
+                ->select('menus.*');
+        }
         return $query->join('structures', 'menus.structure_id', 'structures.id')
+            ->where('structures.establishment_id', $user->establishment_id)
             ->select('menus.*');
     }
 
@@ -88,7 +106,10 @@ class Menu extends Resource
      */
     public static function relatableStructures(NovaRequest $request, $query)
     {
-        return $query->where('type', 'restaurant');
+        return $query->where([
+            'type' => 'restaurant',
+            'establishment_id' => $request->user()->establishment_id
+        ]);
     }
 
     /**
@@ -119,6 +140,8 @@ class Menu extends Resource
      */
     public function cards(Request $request)
     {
+        $user = $request->user();
+        if ($user->isMinister() || $user->isAdmin()) return [];
         return [
             new TodayMeal(Auth::user()->establishment_id),
         ];

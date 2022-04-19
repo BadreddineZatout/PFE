@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Models\Wilaya;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Models\Establishment;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Password;
@@ -83,7 +84,9 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
             BelongsTo::make('role'),
-            BelongsTo::make('establishment', 'establishment')->nullable()->searchable(),
+            NovaBelongsToDepend::make('establishment')
+                ->placeholder('Select establishment') // Add this just if you want to customize the placeholder
+                ->options(Establishment::all()),
             NovaBelongsToDepend::make('Wilaya')
                 ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
                 ->options(Wilaya::all()),

@@ -67,4 +67,44 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role_id == Role::where('name', 'admin')->first()->id;
+    }
+
+    public function isMinister()
+    {
+        return $this->role_id == Role::where('name', 'minister')->first()->id;
+    }
+
+    public function isDecider()
+    {
+        return $this->role_id == Role::where('name', 'decider')->first()->id;
+    }
+
+    public function isAgentRestauration()
+    {
+        return $this->role_id == Role::where('name', 'agent restauration')->first()->id;
+    }
+
+    public function isAgentHebergement()
+    {
+        return $this->role_id == Role::where('name', 'agent hebergement')->first()->id;
+    }
+
+    public function isAgentTransport()
+    {
+        return $this->role_id == Role::where('name', 'agent transport')->first()->id;
+    }
+
+    public function isUniversityDecider()
+    {
+        return $this->isDecider() && Establishment::findOrFail($this->establishment_id)->isUniversity();
+    }
+
+    public function isResidenceDecider()
+    {
+        return $this->isDecider() && Establishment::findOrFail($this->establishment_id)->isResidence();
+    }
 }
