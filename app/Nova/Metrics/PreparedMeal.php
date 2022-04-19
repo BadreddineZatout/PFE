@@ -27,8 +27,14 @@ class PreparedMeal extends Value
             Establishment::class,
             MealType::class
         ]);
-        $todayMenu = $model->where('date', Carbon::now()->format('Y-m-d'))->first();
-        $preparedMeals = $todayMenu ? $todayMenu->quantity : 0;
+        if ($request->user()->isDecider()) {
+            $preparedMeals = $model->where('date', Carbon::now()->format('Y-m-d'))
+                ->join('structures', 'menus.structure_id', 'structures.id')
+                ->where('structures.establishment_id', $request->user()->establishment_id)
+                ->sum('quantity');
+            return $this->result($preparedMeals)->format('0,0');
+        }
+        $preparedMeals = $model->where('date', Carbon::now()->format('Y-m-d'))->sum('quantity');
         return $this->result($preparedMeals)->format('0,0');
     }
 

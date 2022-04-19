@@ -28,6 +28,11 @@ class LeftoverByDay extends Trend
             Establishment::class,
             MealType::class
         ]);
+        if ($request->user()->isDecider()) {
+            $model->join('menus', 'leftovers.id', 'menus.id')
+                ->join('structures', 'menus.structure_id', 'structures.id')
+                ->where('structures.establishment_id', $request->user()->establishment_id);
+        }
         return $this->sumByDays($request, $model, 'leftovers')->format('0');
     }
 

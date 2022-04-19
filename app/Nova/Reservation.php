@@ -153,7 +153,7 @@ class Reservation extends Resource
                 'queryFilter' => array([
                     'key' => 'structure_id',
                     'operator' => '=',
-                    'value' => Structure::where('establishment_id', Auth::user()->establishment_id)->first()->id
+                    'value' => Structure::where('establishment_id', $request->user()->establishment_id)->where('type', 'restaurant')->first()->id
                 ]),
                 'uom' => 'day',
                 'latestData' => 7,

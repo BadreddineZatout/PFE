@@ -26,6 +26,11 @@ class ConsumedByDay extends Trend
             Establishment::class,
             MealType::class
         ]);
+        if ($request->user()->isDecider()) {
+            $model->join('menus', 'menu_id', 'menus.id')
+                ->join('structures', 'menus.structure_id', 'structures.id')
+                ->where('structures.establishment_id', $request->user()->establishment_id);
+        }
         return $this->countByDays($request, $model->where('has_ate', true));
     }
 
