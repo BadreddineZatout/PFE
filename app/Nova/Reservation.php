@@ -64,6 +64,37 @@ class Reservation extends Resource
     public static $tableStyle = 'tight';
 
     /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        $user = Auth::user();
+        return $user->isAdmin() || $user->isDecider() || $user->isMinister();
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $user = $request->user();
+        if ($user->isAdmin() || $user->isMinister()) {
+            return $query;
+        }
+        return $query->join('menus', 'menu_id', 'menus.id')
+            ->join('structures', 'menus.structure_id', 'structures.id')
+            ->where('structures.establishment_id', $user->establishment_id)
+            ->select('food_reservations.*');
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -87,48 +118,62 @@ class Reservation extends Resource
      */
     public function cards(Request $request)
     {
-        return [
-            (new NovaGlobalFilter([
-                new Establishment,
-                new MealType
-            ]))->resettable(),
+        $global_filter = (new NovaGlobalFilter([
+            new Establishment,
+            new MealType
+        ]))->resettable();
+        $filters = [
             (new PreparedMeal)->width('1/4'),
             (new ReservationsByDay)->width('1/4'),
             (new ConsumedMeals)->width('1/4'),
             (new Leftovers)->width('1/4'),
             (new ConsumedByDay)->width('1/2'),
             (new LeftoverByDay)->width('1/2'),
-            (new StackedChart())
-                ->title('Plat Reservés Consommés vs Plat Reservés Restants')
-                ->model('\App\Models\FoodReservation')
-                ->join('menus', 'menus.id', '=', 'food_reservations.menu_id')
-                ->series(array([
-                    'label' => 'Plats Consommés',
-                    'filter' => [
-                        'key' => 'has_ate', // State Column for Count Calculation Here
-                        'value' => true
-                    ],
-                    'backgroundColor' => '#4055B2',
-                ], [
-                    'label' => 'Plats Restés',
-                    'filter' => [
-                        'key' => 'has_ate', // State Column for Count Calculation Here
-                        'value' => 'false'
-                    ],
-                    'backgroundColor' => '#D7E1F3',
-                ]))
-                ->options([
-                    'queryFilter' => array([
-                        'key' => 'structure_id',
-                        'operator' => '=',
-                        'value' => Structure::where('establishment_id', Auth::user()->establishment_id)->first()->id
-                    ]),
-                    'uom' => 'day',
-                    'latestData' => 7,
-                    'showTotal' => false,
-                ])
-                ->width('full'),
         ];
+        $stacked_chart = (new StackedChart())
+            ->title('Plat Reservés Consommés vs Plat Reservés Restants')
+            ->model('\App\Models\FoodReservation')
+            ->join('menus', 'menus.id', '=', 'food_reservations.menu_id')
+            ->series(array([
+                'label' => 'Plats Consommés',
+                'filter' => [
+                    'key' => 'has_ate', // State Column for Count Calculation Here
+                    'value' => true
+                ],
+                'backgroundColor' => '#4055B2',
+            ], [
+                'label' => 'Plats Restés',
+                'filter' => [
+                    'key' => 'has_ate', // State Column for Count Calculation Here
+                    'value' => 'false'
+                ],
+                'backgroundColor' => '#D7E1F3',
+            ]))
+            ->options([
+                'queryFilter' => array([
+                    'key' => 'structure_id',
+                    'operator' => '=',
+                    'value' => Structure::where('establishment_id', Auth::user()->establishment_id)->first()->id
+                ]),
+                'uom' => 'day',
+                'latestData' => 7,
+                'showTotal' => false,
+            ])
+            ->width('full');
+        if ($request->user()->isUniversityDecider()) {
+            return [...$filters, $stacked_chart];
+        }
+        if ($request->user()->isResidenceDecider()) {
+            return [
+                (new NovaGlobalFilter([
+                    new MealType
+                ]))->resettable(),
+                ...$filters,
+                $stacked_chart
+            ];
+        }
+
+        return [$global_filter, ...$filters];
     }
 
     /**
@@ -139,6 +184,12 @@ class Reservation extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isDecider()) {
+            return [
+                new ReservationDate,
+                new MealType
+            ];
+        }
         return [
             new Establishment,
             new Wilaya,
