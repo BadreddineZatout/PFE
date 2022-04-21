@@ -23,7 +23,6 @@ class CreateEstablishmentsTable extends Migration
             $table->enum('type', ['université', 'école superieure', 'institue', 'résidence']);
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
-            $table->foreignId('establishment_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
