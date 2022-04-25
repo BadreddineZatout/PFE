@@ -16,6 +16,7 @@ use App\Nova\Filters\MenuRestaurant;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Filters\DateFilter;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Lenses\ConnectedEstablishmentsMenus;
 use Titasgailius\SearchRelations\SearchesRelations;
 
 class Menu extends Resource
@@ -106,6 +107,7 @@ class Menu extends Resource
      */
     public static function relatableStructures(NovaRequest $request, $query)
     {
+        if ($request->user()->isAdmin()) return $query->where('type', 'restaurant');
         return $query->where([
             'type' => 'restaurant',
             'establishment_id' => $request->user()->establishment_id
@@ -155,8 +157,13 @@ class Menu extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isAdmin() || $request->user()->isMinister()) {
+            return [
+                new MenuRestaurant,
+                new MenuDate
+            ];
+        }
         return [
-            new MenuRestaurant,
             new MenuDate
         ];
     }
@@ -169,6 +176,7 @@ class Menu extends Resource
      */
     public function lenses(Request $request)
     {
+        if ($request->user()->isUniversityDecider()) return [new ConnectedEstablishmentsMenus()];
         return [];
     }
 

@@ -72,7 +72,7 @@ class Reservation extends Resource
     public static function availableForNavigation(Request $request)
     {
         $user = Auth::user();
-        return $user->isAdmin() || $user->isDecider() || $user->isMinister();
+        return $user->isAdmin() || $user->isDecider() || $user->isMinister() || $user->isAgentRestauration();
     }
 
     /**
@@ -160,7 +160,8 @@ class Reservation extends Resource
                 'showTotal' => false,
             ])
             ->width('full');
-        if ($request->user()->isUniversityDecider()) {
+
+        if ($request->user()->isUniversityDecider() || $request->user()->isAgentRestauration()) {
             return [...$filters, $stacked_chart];
         }
         if ($request->user()->isResidenceDecider()) {
@@ -184,7 +185,7 @@ class Reservation extends Resource
      */
     public function filters(Request $request)
     {
-        if ($request->user()->isDecider()) {
+        if ($request->user()->isDecider() || $request->user()->isAgentRestauration()) {
             return [
                 new ReservationDate,
                 new MealType
