@@ -18,6 +18,8 @@ class CreateEquipmentRequestsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('equipment_id')->constrained();
             $table->foreignId('establishment_id')->constrained();
+            $table->foreignId('structure_id')->constrained();
+            $table->foreignId('place_id')->constrained();
             $table->enum('state', ['accepté', 'non accepté']);
             $table->timestamps();
         });
