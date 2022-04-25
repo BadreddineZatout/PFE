@@ -15,12 +15,9 @@ class CreateEquipmentRequestsTable extends Migration
     {
         Schema::create('equipment_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('resident_id')->constrained();
             $table->foreignId('equipment_id')->constrained();
-            $table->foreignId('establishment_id')->constrained();
-            $table->foreignId('structure_id')->constrained();
-            $table->foreignId('place_id')->constrained();
-            $table->enum('state', ['accepté', 'non accepté']);
+            $table->enum('state', ['accepté', 'non traité', 'refusé'])->default('non traité');
             $table->timestamps();
         });
     }

@@ -2,12 +2,16 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class EquipmentRequest extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -20,15 +24,21 @@ class EquipmentRequest extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->equipment->name . ' / ' . $this->resident->user->fullname() .
+            ' - ' . $this->resident->establishment->name . ' - ' . $this->resident->structure->name .
+            ' - ' . $this->resident->place->name;
+    }
 
     /**
-     * The columns that should be searched.
+     * The relationship columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id',
+    public static $searchRelations = [
+        'resident.user' => ['firstname', 'lastname'],
+        'equipment' => ['name'],
     ];
 
     /**
@@ -48,6 +58,15 @@ class EquipmentRequest extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            BelongsTo::make('resident'),
+            BelongsTo::make('equipment'),
+            Select::make('state')->options([
+                'non traité' => 'non traité',
+                'accepté' => 'accepté',
+                'refusé' => 'refusé'
+            ])
+                ->default('non traité')
+                ->hideWhenCreating(),
         ];
     }
 

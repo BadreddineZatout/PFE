@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class EquipmentRequest extends Model
 {
     use HasFactory;
+
+    public function resident()
+    {
+        return $this->belongsTo(Resident::class);
+    }
+
+    public function equipment()
+    {
+        return $this->belongsTo(Equipment::class);
+    }
 }
