@@ -2,7 +2,7 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\HebergementRequest;
+use App\Models\Accommodation;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
@@ -16,7 +16,7 @@ class TotalDemandeHebergementAcceptee extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, HebergementRequest::where('state', 'accepté'));
+        return $this->count($request, Accommodation::where('state', 'accepté'));
     }
 
     /**

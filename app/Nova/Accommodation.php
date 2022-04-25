@@ -2,23 +2,21 @@
 
 namespace App\Nova;
 
-use App\Models\Establishment;
 use App\Models\Role;
-use App\Nova\Metrics\TotalDemandeHebergement;
-use App\Nova\Metrics\TotalDemandeHebergementAcceptee;
-use App\Nova\Metrics\TotalDemandeHebergementNonAcceptee;
-use App\Nova\Metrics\TotalDemandeHebergementNonTraitee;
-use App\Nova\Metrics\TotalDemandeHebergementRefusee;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Number;
+use App\Models\Establishment;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use App\Nova\Metrics\TotalDemandeHebergement;
 use Titasgailius\SearchRelations\SearchesRelations;
+use App\Nova\Metrics\TotalDemandeHebergementRefusee;
+use App\Nova\Metrics\TotalDemandeHebergementAcceptee;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use App\Nova\Metrics\TotalDemandeHebergementNonTraitee;
 
-class HebergementRequest extends Resource
+class Accommodation extends Resource
 {
     use SearchesRelations;
     /**
@@ -26,7 +24,7 @@ class HebergementRequest extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\HebergementRequest::class;
+    public static $model = \App\Models\Accommodation::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

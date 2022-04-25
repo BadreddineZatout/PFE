@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHebergementRequestsTable extends Migration
+class CreateAccommodationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateHebergementRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('hebergement_requests', function (Blueprint $table) {
+        Schema::create('accommodations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('establishment_id')->constrained();
@@ -31,6 +31,6 @@ class CreateHebergementRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hebergement_requests');
+        Schema::dropIfExists('accommodations');
     }
 }

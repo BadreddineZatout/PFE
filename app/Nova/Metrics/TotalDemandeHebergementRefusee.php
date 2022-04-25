@@ -2,8 +2,8 @@
 
 namespace App\Nova\Metrics;
 
+use App\Models\Accommodation;
 use Laravel\Nova\Metrics\Value;
-use App\Models\HebergementRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TotalDemandeHebergementRefusee extends Value
@@ -16,7 +16,7 @@ class TotalDemandeHebergementRefusee extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, HebergementRequest::where('state', 'refusé'));
+        return $this->count($request, Accommodation::where('state', 'refusé'));
     }
 
     /**
