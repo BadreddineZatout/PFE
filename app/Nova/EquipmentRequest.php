@@ -2,6 +2,10 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\TotalDemandeEquipment;
+use App\Nova\Metrics\TotalDemandeEquipmentAcceptee;
+use App\Nova\Metrics\TotalDemandeEquipmentNonTraitee;
+use App\Nova\Metrics\TotalDemandeEquipmentRefusee;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Select;
@@ -78,7 +82,12 @@ class EquipmentRequest extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new TotalDemandeEquipment())->width('1/4'),
+            (new TotalDemandeEquipmentNonTraitee())->width('1/4'),
+            (new TotalDemandeEquipmentAcceptee())->width('1/4'),
+            (new TotalDemandeEquipmentRefusee())->width('1/4'),
+        ];
     }
 
     /**

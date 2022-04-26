@@ -8,6 +8,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TotalDemandeHebergementRefusee extends Value
 {
+    public $name = 'Refused Requests Total';
     /**
      * Calculate the value of the metric.
      *
@@ -56,15 +57,5 @@ class TotalDemandeHebergementRefusee extends Value
     public function uriKey()
     {
         return 'total-demande-hebergement-refusee';
-    }
-
-    /**
-     * Get the displayable name of the metric
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'Demandes Refusées';
     }
 }

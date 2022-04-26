@@ -2,14 +2,13 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Accommodation;
+use App\Models\EquipmentRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
-class TotalDemandeHebergement extends Value
+class TotalDemandeEquipmentAcceptee extends Value
 {
-
-    public $name = 'Requests Total';
+    public $name = 'Accepted Requests Total';
     /**
      * Calculate the value of the metric.
      *
@@ -18,7 +17,7 @@ class TotalDemandeHebergement extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Accommodation::class);
+        return $this->count($request, EquipmentRequest::where('state', 'accepté'));
     }
 
     /**
@@ -29,7 +28,6 @@ class TotalDemandeHebergement extends Value
     public function ranges()
     {
         return [
-            'ALL' => 'All Time',
             30 => __('30 Days'),
             60 => __('60 Days'),
             365 => __('365 Days'),
@@ -57,6 +55,6 @@ class TotalDemandeHebergement extends Value
      */
     public function uriKey()
     {
-        return 'total-demande-hebergement';
+        return 'total-demande-equipment-acceptee';
     }
 }

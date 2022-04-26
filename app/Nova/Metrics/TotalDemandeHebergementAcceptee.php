@@ -8,6 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeHebergementAcceptee extends Value
 {
+    public $name = 'Accepted Requests Total';
     /**
      * Calculate the value of the metric.
      *
@@ -56,15 +57,5 @@ class TotalDemandeHebergementAcceptee extends Value
     public function uriKey()
     {
         return 'total-demande-hebergement-acceptee';
-    }
-
-    /**
-     * Get the displayable name of the metric
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'Demandes Acceptées';
     }
 }

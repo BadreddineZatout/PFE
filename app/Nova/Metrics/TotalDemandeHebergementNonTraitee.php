@@ -8,6 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeHebergementNonTraitee extends Value
 {
+    public $name = 'Not Treated Requests Total';
     /**
      * Calculate the value of the metric.
      *
@@ -56,15 +57,5 @@ class TotalDemandeHebergementNonTraitee extends Value
     public function uriKey()
     {
         return 'total-demande-hebergement-non-traitee';
-    }
-
-    /**
-     * Get the displayable name of the metric
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'Demandes Non Traitées';
     }
 }
