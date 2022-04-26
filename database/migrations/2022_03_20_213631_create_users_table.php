@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('establishment_id')->nullable()->constrained();
             $table->foreignId('wilaya_id')->nullable()->constrained();
             $table->foreignId('commune_id')->nullable()->constrained();
+            $table->boolean('is_resident')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
