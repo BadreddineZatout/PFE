@@ -6,6 +6,7 @@ use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Filters\AccommodationRequestState;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -139,7 +140,9 @@ class Accommodation extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new AccommodationRequestState
+        ];
     }
 
     /**

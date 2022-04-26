@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\EquipmentRequestState;
 use App\Nova\Metrics\TotalDemandeEquipment;
 use App\Nova\Metrics\TotalDemandeEquipmentAcceptee;
 use App\Nova\Metrics\TotalDemandeEquipmentNonTraitee;
@@ -98,7 +99,9 @@ class EquipmentRequest extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new EquipmentRequestState
+        ];
     }
 
     /**
