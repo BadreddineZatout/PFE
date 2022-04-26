@@ -23,7 +23,6 @@ class ResidentByResidence extends Partition
             ->join('residents', 'users.id', 'residents.user_id')
             ->join('establishments', 'residents.establishment_id', 'establishments.id');
 
-
         return $this->count($request, $model, 'establishments.name');
     }
 

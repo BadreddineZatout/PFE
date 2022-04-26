@@ -122,11 +122,11 @@ class Resident extends Resource
     public function cards(Request $request)
     {
         return [
+            (new ResidentStudents())->width('1/2'),
+            (new ResidentByResidence())->width('1/2'),
             new ResidentsTotal(),
             new ResidentsRenouvles(),
             new ResidentsNonRenouvles(),
-            new ResidentStudents(),
-            new ResidentByResidence()
         ];
     }
 
