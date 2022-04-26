@@ -126,6 +126,7 @@ class Resident extends Resource
             new ResidentsRenouvles(),
             new ResidentsNonRenouvles(),
             new ResidentStudents(),
+            new ResidentByResidence()
         ];
     }
 
