@@ -65,6 +65,7 @@ class Accommodation extends Resource
      */
     public static $group = 'Hebergement';
 
+
     /**
      * Build a "relatable" query for Students.
      *
