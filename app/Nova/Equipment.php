@@ -50,6 +50,40 @@ class Equipment extends Resource
      */
     public static $group = 'Hebergement';
 
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $query->where('establishment_id', $request->user()->establishment_id);
+        }
+        return $query;
+    }
+
+    /**
+     * Build a "relatable" query for residences.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableEstablishments(NovaRequest $request, $query)
+    {
+        if ($request->user()->isAdmin()) return $query->where('type', 'résidence');
+        return $query->where([
+            'id' => $request->user()->establishment_id,
+            'type' => 'résidence'
+        ]);
+    }
+
 
     /**
      * Get the fields displayed by the resource.
