@@ -47,11 +47,15 @@ class University extends Establishment
     public static $group = 'Acceuil';
 
     /**
-     * Indicates if the resource should be displayed in the sidebar.
+     * Determine if this resource is available for navigation.
      *
-     * @var bool
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
      */
-    public static $displayInNavigation = true;
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->isAdmin() || $request->user()->isMinister();
+    }
 
     /**
      * Build a "relatable" query for Establishments.
