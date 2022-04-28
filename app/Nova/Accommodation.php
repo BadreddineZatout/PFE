@@ -65,6 +65,21 @@ class Accommodation extends Resource
      */
     public static $group = 'Hebergement';
 
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $query->where('establishment_id', $request->user()->establishment_id);
+        }
+        return $query;
+    }
+
 
     /**
      * Build a "relatable" query for Students.
