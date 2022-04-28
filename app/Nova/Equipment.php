@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\EquipmentResidence;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -120,6 +121,11 @@ class Equipment extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isAdmin()) {
+            return [
+                new EquipmentResidence
+            ];
+        }
         return [];
     }
 
