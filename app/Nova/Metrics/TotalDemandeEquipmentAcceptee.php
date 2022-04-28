@@ -17,6 +17,13 @@ class TotalDemandeEquipmentAcceptee extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $this->count($request, EquipmentRequest::join('residents', 'resident_id', 'residents.id')
+                ->where([
+                    'establishment_id' => $request->user()->establishment_id,
+                    'equipment_requests.state' => 'accepté'
+                ]));
+        }
         return $this->count($request, EquipmentRequest::where('state', 'accepté'));
     }
 

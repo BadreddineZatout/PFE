@@ -18,6 +18,9 @@ class TotalDemandeHebergement extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $this->count($request, Accommodation::where('establishment_id', $request->user()->establishment_id));
+        }
         return $this->count($request, Accommodation::class);
     }
 
