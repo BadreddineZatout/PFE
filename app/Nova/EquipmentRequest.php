@@ -2,17 +2,18 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\EquipmentRequestState;
-use App\Nova\Metrics\TotalDemandeEquipment;
-use App\Nova\Metrics\TotalDemandeEquipmentAcceptee;
-use App\Nova\Metrics\TotalDemandeEquipmentNonTraitee;
-use App\Nova\Metrics\TotalDemandeEquipmentRefusee;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\EquipmentRequestState;
+use App\Nova\Metrics\TotalDemandeEquipment;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Filters\EquipmentRequestResidence;
+use App\Nova\Metrics\TotalDemandeEquipmentRefusee;
+use App\Nova\Metrics\TotalDemandeEquipmentAcceptee;
 use Titasgailius\SearchRelations\SearchesRelations;
+use App\Nova\Metrics\TotalDemandeEquipmentNonTraitee;
 
 class EquipmentRequest extends Resource
 {
@@ -52,6 +53,39 @@ class EquipmentRequest extends Resource
      * @var string
      */
     public static $group = 'Hebergement';
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $query->join('residents', 'resident_id', 'residents.id')
+                ->where('establishment_id', $request->user()->establishment_id)
+                ->select('equipment_requests.*');
+        }
+        return $query;
+    }
+
+    /**
+     * Build a "relatable" query for equipments.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableEquipments(NovaRequest $request, $query)
+    {
+        if ($request->user()->isAdmin()) return $query;
+        return $query->where('establishment_id', $request->user()->establishment_id);
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -99,6 +133,12 @@ class EquipmentRequest extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isAdmin()) {
+            return [
+                new EquipmentRequestResidence,
+                new EquipmentRequestState
+            ];
+        }
         return [
             new EquipmentRequestState
         ];

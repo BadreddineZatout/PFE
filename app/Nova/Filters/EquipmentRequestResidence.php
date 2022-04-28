@@ -3,9 +3,10 @@
 namespace App\Nova\Filters;
 
 use Illuminate\Http\Request;
+use App\Models\Establishment;
 use Laravel\Nova\Filters\Filter;
 
-class EquipmentRequestState extends Filter
+class EquipmentRequestResidence extends Filter
 {
     /**
      * The filter's component.
@@ -24,7 +25,9 @@ class EquipmentRequestState extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('equipment_requests.state', $value);
+        return $query->join('residents', 'resident_id', 'residents.id')
+            ->where('establishment_id', $value)
+            ->select('equipment_requests.*');
     }
 
     /**
@@ -35,10 +38,10 @@ class EquipmentRequestState extends Filter
      */
     public function options(Request $request)
     {
-        return [
-            'non traité' => 'non traité',
-            'accepté' => 'accepté',
-            'refusé' => 'refusé'
-        ];
+        $residences = [];
+        Establishment::where('type', 'résidence')->get()->each(function ($e) use (&$residences) {
+            $residences[$e->name] = $e->id;
+        });
+        return $residences;
     }
 }
