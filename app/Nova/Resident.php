@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Metrics\ResidentsTotal;
 use App\Nova\Metrics\ResidentStudents;
 use App\Nova\Filters\ResidentResidence;
+use App\Nova\Filters\ResidentUniversity;
 use App\Nova\Metrics\ResidentsRenouvles;
 use App\Nova\Metrics\ResidentByResidence;
 use App\Nova\Metrics\ResidentsNonRenouvles;
@@ -88,7 +89,7 @@ class Resident extends Resource
     {
         $user = $request->user();
         if ($user->isResidenceDecider() || $user->isAgentHebergement()) {
-            return $query->where('establishment_id', $user->establishment_id);
+            return $query->where('residents.establishment_id', $user->establishment_id);
         }
         if ($user->isUniversityDecider()) {
             return $query->join('users', 'users.id', 'user_id')
@@ -189,10 +190,21 @@ class Resident extends Resource
      */
     public function filters(Request $request)
     {
-        if ($request->user()->isAgentHebergement() || $request->user()->isResidenceDecider()) return [];
+        if ($request->user()->isAgentHebergement() || $request->user()->isResidenceDecider()) {
+            return [
+                new ResidentUniversity
+            ];
+        }
+
+        if ($request->user()->isUniversityDecider()) {
+            return [
+                new ResidentResidence
+            ];
+        }
 
         return [
             new ResidentResidence,
+            new ResidentUniversity,
         ];
     }
 

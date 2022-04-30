@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Establishment;
 use Laravel\Nova\Filters\Filter;
 
-class ResidentResidence extends Filter
+class ResidentUniversity extends Filter
 {
-    public $name = 'Residences';
+    public $name = 'Universities';
 
     /**
      * The filter's component.
@@ -27,7 +27,9 @@ class ResidentResidence extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('residents.establishment_id', $value);
+        return $query->join('users', 'user_id', 'users.id')
+            ->where('users.establishment_id', $value)
+            ->select('residents.*');
     }
 
     /**
@@ -38,10 +40,10 @@ class ResidentResidence extends Filter
      */
     public function options(Request $request)
     {
-        $residences = [];
-        Establishment::where('type', 'résidence')->get()->each(function ($e) use (&$residences) {
-            $residences[$e->name] = $e->id;
+        $universities = [];
+        Establishment::where('type', '!=', 'résidence')->get()->each(function ($e) use (&$universities) {
+            $universities[$e->name] = $e->id;
         });
-        return $residences;
+        return $universities;
     }
 }
