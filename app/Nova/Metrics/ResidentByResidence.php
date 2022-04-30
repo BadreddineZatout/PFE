@@ -5,10 +5,13 @@ namespace App\Nova\Metrics;
 use App\Models\Role;
 use App\Models\User;
 use Laravel\Nova\Metrics\Partition;
+use App\Nova\Filters\UserUniversity;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class ResidentByResidence extends Partition
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -18,7 +21,12 @@ class ResidentByResidence extends Partition
     public function calculate(NovaRequest $request)
     {
         $student_role_id = Role::where('name', 'student')->first()->id;
-        $model = User::where('role_id', $student_role_id)
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(User::class, [
+            UserUniversity::class
+        ]);
+
+        $model->where('role_id', $student_role_id)
             ->join('residents', 'users.id', 'residents.user_id')
             ->join('establishments', 'residents.establishment_id', 'establishments.id');
 

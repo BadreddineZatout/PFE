@@ -4,12 +4,16 @@ namespace App\Nova\Metrics;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Nova\Filters\ResidentUniversity;
+use App\Nova\Filters\UserUniversity;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class ResidentStudents extends Partition
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -19,8 +23,12 @@ class ResidentStudents extends Partition
     public function calculate(NovaRequest $request)
     {
         $student_role_id = Role::where('name', 'student')->first()->id;
-        $model = User::where('role_id', $student_role_id);
 
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(User::class, [
+            UserUniversity::class
+        ]);
+        $model->where('role_id', $student_role_id);
         if ($request->user()->isUniversityDecider()) $model->where('establishment_id', $request->user()->establishment_id);
 
         return $this->count($request, $model->select('users.id', 'is_resident'), 'is_resident')

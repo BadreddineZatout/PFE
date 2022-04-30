@@ -25,6 +25,8 @@ class Establishment extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
+        dd($value);
+
         if ($query->getModel()::class == 'App\Models\Leftover') {
             return $query->join('menus', 'leftovers.id', 'menus.id')
                 ->join('structures', 'menus.structure_id', 'structures.id')

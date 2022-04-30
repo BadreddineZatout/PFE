@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\Menu;
 use App\Nova\Filters\Establishment;
 use App\Nova\Filters\MealType;
-use App\Nova\Filters\Wilaya;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Nemrutco\NovaGlobalFilter\GlobalFilterable;

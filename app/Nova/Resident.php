@@ -14,15 +14,17 @@ use App\Nova\Metrics\ResidentsTotal;
 use App\Nova\Metrics\ResidentStudents;
 use App\Nova\Filters\ResidentResidence;
 use App\Nova\Filters\ResidentUniversity;
+use App\Nova\Filters\UserUniversity;
 use App\Nova\Metrics\ResidentsRenouvles;
 use App\Nova\Metrics\ResidentByResidence;
+use App\Nova\Metrics\ResidentByUniversity;
 use App\Nova\Metrics\ResidentsNonRenouvles;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use App\Nova\Lenses\ResidentsRenouvles as LensesResidentsRenouvles;
 use App\Nova\Lenses\ResidentsNonRenouvles as LensesResidentsNonRenouvles;
-use App\Nova\Metrics\ResidentByUniversity;
 
 class Resident extends Resource
 {
@@ -167,6 +169,9 @@ class Resident extends Resource
         }
         if ($request->user()->isAdmin() || $request->user()->isMinister()) {
             return [
+                (new NovaGlobalFilter([
+                    new UserUniversity
+                ]))->resettable(),
                 (new ResidentStudents())->width('1/2'),
                 (new ResidentByResidence())->width('1/2'),
                 new ResidentsTotal(),
