@@ -21,6 +21,7 @@ use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use App\Nova\Lenses\ResidentsRenouvles as LensesResidentsRenouvles;
 use App\Nova\Lenses\ResidentsNonRenouvles as LensesResidentsNonRenouvles;
+use App\Nova\Metrics\ResidentByUniversity;
 
 class Resident extends Resource
 {
@@ -128,7 +129,7 @@ class Resident extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\Student'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(Establishment::where('type', '=', 'résidence')->where('id', $request->user()->establishment_id)->get()),
+                ->options(Establishment::where('type', '=', 'résidence')->get()),
             NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
@@ -176,6 +177,7 @@ class Resident extends Resource
             new ResidentsTotal(),
             new ResidentsRenouvles(),
             new ResidentsNonRenouvles(),
+            new ResidentByUniversity()
         ];
     }
 
