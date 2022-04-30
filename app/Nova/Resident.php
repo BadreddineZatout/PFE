@@ -65,6 +65,39 @@ class Resident extends Resource
     public static $group = 'Hebergement';
 
     /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->isAdmin() || $request->user()->isMinister() || $request->user()->isDecider() || $request->user()->isAgentHebergement();
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $user = $request->user();
+        if ($user->isResidenceDecider() || $user->isAgentHebergement()) {
+            return $query->where('establishment_id', $user->establishment_id);
+        }
+        if ($user->isUniversityDecider()) {
+            return $query->join('users', 'users.id', 'user_id')
+                ->where('users.establishment_id', $user->establishment_id)
+                ->whereIn('residents.establishment_id', $user->establishment->establishments->pluck('id'))
+                ->select('residents.*');
+        }
+        return $query;
+    }
+
+    /**
      * Build a "relatable" query for Students.
      *
      * This query determines which instances of the model may be attached to other resources.
@@ -76,7 +109,9 @@ class Resident extends Resource
      */
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+        if ($request->user()->isAgentHebergement()) {
+            return $query->whereIn('users.establishment_id', $request->user()->establishment->establishments->pluck('id'));
+        }
     }
 
     /**
@@ -92,8 +127,7 @@ class Resident extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\Student'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(Establishment::where('type', '=', 'résidence')->get())
-                ->dependsOn('user'),
+                ->options(Establishment::where('type', '=', 'résidence')->where('id', $request->user()->establishment_id)->get()),
             NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
