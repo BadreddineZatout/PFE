@@ -3,11 +3,14 @@
 namespace App\Nova\Metrics;
 
 use App\Models\Resident;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use App\Nova\Filters\ResidentResidence;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class ResidentsRenouvles extends Value
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -22,7 +25,11 @@ class ResidentsRenouvles extends Value
                 'state' => 'renouvlé'
             ]));
         }
-        return $this->count($request, Resident::where('state', 'renouvlé'));
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(Resident::class, [
+            ResidentResidence::class
+        ]);
+        return $this->count($request, $model->where('state', 'renouvlé'));
     }
 
     /**

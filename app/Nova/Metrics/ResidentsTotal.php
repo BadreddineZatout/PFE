@@ -3,11 +3,14 @@
 namespace App\Nova\Metrics;
 
 use App\Models\Resident;
+use App\Nova\Filters\ResidentResidence;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class ResidentsTotal extends Value
 {
+    use GlobalFilterable;
     /**
      * Calculate the value of the metric.
      *
@@ -27,7 +30,11 @@ class ResidentsTotal extends Value
                     ->whereIn('residents.establishment_id', $request->user()->establishment->establishments->pluck('id'))
             );
         }
-        return $this->count($request, Resident::class);
+        // Filter your model with existing filters
+        $model = $this->globalFiltered(Resident::class, [
+            ResidentResidence::class
+        ]);
+        return $this->count($request, $model);
     }
 
     /**

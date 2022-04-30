@@ -170,7 +170,8 @@ class Resident extends Resource
         if ($request->user()->isAdmin() || $request->user()->isMinister()) {
             return [
                 (new NovaGlobalFilter([
-                    new UserUniversity
+                    new UserUniversity,
+                    new ResidentResidence
                 ]))->resettable(),
                 (new ResidentStudents())->width('1/2'),
                 (new ResidentByResidence())->width('1/2'),
