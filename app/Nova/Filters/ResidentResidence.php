@@ -2,13 +2,13 @@
 
 namespace App\Nova\Filters;
 
-use App\Models\Structure;
 use Illuminate\Http\Request;
+use App\Models\Establishment;
 use Laravel\Nova\Filters\Filter;
 
-class MenuRestaurant extends Filter
+class ResidentResidence extends Filter
 {
-    public $name = 'Restaurants';
+    public $name = 'Residences';
 
     /**
      * The filter's component.
@@ -27,7 +27,7 @@ class MenuRestaurant extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('structure_id', $value);
+        return $query->where('establishment_id', $value);
     }
 
     /**
@@ -38,10 +38,10 @@ class MenuRestaurant extends Filter
      */
     public function options(Request $request)
     {
-        $restaurants = [];
-        Structure::where('type', 'restaurant')->get()->each(function ($e) use (&$restaurants) {
-            $restaurants[$e->name] = $e->id;
+        $residences = [];
+        Establishment::where('type', 'résidence')->get()->each(function ($e) use (&$residences) {
+            $residences[$e->name] = $e->id;
         });
-        return $restaurants;
+        return $residences;
     }
 }

@@ -2,24 +2,25 @@
 
 namespace App\Nova;
 
-use App\Models\Establishment;
 use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Models\Establishment;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Metrics\ResidentsTotal;
+use App\Nova\Metrics\ResidentStudents;
+use App\Nova\Filters\ResidentResidence;
 use App\Nova\Metrics\ResidentsRenouvles;
+use App\Nova\Metrics\ResidentByResidence;
 use App\Nova\Metrics\ResidentsNonRenouvles;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use App\Nova\Lenses\ResidentsRenouvles as LensesResidentsRenouvles;
 use App\Nova\Lenses\ResidentsNonRenouvles as LensesResidentsNonRenouvles;
-use App\Nova\Metrics\ResidentByResidence;
-use App\Nova\Metrics\ResidentStudents;
 
 class Resident extends Resource
 {
@@ -155,9 +156,23 @@ class Resident extends Resource
      */
     public function cards(Request $request)
     {
+        if ($request->user()->isUniversityDecider()) {
+            return [
+                new ResidentsTotal(),
+                new ResidentStudents(),
+                new ResidentByResidence(),
+            ];
+        }
+        if ($request->user()->isAdmin() || $request->user()->isMinister()) {
+            return [
+                (new ResidentStudents())->width('1/2'),
+                (new ResidentByResidence())->width('1/2'),
+                new ResidentsTotal(),
+                new ResidentsRenouvles(),
+                new ResidentsNonRenouvles(),
+            ];
+        }
         return [
-            (new ResidentStudents())->width('1/2'),
-            (new ResidentByResidence())->width('1/2'),
             new ResidentsTotal(),
             new ResidentsRenouvles(),
             new ResidentsNonRenouvles(),
@@ -172,7 +187,11 @@ class Resident extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        if ($request->user()->isAgentHebergement() || $request->user()->isResidenceDecider()) return [];
+
+        return [
+            new ResidentResidence,
+        ];
     }
 
     /**
@@ -183,10 +202,13 @@ class Resident extends Resource
      */
     public function lenses(Request $request)
     {
-        return [
-            new LensesResidentsRenouvles(),
-            new LensesResidentsNonRenouvles()
-        ];
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return [
+                new LensesResidentsRenouvles(),
+                new LensesResidentsNonRenouvles()
+            ];
+        }
+        return [];
     }
 
     /**
