@@ -19,10 +19,11 @@ class ResidentStudents extends Partition
     public function calculate(NovaRequest $request)
     {
         $student_role_id = Role::where('name', 'student')->first()->id;
-        $model = User::where('role_id', $student_role_id)
-            ->where('establishment_id', $request->user()->establishment_id)
-            ->select('users.id', 'is_resident');
-        return $this->count($request, $model, 'is_resident')
+        $model = User::where('role_id', $student_role_id);
+
+        if ($request->user()->isUniversityDecider()) $model->where('establishment_id', $request->user()->establishment_id);
+
+        return $this->count($request, $model->select('users.id', 'is_resident'), 'is_resident')
             ->label(function ($value) {
                 switch ($value) {
                     case 1:

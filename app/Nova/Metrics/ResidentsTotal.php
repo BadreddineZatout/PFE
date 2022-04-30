@@ -16,6 +16,17 @@ class ResidentsTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $this->count($request, Resident::where('establishment_id', $request->user()->establishment_id));
+        }
+        if ($request->user()->isUniversityDecider()) {
+            return $this->count(
+                $request,
+                Resident::join('users', 'users.id', 'user_id')
+                    ->where('users.establishment_id', $request->user()->establishment_id)
+                    ->whereIn('residents.establishment_id', $request->user()->establishment->establishments->pluck('id'))
+            );
+        }
         return $this->count($request, Resident::class);
     }
 

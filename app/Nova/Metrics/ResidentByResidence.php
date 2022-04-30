@@ -19,9 +19,12 @@ class ResidentByResidence extends Partition
     {
         $student_role_id = Role::where('name', 'student')->first()->id;
         $model = User::where('role_id', $student_role_id)
-            ->where('users.establishment_id', $request->user()->establishment_id)
             ->join('residents', 'users.id', 'residents.user_id')
             ->join('establishments', 'residents.establishment_id', 'establishments.id');
+
+        if ($request->user()->isUniversityDecider()) {
+            $model->where('users.establishment_id', $request->user()->establishment_id);
+        }
 
         return $this->count($request, $model, 'establishments.name');
     }
