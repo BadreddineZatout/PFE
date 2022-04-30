@@ -51,7 +51,7 @@ class Student extends User
      */
     public static function availableForNavigation(Request $request)
     {
-        return $request->user()->isAdmin() || $request->user()->isMinister() || $request->user()->isDecider();
+        return $request->user()->isAdmin() || $request->user()->isMinister() || $request->user()->isUniversityDecider();
     }
 
     /**
@@ -63,7 +63,12 @@ class Student extends User
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+        $query->where('role_id', Role::where('name', 'student')->first()->id);
+
+        if ($request->user()->isUniversityDecider()) {
+            $query->where('establishment_id', $request->user()->establishment_id);
+        }
+        return $query;
     }
 
     /**

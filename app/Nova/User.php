@@ -6,6 +6,7 @@ use App\Models\Wilaya;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Filters\UserRole;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Password;
@@ -130,7 +131,9 @@ class User extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new UserRole
+        ];
     }
 
     /**
