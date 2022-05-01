@@ -6,6 +6,8 @@ use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Actions\AcceptAccommodation;
+use App\Nova\Actions\RefuseAccommodation;
 use App\Nova\Filters\AccommodationRequestState;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
@@ -180,6 +182,15 @@ class Accommodation extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new AcceptAccommodation())->showOnTableRow()
+                ->confirmText('Are you sure you want to accept this request?')
+                ->confirmButtonText('Accept')
+                ->cancelButtonText("Don't accept"),
+            (new RefuseAccommodation())->showOnTableRow()
+                ->confirmText('Are you sure you want to refuse this request?')
+                ->confirmButtonText('Refuse')
+                ->cancelButtonText("Don't refuse"),
+        ];
     }
 }
