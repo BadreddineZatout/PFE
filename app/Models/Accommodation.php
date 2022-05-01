@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Nova\Actions\Actionable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Accommodation extends Model
 {
-    use HasFactory;
+    use HasFactory, Actionable;
 
     public function user()
     {
