@@ -51,7 +51,7 @@ class EquipmentRequestPolicy
      * @param  \App\Models\Equipment  $equipmentRequest
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, EquipmentRequest $equipmentRequest)
+    public function update(User $user)
     {
         return $user->isAdmin() || $user->isAgentHebergement();
     }

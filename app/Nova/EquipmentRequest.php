@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AcceptEquipement;
+use App\Nova\Actions\RefuseEquipement;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Select;
@@ -163,6 +165,21 @@ class EquipmentRequest extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new AcceptEquipement())->showOnTableRow()
+                ->confirmText('Are you sure you want to accept this request?')
+                ->confirmButtonText('Accept')
+                ->cancelButtonText("Don't accept")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', EquipmentRequest::class);
+                }),
+            (new RefuseEquipement())->showOnTableRow()
+                ->confirmText('Are you sure you want to refuse this request?')
+                ->confirmButtonText('Refuse')
+                ->cancelButtonText("Don't refuse")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', EquipmentRequest::class);
+                }),
+        ];
     }
 }
