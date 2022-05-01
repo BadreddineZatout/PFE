@@ -8,8 +8,10 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeHebergement extends Value
 {
-
     public $name = 'Requests Total';
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

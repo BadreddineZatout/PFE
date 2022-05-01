@@ -9,6 +9,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class TotalDemandeHebergementRefusee extends Value
 {
     public $name = 'Refused Requests Total';
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

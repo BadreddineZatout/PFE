@@ -9,6 +9,9 @@ use Laravel\Nova\Metrics\Value;
 class TotalDemandeEquipmentRefusee extends Value
 {
     public $name = 'Refused Requests Total';
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

@@ -9,6 +9,9 @@ use Laravel\Nova\Metrics\Value;
 class TotalDemandeHebergementAcceptee extends Value
 {
     public $name = 'Accepted Requests Total';
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

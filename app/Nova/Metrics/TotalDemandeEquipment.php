@@ -10,6 +10,8 @@ class TotalDemandeEquipment extends Value
 {
     public $name = 'Requests Total';
 
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

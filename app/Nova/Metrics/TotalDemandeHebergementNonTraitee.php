@@ -9,6 +9,9 @@ use Laravel\Nova\Metrics\Value;
 class TotalDemandeHebergementNonTraitee extends Value
 {
     public $name = 'Not Treated Requests Total';
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *
