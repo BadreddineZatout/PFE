@@ -51,7 +51,7 @@ class AccommodationPolicy
      * @param  \App\Models\Accommodation  $accommodation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Accommodation $accommodation)
+    public function update(User $user)
     {
         return $user->isAdmin() || $user->isAgentHebergement();
     }

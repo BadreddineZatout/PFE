@@ -186,11 +186,17 @@ class Accommodation extends Resource
             (new AcceptAccommodation())->showOnTableRow()
                 ->confirmText('Are you sure you want to accept this request?')
                 ->confirmButtonText('Accept')
-                ->cancelButtonText("Don't accept"),
+                ->cancelButtonText("Don't accept")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', Accommodation::class);
+                }),
             (new RefuseAccommodation())->showOnTableRow()
                 ->confirmText('Are you sure you want to refuse this request?')
                 ->confirmButtonText('Refuse')
-                ->cancelButtonText("Don't refuse"),
+                ->cancelButtonText("Don't refuse")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', Accommodation::class);
+                }),
         ];
     }
 }
