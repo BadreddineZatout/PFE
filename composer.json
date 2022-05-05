@@ -19,7 +19,8 @@
         "laravel/tinker": "^2.5",
         "nemrutco/nova-global-filter": "^1.2",
         "orlyapps/nova-belongsto-depend": "^3.0",
-        "titasgailius/search-relations": "^2.0"
+        "titasgailius/search-relations": "^2.0",
+        "badi/user-details": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -76,6 +77,10 @@
         "0": {
             "type": "path",
             "url": "./nova-components/TodayMeal"
+        },
+        "1": {
+            "type": "path",
+            "url": "./nova-components/UserDetails"
         }
     }
 }

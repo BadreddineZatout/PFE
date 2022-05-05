@@ -6,6 +6,7 @@ use Laravel\Nova\Nova;
 use App\Models\Resident;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Observable;
+use Badi\UserDetails\UserDetails;
 use App\Observers\ResidentObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -61,7 +62,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        return [];
+        return [
+            (new UserDetails)->width('full')
+        ];
     }
 
     /**
