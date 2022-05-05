@@ -1,14 +1,5 @@
 <template>
-  <div
-    class="
-      flex flex-col
-      items-center
-      justify-center
-      shadow-lg
-      bg-blue-600
-      rounded-lg
-    "
-  >
+  <div class="flex flex-col items-center justify-center shadow-lg rounded-lg">
     <div class="px-3 py-3">
       <h1 class="text-center text-3xl text-80 font-light">User Details</h1>
     </div>

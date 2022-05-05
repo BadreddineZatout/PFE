@@ -249,15 +249,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["card"],
@@ -286,7 +277,7 @@ var staticRenderFns = [
       "div",
       {
         staticClass:
-          "\n    flex flex-col\n    items-center\n    justify-center\n    shadow-lg\n    bg-blue-600\n    rounded-lg\n  "
+          "flex flex-col items-center justify-center shadow-lg rounded-lg"
       },
       [
         _c("div", { staticClass: "px-3 py-3" }, [
