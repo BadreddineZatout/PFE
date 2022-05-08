@@ -9,6 +9,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ResidentByUniversity extends Partition
 {
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

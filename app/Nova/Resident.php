@@ -6,6 +6,8 @@ use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Actions\ResidentNotRenewed;
+use App\Nova\Actions\ResidentRenewed;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -239,6 +241,23 @@ class Resident extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        if ($request->user()->isUniversityDecider()) return [];
+
+        return [
+            (new ResidentRenewed())->showOnTableRow()
+                ->confirmText('Are you sure you want to do this action?')
+                ->confirmButtonText('YES')
+                ->cancelButtonText("NO")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', Resident::class);
+                }),
+            (new ResidentNotRenewed())->showOnTableRow()
+                ->confirmText('Are you sure about this action?')
+                ->confirmButtonText('YES')
+                ->cancelButtonText("NO")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', Resident::class);
+                }),
+        ];
     }
 }

@@ -11,6 +11,9 @@ use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 class ResidentsTotal extends Value
 {
     use GlobalFilterable;
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *

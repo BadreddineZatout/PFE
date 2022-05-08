@@ -30,7 +30,7 @@ class ResidentPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isAgentHebergement() || $user->isResidenceDecider();
     }
 
     /**
@@ -40,9 +40,9 @@ class ResidentPolicy
      * @param  \App\Models\Resident  $resident
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Resident $resident)
+    public function update(User $user)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isAgentHebergement() || $user->isResidenceDecider();
     }
 
     /**
@@ -54,6 +54,6 @@ class ResidentPolicy
      */
     public function delete(User $user, Resident $resident)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isAgentHebergement() || $user->isResidenceDecider();
     }
 }
