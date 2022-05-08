@@ -21,6 +21,7 @@ class ReservationDate extends DateFilter
         $value = Carbon::parse($value)->format('Y-m-d');
 
         return $query->join('menus as m2', 'menu_id', 'm2.id')
-            ->where('m2.date', $value);
+            ->where('m2.date', $value)
+            ->select('food_reservations.*');
     }
 }

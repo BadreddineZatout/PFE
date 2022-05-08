@@ -25,20 +25,21 @@ class Establishment extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        dd($value);
-
         if ($query->getModel()::class == 'App\Models\Leftover') {
             return $query->join('menus', 'leftovers.id', 'menus.id')
                 ->join('structures', 'menus.structure_id', 'structures.id')
-                ->where('structures.establishment_id', $value);
+                ->where('structures.establishment_id', $value)
+                ->select('food_reservations.*');
         }
         if ($query->getModel()::class == 'App\Models\Menu') {
             return $query->join('structures', 'menus.structure_id', 'structures.id')
-                ->where('structures.establishment_id', $value);
+                ->where('structures.establishment_id', $value)
+                ->select('food_reservations.*');
         }
         return $query->join('menus', 'menu_id', 'menus.id')
             ->join('structures', 'menus.structure_id', 'structures.id')
-            ->where('structures.establishment_id', $value);
+            ->where('structures.establishment_id', $value)
+            ->select('food_reservations.*');
     }
 
     /**

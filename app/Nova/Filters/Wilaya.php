@@ -28,7 +28,8 @@ class Wilaya extends Filter
         return $query->join('menus as m1', 'menu_id', 'm1.id')
             ->join('structures as s1', 'm1.structure_id', 's1.id')
             ->join('establishments', 's1.establishment_id', 'establishments.id')
-            ->where('establishments.wilaya_id', $value);
+            ->where('establishments.wilaya_id', $value)
+            ->select('food_reservations.*');
     }
 
     /**
