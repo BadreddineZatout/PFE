@@ -10,8 +10,10 @@
     </div>
     <div class="px-7 py-2 mb-2">
       <h1 class="text-start text-lg text-80 font-medium">
-        <span class="font-semibold">{{ card.role }}</span> at
-        <span class="font-semibold">{{ card.establishment }}</span>
+        <span class="font-semibold">{{ card.role }}</span>
+        <span v-if="card.establishment">
+          at <span class="font-semibold">{{ card.establishment }}</span>
+        </span>
       </h1>
     </div>
   </div>
