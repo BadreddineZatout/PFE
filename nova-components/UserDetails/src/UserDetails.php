@@ -2,10 +2,20 @@
 
 namespace Badi\UserDetails;
 
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Card;
 
 class UserDetails extends Card
 {
+    public function __construct()
+    {
+        $user = Auth::user();
+        $this->withMeta([
+            'user' => $user,
+            'role' => $user->role->name,
+            'establishment' => $user->establishment->name
+        ]);
+    }
     /**
      * The width of the card (1/3, 1/2, or full).
      *

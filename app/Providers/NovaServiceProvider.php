@@ -63,7 +63,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            (new UserDetails)->width('full')
+            (new UserDetails)->width('2/3')
         ];
     }
 
