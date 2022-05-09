@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BusEstablishment;
+use App\Nova\Filters\LineEstablishment;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -134,6 +136,10 @@ class Line extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [
+                new LineEstablishment
+            ];
         return [];
     }
 
