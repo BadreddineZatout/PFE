@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransportStatisticsTable extends Migration
+class CreateLinesStopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTransportStatisticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transport_statistics', function (Blueprint $table) {
-            $table->id();
-            $table->date('date');
-            $table->bigInteger('students_number');
-            $table->foreignId('plan_id')->constrained();
+        Schema::create('lines_stops', function (Blueprint $table) {
+            $table->foreignId('line_id')->constrained();
+            $table->foreignId('stop_id')->constrained();
+            $table->integer('order');
+            $table->primary(['line_id', 'stop_id']);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTransportStatisticsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transport_statistics');
+        Schema::dropIfExists('lines_stops');
     }
 }
