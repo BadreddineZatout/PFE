@@ -2,14 +2,14 @@
 
 namespace App\Nova;
 
-use App\Nova\Metrics\BusEnService;
-use App\Nova\Metrics\BusHorsService;
-use App\Nova\Metrics\TotalBus;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Metrics\TotalBus;
+use Laravel\Nova\Fields\Select;
+use App\Nova\Metrics\BusEnService;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Metrics\BusHorsService;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
 

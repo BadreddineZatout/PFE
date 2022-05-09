@@ -2,29 +2,25 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Line extends Resource
+class TransportReservation extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Line::class;
+    public static $model = \App\Models\TransportReservation::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->name();
-    }
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -32,7 +28,7 @@ class Line extends Resource
      * @var array
      */
     public static $search = [
-        'start', 'end'
+        'id',
     ];
 
     /**
@@ -52,9 +48,6 @@ class Line extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('start'),
-            Text::make('end'),
-
         ];
     }
 
