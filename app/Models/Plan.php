@@ -2,29 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Plan extends Model
 {
     use HasFactory;
 
     protected $casts = [
-        'date' => 'date'
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
-    public function user()
+    public function establishment()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function bus()
-    {
-        return $this->belongsTo(Bus::class);
-    }
-
-    public function line()
-    {
-        return $this->belongsTo(Line::class);
+        return $this->belongsTo(Establishment::class);
     }
 }

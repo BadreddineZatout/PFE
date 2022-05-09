@@ -25,7 +25,7 @@ class Plan extends Resource
      */
     public function title()
     {
-        return $this->user->fullname() . ' / ' . $this->line->name();
+        return $this->establishment->name . ' (' . $this->start_date->format('Y-m-d') . '/' . $this->end_date->format('Y-m-d') . ')';
     }
 
     /**
@@ -38,7 +38,29 @@ class Plan extends Resource
     ];
 
     /**
-     * Build a "relatable" query for Drivers.
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Transport';
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isDecider() || $request->user()->isAgentTransport()) {
+            return $query->where('establishment_id', $request->user()->establishment_id);
+        }
+        return $query;
+    }
+
+    /**
+     * Build a "relatable" query for establishments.
      *
      * This query determines which instances of the model may be attached to other resources.
      *
@@ -47,17 +69,11 @@ class Plan extends Resource
      * @param  \Laravel\Nova\Fields\Field  $field
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function relatableUsers(NovaRequest $request, $query)
+    public static function relatableEstablishments(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'driver')->first()->id);
+        if ($request->user()->isDecider()) return $query->where('id', $request->user()->establishment_id);
+        return $query;
     }
-
-    /**
-     * The logical group associated with the resource.
-     *
-     * @var string
-     */
-    public static $group = 'Transport';
 
     /**
      * Get the fields displayed by the resource.
@@ -69,10 +85,9 @@ class Plan extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Date::make('date'),
-            BelongsTo::make('driver', 'user', '\App\nova\user'),
-            BelongsTo::make('bus', 'bus', '\App\Nova\Bus'),
-            BelongsTo::make('line')
+            BelongsTo::make('establishment'),
+            Date::make('start date', 'start_date'),
+            Date::make('end date', 'end_date'),
         ];
     }
 
