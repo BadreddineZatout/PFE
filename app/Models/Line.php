@@ -9,8 +9,8 @@ class Line extends Model
 {
     use HasFactory;
 
-    public function name()
+    public function plan()
     {
-        return $this->start . ' - ' . $this->end;
+        return $this->belongsTo(Plan::class);
     }
 }
