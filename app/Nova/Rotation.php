@@ -108,6 +108,12 @@ class Rotation extends Resource
             : $this->NonAdminFields($request->user()->establishment_id);
     }
 
+    /**
+     * Get the fields displayed by the resource
+     * when the user is admin or minister.
+     *
+     * @return array
+     */
     private function AdminFields()
     {
         return [
@@ -137,6 +143,13 @@ class Rotation extends Resource
         ];
     }
 
+    /**
+     * Get the fields displayed by the resource
+     * when the user is decider or agent transport.
+     *
+     * @param  mixed $establishment_id
+     * @return array
+     */
     private function NonAdminFields($establishment_id)
     {
         return [
