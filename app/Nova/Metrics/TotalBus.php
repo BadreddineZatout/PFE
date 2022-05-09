@@ -3,11 +3,17 @@
 namespace App\Nova\Metrics;
 
 use App\Models\Bus;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use App\Nova\Filters\BusEstablishment;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class TotalBus extends Value
 {
+    use GlobalFilterable;
+
+    public $refreshWhenActionRuns = true;
+
     /**
      * Calculate the value of the metric.
      *
@@ -16,7 +22,10 @@ class TotalBus extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Bus::class);
+        $model = $this->globalFiltered(Bus::class, [
+            BusEstablishment::class
+        ]);
+        return $this->count($request, $model);
     }
 
     /**
