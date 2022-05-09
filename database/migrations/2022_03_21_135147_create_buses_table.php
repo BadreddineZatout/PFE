@@ -17,7 +17,7 @@ class CreateBusesTable extends Migration
             $table->id();
             $table->string('matricule');
             $table->foreignId('establishment_id')->constrained();
-            $table->enum('state', ['En Service', 'Hors Service']);
+            $table->boolean('in_service')->default(true);
             $table->timestamps();
         });
     }
