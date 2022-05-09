@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\PlanEstablishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Plan extends Resource
@@ -121,6 +122,10 @@ class Plan extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [
+                new PlanEstablishment
+            ];
         return [];
     }
 
