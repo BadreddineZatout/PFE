@@ -13,6 +13,11 @@ class Menu extends Model
         'date' => 'date'
     ];
 
+    public function getNameAttribute()
+    {
+        return $this->main_dish . ' - ' . $this->secondary_dish . ' - ' . $this->dessert;
+    }
+
     public function structure()
     {
         return $this->belongsTo(Structure::class);

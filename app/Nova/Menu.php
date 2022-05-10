@@ -34,10 +34,7 @@ class Menu extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->main_dish . ' - ' . $this->secondary_dish . ' - ' . $this->dessert;
-    }
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -56,6 +53,13 @@ class Menu extends Resource
     public static $searchRelations = [
         'structure' => ['name'],
     ];
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['structure'];
 
     /**
      * The logical group associated with the resource.

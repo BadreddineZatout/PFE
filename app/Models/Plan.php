@@ -15,6 +15,11 @@ class Plan extends Model
         'end_date' => 'date',
     ];
 
+    public function getNameAttribute()
+    {
+        return $this->establishment->name . ' (' . $this->start_date->format('Y-m-d') . '/' . $this->end_date->format('Y-m-d') . ')';
+    }
+
     public function establishment()
     {
         return $this->belongsTo(Establishment::class);

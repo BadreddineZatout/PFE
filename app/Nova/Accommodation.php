@@ -39,15 +39,6 @@ class Accommodation extends Resource
         return $this->user->name;
     }
 
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id',
-    ];
-
     public static $searchRelations = [
         'user' => ['firstname', 'lastname'],
         'establishment' => ['name'],

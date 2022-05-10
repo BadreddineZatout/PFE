@@ -32,12 +32,7 @@ class EquipmentRequest extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->equipment->name . ' / ' . $this->resident->user->name .
-            ' - ' . $this->resident->establishment->name . ' - ' . $this->resident->structure->name .
-            ' - ' . $this->resident->place->name;
-    }
+    public static $title = 'name';
 
     /**
      * The relationship columns that should be searched.
@@ -48,6 +43,13 @@ class EquipmentRequest extends Resource
         'resident.user' => ['firstname', 'lastname'],
         'equipment' => ['name'],
     ];
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['resident', 'equipment'];
 
     /**
      * The logical group associated with the resource.
@@ -172,14 +174,14 @@ class EquipmentRequest extends Resource
                 ->cancelButtonText("Don't accept")
                 ->canSee(function ($request) {
                     return $request->user()->can('update', EquipmentRequest::class);
-                }),
+                })->onlyOnIndex(),
             (new RefuseEquipement())->showOnTableRow()
                 ->confirmText('Are you sure you want to refuse this request?')
                 ->confirmButtonText('Refuse')
                 ->cancelButtonText("Don't refuse")
                 ->canSee(function ($request) {
                     return $request->user()->can('update', EquipmentRequest::class);
-                }),
+                })->onlyOnIndex(),
         ];
     }
 }

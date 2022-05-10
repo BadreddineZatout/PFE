@@ -24,10 +24,7 @@ class Plan extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->establishment->name . ' (' . $this->start_date->format('Y-m-d') . '/' . $this->end_date->format('Y-m-d') . ')';
-    }
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -37,6 +34,13 @@ class Plan extends Resource
     public static $search = [
         'id',
     ];
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['establishment'];
 
     /**
      * The logical group associated with the resource.
