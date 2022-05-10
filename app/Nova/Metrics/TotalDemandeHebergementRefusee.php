@@ -8,7 +8,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TotalDemandeHebergementRefusee extends Value
 {
-    public $name = 'Refused Requests Total';
+    public $name = 'Refused';
 
     public $refreshWhenActionRuns = true;
 

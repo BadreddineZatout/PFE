@@ -74,6 +74,6 @@ class PreparedMeal extends Value
      */
     public function name()
     {
-        return "Plats Préparés Aujourd'hui";
+        return "Prepared Meals Today";
     }
 }

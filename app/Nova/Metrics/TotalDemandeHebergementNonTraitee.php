@@ -8,7 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeHebergementNonTraitee extends Value
 {
-    public $name = 'Not Treated Requests Total';
+    public $name = 'Not Treated';
 
     public $refreshWhenActionRuns = true;
 

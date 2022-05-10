@@ -8,7 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeEquipmentRefusee extends Value
 {
-    public $name = 'Refused Requests Total';
+    public $name = 'Refused';
 
     public $refreshWhenActionRuns = true;
 

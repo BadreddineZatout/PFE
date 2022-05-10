@@ -75,6 +75,6 @@ class ConsumedByDay extends Trend
      */
     public function name()
     {
-        return 'Plats Consommés';
+        return 'Consumed Meals';
     }
 }

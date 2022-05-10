@@ -77,6 +77,6 @@ class LeftoverByDay extends Trend
      */
     public function name()
     {
-        return 'Plats Restants';
+        return 'Leftovers';
     }
 }

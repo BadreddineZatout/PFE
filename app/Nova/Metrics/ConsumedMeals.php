@@ -78,6 +78,6 @@ class ConsumedMeals extends Value
      */
     public function name()
     {
-        return "Plats Consommés";
+        return "Consumed";
     }
 }

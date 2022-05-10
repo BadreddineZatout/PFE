@@ -131,18 +131,18 @@ class Reservation extends Resource
             (new LeftoverByDay)->width('1/2'),
         ];
         $stacked_chart = (new StackedChart())
-            ->title('Plat Reservés Consommés vs Plat Reservés Restants')
+            ->title('Reserved Consumed Meals vs Reserved Leftovers')
             ->model('\App\Models\FoodReservation')
             ->join('menus', 'menus.id', '=', 'food_reservations.menu_id')
             ->series(array([
-                'label' => 'Plats Consommés',
+                'label' => 'Consumed',
                 'filter' => [
                     'key' => 'has_ate', // State Column for Count Calculation Here
                     'value' => true
                 ],
                 'backgroundColor' => '#4055B2',
             ], [
-                'label' => 'Plats Restés',
+                'label' => 'Leftovers',
                 'filter' => [
                     'key' => 'has_ate', // State Column for Count Calculation Here
                     'value' => 'false'

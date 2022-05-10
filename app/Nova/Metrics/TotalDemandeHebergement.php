@@ -8,7 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeHebergement extends Value
 {
-    public $name = 'Requests Total';
+    public $name = 'Total';
 
     public $refreshWhenActionRuns = true;
 

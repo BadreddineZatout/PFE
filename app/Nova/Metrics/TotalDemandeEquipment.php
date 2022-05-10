@@ -8,7 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class TotalDemandeEquipment extends Value
 {
-    public $name = 'Requests Total';
+    public $name = 'Total';
 
     public $refreshWhenActionRuns = true;
 

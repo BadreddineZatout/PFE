@@ -82,6 +82,6 @@ class Leftovers extends Value
      */
     public function name()
     {
-        return "Plats Restants";
+        return "Leftovers";
     }
 }

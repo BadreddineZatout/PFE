@@ -78,6 +78,6 @@ class ReservationsByDay extends Value
      */
     public function name()
     {
-        return "Plats Réservés";
+        return "Reserved";
     }
 }
