@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use App\Models\Role;
+use App\Nova\Filters\TransportDate;
+use App\Nova\Filters\TransportRotation;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -61,6 +63,28 @@ class TransportReservation extends Resource
     }
 
     /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isAdmin() || $request->user()->isMinister()) return $query;
+        if ($request->user()->isUniversityDecider())
+            return $query->join('users', 'user_id', 'users.id')
+                ->where([
+                    'establishment_id' => $request->user()->establishment_id,
+                    'role_id' => Role::where('name', 'Student')->first()->id
+                ])
+                ->select('transport_reservations.*');
+        return $query->join('residents', 'transport_reservations.user_id', 'residents.user_id')
+            ->where('establishment_id', $request->user()->establishment_id)
+            ->select('transport_reservations.*');
+    }
+
+    /**
      * Build a "relatable" query for students.
      *
      * This query determines which instances of the model may be attached to other resources.
@@ -72,7 +96,7 @@ class TransportReservation extends Resource
      */
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+        return $query->where('role_id', Role::where('name', 'Student')->first()->id);
     }
 
     /**
@@ -113,7 +137,10 @@ class TransportReservation extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new TransportDate,
+            new TransportRotation
+        ];
     }
 
     /**
