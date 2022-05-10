@@ -30,7 +30,7 @@ class TransportReservation extends Resource
      */
     public function title()
     {
-        return $this->user->fullname() . '/' . $this->rotation->line->name . '/' . $this->date;
+        return $this->user->name . '/' . $this->rotation->line->name . '/' . $this->date;
     }
 
     /**

@@ -1,11 +1,11 @@
 <dropdown-trigger class="h-9 flex items-center">
     @isset($user->email)
-        <img src="https://secure.gravatar.com/avatar/{{ md5(\Illuminate\Support\Str::lower($user->fullname())) }}?size=512"
+        <img src="https://secure.gravatar.com/avatar/{{ md5(\Illuminate\Support\Str::lower($user->name)) }}?size=512"
             class="rounded-full w-8 h-8 mr-3" />
     @endisset
 
     <span class="text-90">
-        {{ $user->fullname() ?? ($user->email ?? __('Nova User')) }}
+        {{ $user->name ?? ($user->email ?? __('Nova User')) }}
     </span>
 </dropdown-trigger>
 

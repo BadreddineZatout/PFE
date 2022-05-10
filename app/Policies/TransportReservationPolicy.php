@@ -30,7 +30,7 @@ class TransportReservationPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+        return $user->isAdmin();
     }
 
     /**

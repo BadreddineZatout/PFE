@@ -34,7 +34,7 @@ class EquipmentRequest extends Resource
      */
     public function title()
     {
-        return $this->equipment->name . ' / ' . $this->resident->user->fullname() .
+        return $this->equipment->name . ' / ' . $this->resident->user->name .
             ' - ' . $this->resident->establishment->name . ' - ' . $this->resident->structure->name .
             ' - ' . $this->resident->place->name;
     }

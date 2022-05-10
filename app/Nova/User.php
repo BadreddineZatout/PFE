@@ -27,10 +27,7 @@ class User extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->fullname();
-    }
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.

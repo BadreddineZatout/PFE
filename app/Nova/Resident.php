@@ -45,7 +45,7 @@ class Resident extends Resource
      */
     public function title()
     {
-        return $this->user->fullname();
+        return $this->user->name;
     }
 
     /**
