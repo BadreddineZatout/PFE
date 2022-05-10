@@ -52,6 +52,17 @@ class Rotation extends Resource
     public static $group = 'Transport';
 
     /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->isAdmin() || $request->user()->isMinister() || $request->user()->isDecider() || $request->user()->isAgentTransport();
+    }
+
+    /**
      * Build a "relatable" query for Buses.
      *
      * This query determines which instances of the model may be attached to other resources.
