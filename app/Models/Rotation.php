@@ -13,6 +13,11 @@ class Rotation extends Model
         'date' => 'date'
     ];
 
+    public function getNameAttribute()
+    {
+        return $this->line->name . ' (' . $this->start_time . '-' . $this->end_time . ')';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -34,10 +34,7 @@ class Rotation extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->line->name . ' (' . $this->start_time . '-' . $this->end_time . ')';
-    }
+    public static $title = 'name';
 
     /**
      * The relationship columns that should be searched.
