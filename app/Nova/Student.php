@@ -27,6 +27,13 @@ class Student extends User
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['role'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string

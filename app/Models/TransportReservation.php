@@ -14,6 +14,11 @@ class TransportReservation extends Model
         'date' => 'date'
     ];
 
+    public function getNameAttribute()
+    {
+        return $this->user->name . '/' . $this->rotation->line->name . '/' . $this->date;
+    }
+
     public function rotation()
     {
         return $this->belongsTo(Rotation::class);

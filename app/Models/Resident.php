@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Actions\Actionable;
 
 class Resident extends Model
 {
-    use HasFactory;
+    use HasFactory, Actionable;
+
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
 
     public function user()
     {

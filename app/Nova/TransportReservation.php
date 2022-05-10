@@ -28,10 +28,7 @@ class TransportReservation extends Resource
      *
      * @var string
      */
-    public function title()
-    {
-        return $this->user->name . '/' . $this->rotation->line->name . '/' . $this->date;
-    }
+    public static $title = 'name';
 
     /**
      * The relationship columns that should be searched.
@@ -44,11 +41,20 @@ class TransportReservation extends Resource
     ];
 
     /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['user', 'rotation'];
+
+    /**
      * The logical group associated with the resource.
      *
      * @var string
      */
     public static $group = 'Transport';
+
+    public static $tableStyle = 'tight';
 
 
     /**
