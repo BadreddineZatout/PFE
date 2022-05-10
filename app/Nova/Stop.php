@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
@@ -54,6 +55,12 @@ class Stop extends Resource
             Text::make('name_arabe'),
             Number::make('longitude'),
             Number::make('latitude'),
+            BelongsToMany::make('lines')
+                ->fields(function ($request, $relatedModel) {
+                    return [
+                        Text::make('order'),
+                    ];
+                }),
         ];
     }
 

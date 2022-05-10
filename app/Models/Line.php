@@ -13,4 +13,9 @@ class Line extends Model
     {
         return $this->belongsTo(Plan::class);
     }
+
+    public function stops()
+    {
+        return $this->belongsToMany(Stop::class, 'lines_stops')->withPivot('order');
+    }
 }

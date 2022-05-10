@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laraning\NovaTimeField\TimeField;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -114,6 +115,12 @@ class Line extends Resource
             Number::make('Rotations Number', 'rotations_number'),
             Number::make('bus number', 'bus_number'),
             Boolean::make('aller retour', 'aller_retour'),
+            BelongsToMany::make('stops')
+                ->fields(function ($request, $relatedModel) {
+                    return [
+                        Text::make('order'),
+                    ];
+                }),
         ];
     }
 
