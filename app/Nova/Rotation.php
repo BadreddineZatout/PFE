@@ -6,6 +6,10 @@ use App\Models\Bus;
 use App\Models\Line;
 use App\Models\Role;
 use App\Models\User;
+use App\Nova\Filters\RotationBus;
+use App\Nova\Filters\RotationDate;
+use App\Nova\Filters\RotationDriver;
+use App\Nova\Filters\RotationLine;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -60,6 +64,22 @@ class Rotation extends Resource
     public static function availableForNavigation(Request $request)
     {
         return $request->user()->isAdmin() || $request->user()->isMinister() || $request->user()->isDecider() || $request->user()->isAgentTransport();
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isAdmin() || $request->user()->isMinister()) return $query;
+        return $query->join('lines', 'line_id', 'lines.id')
+            ->join('plans', 'lines.plan_id', 'plans.id')
+            ->where('plans.establishment_id', $request->user()->establishment_id)
+            ->select('rotations.*');
     }
 
     /**
@@ -198,6 +218,13 @@ class Rotation extends Resource
      */
     public function filters(Request $request)
     {
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [
+                new RotationLine,
+                new RotationBus,
+                new RotationDriver,
+                new RotationDate
+            ];
         return [];
     }
 
