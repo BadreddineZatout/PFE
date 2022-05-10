@@ -12,10 +12,12 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\BelongsTo;
 use Laraning\NovaTimeField\TimeField;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Rotation extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -28,15 +30,18 @@ class Rotation extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->line->name . ' (' . $this->start_time . '-' . $this->end_time . ')';
+    }
 
     /**
-     * The columns that should be searched.
+     * The relationship columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id',
+    public static $searchRelations = [
+        'line' => ['name']
     ];
 
     /**

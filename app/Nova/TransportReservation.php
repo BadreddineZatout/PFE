@@ -2,12 +2,18 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use App\Models\Role;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class TransportReservation extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -20,15 +26,19 @@ class TransportReservation extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->user->fullname() . '/' . $this->rotation->line->name . '/' . $this->date;
+    }
 
     /**
-     * The columns that should be searched.
+     * The relationship columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id',
+    public static $searchRelations = [
+        'user' => ['firstname', 'lastname'],
+        'rotation.line' => ['name']
     ];
 
     /**
@@ -37,6 +47,21 @@ class TransportReservation extends Resource
      * @var string
      */
     public static $group = 'Transport';
+
+    /**
+     * Build a "relatable" query for students.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -48,6 +73,12 @@ class TransportReservation extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Date::make('date'),
+            BelongsTo::make('rotation'),
+            BelongsTo::make('student', 'user', '\App\Nova\User'),
+            Boolean::make('is transported', 'is_transported')
+                ->default(false)
+                ->hideWhenCreating()
         ];
     }
 
