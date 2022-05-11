@@ -27,6 +27,8 @@ class BusEnService extends Value
         $model = $this->globalFiltered(Bus::class, [
             BusEstablishment::class
         ]);
+        if ($request->user()->isDecider() || $request->user()->isAgentTransport())
+            $model->where('establishment_id', $request->user()->establishment_id);
         return $this->count($request, $model->where('in_service', true));
     }
 
