@@ -3,14 +3,17 @@
 namespace App\Nova;
 
 use App\Models\Role;
-use App\Nova\Filters\TransportDate;
-use App\Nova\Filters\TransportRotation;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\TransportDate;
+use App\Nova\Filters\TransportRotation;
+use App\Nova\Metrics\TransportedStudent;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Coroowicaksono\ChartJsIntegration\LineChart;
+use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Titasgailius\SearchRelations\SearchesRelations;
 
 class TransportReservation extends Resource
@@ -132,7 +135,47 @@ class TransportReservation extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new TransportedStudent(),
+            (new StackedChart())
+                ->title('Reservations')
+                ->model('\App\Models\TransportReservation')
+                ->series(array([
+                    'label' => 'Transported',
+                    'filter' => [
+                        'key' => 'is_transported', // State Column for Count Calculation Here
+                        'value' => true
+                    ],
+                    'backgroundColor' => '#4055B2',
+                ], [
+                    'label' => 'Not Transported',
+                    'filter' => [
+                        'key' => 'is_transported', // State Column for Count Calculation Here
+                        'value' => 'false'
+                    ],
+                    'backgroundColor' => '#D7E1F3',
+                ]))
+                ->options([
+                    'uom' => 'day',
+                    'latestData' => 30,
+                    'showTotal' => false,
+                ]),
+            (new LineChart())
+                ->title('Reservations')
+                ->model('\App\Models\TransportReservation')
+                ->options([
+                    'backgroundColor' => '#4055B2',
+                    'uom' => 'day',
+                    'btnFilter' => true,
+                    'btnFilterDefault' => '30',
+                    'btnFilterList' => [
+                        'YTD'   => 'Year to Date',
+                        'MTD'   => 'Month to Date',
+                        '30'   => '30 Days', // numeric key will be set to days
+                    ],
+                    'showTotal' => false,
+                ]),
+        ];
     }
 
     /**
