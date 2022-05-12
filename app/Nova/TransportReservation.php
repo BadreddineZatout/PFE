@@ -121,9 +121,6 @@ class TransportReservation extends Resource
             Date::make('date'),
             BelongsTo::make('rotation'),
             BelongsTo::make('student', 'user', '\App\Nova\User'),
-            Boolean::make('is transported', 'is_transported')
-                ->default(false)
-                ->hideWhenCreating()
         ];
     }
 
@@ -140,21 +137,6 @@ class TransportReservation extends Resource
             (new StackedChart())
                 ->title('Reservations')
                 ->model('\App\Models\TransportReservation')
-                ->series(array([
-                    'label' => 'Transported',
-                    'filter' => [
-                        'key' => 'is_transported', // State Column for Count Calculation Here
-                        'value' => true
-                    ],
-                    'backgroundColor' => '#4055B2',
-                ], [
-                    'label' => 'Not Transported',
-                    'filter' => [
-                        'key' => 'is_transported', // State Column for Count Calculation Here
-                        'value' => 'false'
-                    ],
-                    'backgroundColor' => '#D7E1F3',
-                ]))
                 ->options([
                     'uom' => 'day',
                     'latestData' => 30,

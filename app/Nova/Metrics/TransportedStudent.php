@@ -17,7 +17,7 @@ class TransportedStudent extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, TransportReservation::where('is_transported', true));
+        return $this->count($request, TransportReservation::class);
     }
 
     /**

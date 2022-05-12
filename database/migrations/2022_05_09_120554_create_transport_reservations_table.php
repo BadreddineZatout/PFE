@@ -18,7 +18,6 @@ class CreateTransportReservationsTable extends Migration
             $table->date('date');
             $table->foreignId('rotation_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->boolean('is_transported')->default(false);
             $table->timestamps();
         });
     }
