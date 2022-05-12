@@ -2,16 +2,15 @@
 
 namespace App\Nova\Metrics;
 
-use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\Trend;
 use App\Models\TransportReservation;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Filters\TransportEstablishment;
 use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
-class TransportedStudent extends Value
+class Transportations extends Trend
 {
     use GlobalFilterable;
-    public $name = 'Transported Students';
     /**
      * Calculate the value of the metric.
      *
@@ -29,7 +28,7 @@ class TransportedStudent extends Value
                 ->join('plans', 'lines.plan_id', 'plans.id')
                 ->where('plans.establishment_id', $request->user()->establishment_id)
                 ->select('transport_reservations.*');
-        return $this->count($request, $model);
+        return $this->countByDays($request, $model);
     }
 
     /**
@@ -40,13 +39,9 @@ class TransportedStudent extends Value
     public function ranges()
     {
         return [
-            'TODAY' => __('Today'),
             30 => __('30 Days'),
             60 => __('60 Days'),
-            365 => __('365 Days'),
-            'MTD' => __('Month To Date'),
-            'QTD' => __('Quarter To Date'),
-            'YTD' => __('Year To Date'),
+            90 => __('90 Days'),
         ];
     }
 
@@ -67,6 +62,6 @@ class TransportedStudent extends Value
      */
     public function uriKey()
     {
-        return 'transported-student';
+        return 'transportations';
     }
 }

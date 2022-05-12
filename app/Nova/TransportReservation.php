@@ -9,9 +9,12 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Filters\TransportDate;
+use App\Nova\Filters\TransportEstablishment;
+use App\Nova\Metrics\Transportations;
 use App\Nova\Filters\TransportRotation;
 use App\Nova\Metrics\TransportedStudent;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Coroowicaksono\ChartJsIntegration\LineChart;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -132,29 +135,33 @@ class TransportReservation extends Resource
      */
     public function cards(Request $request)
     {
-        return [
+        $stats = [
             new TransportedStudent(),
+            (new Transportations)->width('2/3'),
+        ];
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [
+                (new NovaGlobalFilter([
+                    new TransportEstablishment
+                ]))->resettable(),
+                ...$stats
+            ];
+        return [
+            ...$stats,
             (new StackedChart())
                 ->title('Reservations')
                 ->model('\App\Models\TransportReservation')
+                ->join('rotations', 'transport_reservations.rotation_id', '=', 'rotations.id')
+                ->join('lines', 'rotations.line_id', '=', 'lines.id')
+                ->join('plans', 'lines.plan_id', '=', 'planid')
                 ->options([
+                    'queryFilter' => array([
+                        'key' => 'plans.establishment_id',
+                        'operator' => '=',
+                        'value' => $request->user()->establishment_id
+                    ]),
                     'uom' => 'day',
                     'latestData' => 30,
-                    'showTotal' => false,
-                ]),
-            (new LineChart())
-                ->title('Reservations')
-                ->model('\App\Models\TransportReservation')
-                ->options([
-                    'backgroundColor' => '#4055B2',
-                    'uom' => 'day',
-                    'btnFilter' => true,
-                    'btnFilterDefault' => '30',
-                    'btnFilterList' => [
-                        'YTD'   => 'Year to Date',
-                        'MTD'   => 'Month to Date',
-                        '30'   => '30 Days', // numeric key will be set to days
-                    ],
                     'showTotal' => false,
                 ]),
         ];
