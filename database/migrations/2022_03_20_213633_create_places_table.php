@@ -17,8 +17,8 @@ class CreatePlacesTable extends Migration
             $table->id();
             $table->string('name');
             $table->enum('type', ['chambre', 'amphi', 'class', 'sanitaire']);
-            $table->foreignId('structure_id')->nullable()->constrained();
-            $table->foreignId('establishment_id')->nullable()->constrained();
+            $table->foreignId('structure_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('establishment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('capacity')->nullable();
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();

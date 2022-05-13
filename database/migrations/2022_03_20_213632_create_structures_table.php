@@ -19,7 +19,7 @@ class CreateStructuresTable extends Migration
             $table->string('name_arabe');
             $table->date('creation_date');
             $table->enum('type', ['restaurant', 'block']);
-            $table->foreignId('establishment_id')->constrained();
+            $table->foreignId('establishment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -14,8 +14,8 @@ class CreateLinesStopsTable extends Migration
     public function up()
     {
         Schema::create('lines_stops', function (Blueprint $table) {
-            $table->foreignId('line_id')->constrained();
-            $table->foreignId('stop_id')->constrained();
+            $table->foreignId('line_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('stop_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('order');
             $table->primary(['line_id', 'stop_id']);
             $table->timestamps();

@@ -18,7 +18,7 @@ class CreateEquipmentTable extends Migration
             $table->string('name');
             $table->integer('quantity');
             $table->boolean('bookable');
-            $table->foreignId('establishment_id')->nullable()->constrained();
+            $table->foreignId('establishment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

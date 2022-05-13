@@ -16,8 +16,8 @@ class CreateTransportReservationsTable extends Migration
         Schema::create('transport_reservations', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignId('rotation_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('rotation_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

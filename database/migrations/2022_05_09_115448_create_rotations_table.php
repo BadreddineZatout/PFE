@@ -18,9 +18,9 @@ class CreateRotationsTable extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('bus_id')->constrained();
-            $table->foreignId('line_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('bus_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('line_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

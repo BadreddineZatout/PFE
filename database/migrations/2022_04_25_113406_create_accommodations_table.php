@@ -15,10 +15,10 @@ class CreateAccommodationsTable extends Migration
     {
         Schema::create('accommodations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('establishment_id')->constrained();
-            $table->foreignId('structure_id')->constrained();
-            $table->foreignId('place_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('establishment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('structure_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('place_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('state', ['non traité', 'accepté', 'refusé'])->default('non traité');
             $table->timestamps();
         });

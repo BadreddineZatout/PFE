@@ -15,8 +15,8 @@ class CreateEquipmentRequestsTable extends Migration
     {
         Schema::create('equipment_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resident_id')->constrained();
-            $table->foreignId('equipment_id')->constrained();
+            $table->foreignId('resident_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('equipment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('state', ['accepté', 'non traité', 'refusé'])->default('non traité');
             $table->timestamps();
         });

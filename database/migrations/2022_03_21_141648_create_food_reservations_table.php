@@ -15,8 +15,8 @@ class CreateFoodReservationsTable extends Migration
     {
         Schema::create('food_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('menu_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->boolean('has_ate');
             $table->timestamps();
         });

@@ -16,7 +16,7 @@ class CreateMenusTable extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignId('structure_id')->constrained();
+            $table->foreignId('structure_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('type', ['breakfast', 'lunch', 'dinner']);
             $table->string('main_dish');
             $table->string('secondary_dish');

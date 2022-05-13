@@ -23,10 +23,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('mobile')->nullable();
-            $table->foreignId('role_id')->nullable()->constrained();
-            $table->foreignId('establishment_id')->nullable()->constrained();
-            $table->foreignId('wilaya_id')->nullable()->constrained();
-            $table->foreignId('commune_id')->nullable()->constrained();
+            $table->foreignId('role_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('establishment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('wilaya_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('commune_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->boolean('is_resident')->default(false);
             $table->rememberToken();
             $table->timestamps();

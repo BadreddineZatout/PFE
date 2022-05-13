@@ -15,10 +15,10 @@ class CreateResidentsTable extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('establishment_id')->constrained();
-            $table->foreignId('structure_id')->nullable()->constrained();
-            $table->foreignId('place_id')->nullable()->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('establishment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('structure_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('place_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('state', ['renouvlé', 'non renouvlé']);
             $table->timestamps();
         });

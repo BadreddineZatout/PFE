@@ -22,7 +22,7 @@ class CreateLinesTable extends Migration
             $table->time('end_time');
             $table->integer('bus_number');
             $table->boolean('aller_retour');
-            $table->foreignId('plan_id')->nullable()->constrained();
+            $table->foreignId('plan_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

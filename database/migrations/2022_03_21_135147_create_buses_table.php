@@ -16,7 +16,7 @@ class CreateBusesTable extends Migration
         Schema::create('buses', function (Blueprint $table) {
             $table->id();
             $table->string('matricule');
-            $table->foreignId('establishment_id')->constrained();
+            $table->foreignId('establishment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->boolean('in_service')->default(true);
             $table->timestamps();
         });

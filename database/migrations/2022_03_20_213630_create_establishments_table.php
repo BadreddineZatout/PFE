@@ -15,11 +15,11 @@ class CreateEstablishmentsTable extends Migration
     {
         Schema::create('establishments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_fr');
             $table->string('name_arabe');
             $table->date('creation_date');
-            $table->foreignId('wilaya_id')->nullable()->constrained();
-            $table->foreignId('commune_id')->nullable()->constrained();
+            $table->foreignId('wilaya_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('commune_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('type', ['université', 'école superieure', 'institue', 'résidence']);
             $table->float('longitude')->nullable();
             $table->float('latitude')->nullable();
