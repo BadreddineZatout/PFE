@@ -22,7 +22,7 @@ class ResidentStudents extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $student_role_id = Role::where('name', 'student')->first()->id;
+        $student_role_id = Role::where('name', 'Student')->first()->id;
 
         // Filter your model with existing filters
         $model = $this->globalFiltered(User::class, [

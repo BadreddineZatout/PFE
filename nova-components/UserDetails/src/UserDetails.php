@@ -13,7 +13,7 @@ class UserDetails extends Card
         $this->withMeta([
             'user' => $user,
             'role' => $user->role->name,
-            'establishment' => $user->establishment->name
+            'establishment' => $user->establishment->name_fr
         ]);
     }
     /**

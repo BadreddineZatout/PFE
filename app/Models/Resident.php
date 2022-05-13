@@ -10,7 +10,7 @@ class Resident extends Model
 {
     use HasFactory, Actionable;
 
-    public function getNameAttribute()
+    public function getFullnameAttribute()
     {
         return $this->user->name;
     }

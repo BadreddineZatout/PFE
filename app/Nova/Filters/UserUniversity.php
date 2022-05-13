@@ -40,7 +40,7 @@ class UserUniversity extends Filter
     {
         $universities = [];
         Establishment::where('type', '!=', 'résidence')->get()->each(function ($e) use (&$universities) {
-            $universities[$e->name] = $e->id;
+            $universities[$e->name_fr] = $e->id;
         });
         return $universities;
     }

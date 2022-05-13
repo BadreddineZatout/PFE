@@ -41,7 +41,7 @@ class Accommodation extends Resource
 
     public static $searchRelations = [
         'user' => ['firstname', 'lastname'],
-        'establishment' => ['name'],
+        'establishment' => ['name_fr'],
     ];
 
     /**
@@ -86,7 +86,7 @@ class Accommodation extends Resource
      */
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'student')->first()->id);
+        return $query->where('role_id', Role::where('name', 'Student')->first()->id);
     }
 
     /**

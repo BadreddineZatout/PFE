@@ -60,7 +60,7 @@ class Student extends User
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->where('role_id', Role::where('name', 'student')->first()->id);
+        $query->where('role_id', Role::where('name', 'Student')->first()->id);
 
         if ($request->user()->isUniversityDecider()) {
             $query->where('establishment_id', $request->user()->establishment_id);
@@ -80,7 +80,7 @@ class Student extends User
      */
     public static function relatableRoles(NovaRequest $request, $query)
     {
-        return $query->where('name', 'student');
+        return $query->where('name', 'Student');
     }
 
     /**
@@ -92,7 +92,7 @@ class Student extends User
     public function fields(Request $request)
     {
         $fields = parent::fields($request);
-        $fields[8] = BelongsTo::make('role')->default(Role::where('name', 'student')->first()->id);
+        $fields[8] = BelongsTo::make('role')->default(Role::where('name', 'Student')->first()->id);
 
         return $fields;
     }

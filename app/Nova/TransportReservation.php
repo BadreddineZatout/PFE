@@ -123,7 +123,7 @@ class TransportReservation extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Date::make('date'),
             BelongsTo::make('rotation'),
-            BelongsTo::make('student', 'user', '\App\Nova\User'),
+            BelongsTo::make('Student', 'user', '\App\Nova\User'),
         ];
     }
 

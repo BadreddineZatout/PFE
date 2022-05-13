@@ -40,7 +40,7 @@ class LineEstablishment extends Filter
     {
         $establishments = [];
         Establishment::all()->each(function ($e) use (&$establishments) {
-            $establishments[$e->name] = $e->id;
+            $establishments[$e->name_fr] = $e->id;
         });
         return $establishments;
     }

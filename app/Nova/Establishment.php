@@ -26,7 +26,7 @@ class Establishment extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'name_fr';
 
     /**
      * The relationships that should be eager loaded on index queries.
@@ -48,7 +48,7 @@ class Establishment extends Resource
      * @var array
      */
     public static $search = [
-        'name'
+        'name_fr'
     ];
 
     /**
@@ -69,7 +69,7 @@ class Establishment extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
+            Text::make('name', 'name_fr'),
             Text::make('name arabe', 'name_arabe'),
             Date::make('creation date', 'creation_date'),
             NovaBelongsToDepend::make('wilaya')

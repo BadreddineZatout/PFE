@@ -21,7 +21,7 @@ class University extends Establishment
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'name_fr';
 
     /**
      * The columns that should be searched.
@@ -29,7 +29,7 @@ class University extends Establishment
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id', 'name_fr'
     ];
 
     /**

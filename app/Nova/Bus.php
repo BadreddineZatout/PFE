@@ -51,7 +51,7 @@ class Bus extends Resource
      * @var array
      */
     public static $searchRelations = [
-        'establishment' => ['name'],
+        'establishment' => ['name_fr'],
     ];
 
     /**

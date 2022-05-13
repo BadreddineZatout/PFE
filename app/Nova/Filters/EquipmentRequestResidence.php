@@ -40,7 +40,7 @@ class EquipmentRequestResidence extends Filter
     {
         $residences = [];
         Establishment::where('type', 'résidence')->get()->each(function ($e) use (&$residences) {
-            $residences[$e->name] = $e->id;
+            $residences[$e->name_fr] = $e->id;
         });
         return $residences;
     }

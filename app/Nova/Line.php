@@ -42,7 +42,7 @@ class Line extends Resource
      * @var array
      */
     public static $searchRelations = [
-        'plan.establishment' => ['name'],
+        'plan.establishment' => ['name_fr'],
     ];
 
     /**
