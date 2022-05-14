@@ -13,7 +13,7 @@ class EquipmentRequest extends Model
     public function getNameAttribute()
     {
         return $this->equipment->name . ' / ' . $this->resident->user->name .
-            ' - ' . $this->resident->establishment->name . ' - ' . $this->resident->structure->name .
+            ' - ' . $this->resident->establishment->name_fr . ' - ' . $this->resident->structure->name .
             ' - ' . $this->resident->place->name;
     }
 

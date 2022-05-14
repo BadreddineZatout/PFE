@@ -146,25 +146,27 @@ class TransportReservation extends Resource
                 ]))->resettable(),
                 ...$stats
             ];
-        return [
-            ...$stats,
-            (new StackedChart())
-                ->title('Reservations')
-                ->model('\App\Models\TransportReservation')
-                ->join('rotations', 'transport_reservations.rotation_id', '=', 'rotations.id')
-                ->join('lines', 'rotations.line_id', '=', 'lines.id')
-                ->join('plans', 'lines.plan_id', '=', 'planid')
-                ->options([
-                    'queryFilter' => array([
-                        'key' => 'plans.establishment_id',
-                        'operator' => '=',
-                        'value' => $request->user()->establishment_id
-                    ]),
-                    'uom' => 'day',
-                    'latestData' => 30,
-                    'showTotal' => false,
-                ]),
-        ];
+        return $stats;
+        // return [
+        //     ...$stats,
+        //     (new StackedChart())
+        //         ->title('Transportations')
+        //         ->model('\App\Models\TransportReservation')
+        //         ->join('users', 'transport_reservations.user_id', '=', 'users.id')
+        //         // ->join('rotations', 'transport_reservations.rotation_id', '=', 'rotations.id')
+        //         // ->join('lines', 'rotations.line_id', '=', 'lines.id')
+        //         // ->join('plans', 'lines.plan_id', '=', 'plan_id')
+        //         ->options([
+        //             'queryFilter' => array([
+        //                 'key' => 'users.establishment_id',
+        //                 'operator' => '=',
+        //                 'value' => $request->user()->establishment_id
+        //             ]),
+        //             'uom' => 'day',
+        //             'latestData' => 30,
+        //             'showTotal' => false,
+        //         ]),
+        // ];
     }
 
     /**

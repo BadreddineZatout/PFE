@@ -17,7 +17,7 @@ class Plan extends Model
 
     public function getNameAttribute()
     {
-        return $this->establishment->name . ' (' . $this->start_date->format('Y-m-d') . '/' . $this->end_date->format('Y-m-d') . ')';
+        return $this->establishment->name_fr . ' (' . $this->start_date->format('Y-m-d') . '/' . $this->end_date->format('Y-m-d') . ')';
     }
 
     public function establishment()
