@@ -95,8 +95,11 @@ class Equipment extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('name'),
-            BelongsTo::make('residence', 'establishment'),
+            Text::make('name')
+                ->rules('required', 'string', 'max:50'),
+            BelongsTo::make('residence', 'establishment')
+                ->searchable()
+                ->withSubtitles(),
             Number::make('quantity'),
             Boolean::make('bookable'),
         ];

@@ -29,6 +29,17 @@ class Establishment extends Resource
     public static $title = 'name_fr';
 
     /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string
+     */
+    public function subtitle()
+    {
+        return "{$this->wilaya->name} - {$this->commune->name}";
+    }
+
+
+    /**
      * The relationships that should be eager loaded on index queries.
      *
      * @var array
