@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Filters\DateFilter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Lenses\ConnectedEstablishmentsMenus;
+use App\Rules\MinMenuQuantity;
 use Titasgailius\SearchRelations\SearchesRelations;
 
 class Menu extends Resource
@@ -128,13 +129,21 @@ class Menu extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Date::make('date'),
-            BelongsTo::make('structure'),
-            Select::make('Type')->options(['breakfast' => 'breakfast', 'lunch' => 'lunch', 'dinner' => 'dinner']),
-            Text::make('Plat Principal', 'main_dish'),
-            Text::make('Plat Secondaire', 'secondary_dish'),
-            Text::make('dessert'),
-            Number::make('quantity'),
+            Date::make('date')->rules('required'),
+            BelongsTo::make('structure')->rules('required'),
+            Select::make('Type')->options([
+                'breakfast' => 'breakfast',
+                'lunch' => 'lunch',
+                'dinner' => 'dinner'
+            ])->rules('required'),
+            Text::make('Main dish', 'main_dish')
+                ->rules('required', 'string', 'max:50'),
+            Text::make('Secondairy dish', 'secondary_dish')
+                ->rules('required', 'string', 'max:50'),
+            Text::make('dessert')
+                ->rules('required', 'string', 'max:50'),
+            Number::make('quantity')
+                ->rules('required', new MinMenuQuantity),
         ];
     }
 
