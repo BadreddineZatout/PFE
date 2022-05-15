@@ -39,6 +39,7 @@ class Transportations extends Trend
     public function ranges()
     {
         return [
+            7 => 'This week',
             30 => __('30 Days'),
             60 => __('60 Days'),
             90 => __('90 Days'),
