@@ -101,9 +101,12 @@ class Plan extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('establishment'),
-            Date::make('start date', 'start_date'),
-            Date::make('end date', 'end_date'),
+            BelongsTo::make('establishment')
+                ->rules('required'),
+            Date::make('start date', 'start_date')
+                ->rules('required'),
+            Date::make('end date', 'end_date')
+                ->rules('required'),
         ];
     }
 

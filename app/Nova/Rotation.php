@@ -12,7 +12,6 @@ use App\Nova\Filters\RotationDriver;
 use App\Nova\Filters\RotationLine;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\BelongsTo;
 use Laraning\NovaTimeField\TimeField;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -177,7 +176,6 @@ class Rotation extends Resource
                     ])->get();
                 })
                 ->dependsOn('line'),
-            Date::make('date'),
             TimeField::make('start time', 'start_time'),
             TimeField::make('end time', 'end_time'),
         ];
@@ -197,7 +195,6 @@ class Rotation extends Resource
             BelongsTo::make('line'),
             BelongsTo::make('bus', 'bus', '\App\Nova\Bus'),
             BelongsTo::make('driver', 'user', '\App\Nova\User'),
-            Date::make('date'),
             TimeField::make('start time', 'start_time'),
             TimeField::make('end time', 'end_time'),
         ];

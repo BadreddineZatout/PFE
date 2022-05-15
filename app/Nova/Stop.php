@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Rules\MinStopOrder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
@@ -62,14 +63,17 @@ class Stop extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Text::make('name_arabe'),
+            Text::make('name')
+                ->rules('required', 'max:50'),
+            Text::make('name_arabe')
+                ->rules('required', 'max:50'),
             Number::make('longitude'),
             Number::make('latitude'),
             BelongsToMany::make('lines')
                 ->fields(function ($request, $relatedModel) {
                     return [
-                        Text::make('order'),
+                        Number::make('order')
+                            ->rule(new MinStopOrder),
                     ];
                 }),
         ];
