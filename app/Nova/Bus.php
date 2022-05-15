@@ -120,8 +120,10 @@ class Bus extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('matricule'),
-            BelongsTo::make('establishment'),
+            Text::make('matricule')
+                ->rules('regex:/^[0-9]{5}(4)[0-9]{2}[0-9]{2}/i'),
+            BelongsTo::make('establishment')
+                ->rules('required'),
             Boolean::make('in service', 'in_service')->default(true)->hideWhenCreating(),
         ];
     }
