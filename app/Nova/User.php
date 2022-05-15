@@ -76,13 +76,17 @@ class User extends Resource
             ID::make()->sortable(),
             Text::make('firstname')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'alpha', 'max:255'),
             Text::make('lastname')
                 ->sortable()
-                ->rules('required', 'max:255'),
-            Date::make('birthday')->hideFromIndex(),
-            Text::make('NIN', 'nin')->hideFromIndex(),
-            Text::make('mobile'),
+                ->rules('required', 'alpha', 'max:255'),
+            Date::make('birthday')
+                ->hideFromIndex(),
+            Text::make('NIN', 'nin')
+                ->hideFromIndex()
+                ->rules('regex:/^([0-9]){18}/i'),
+            Text::make('mobile')
+                ->rules('regex:/^(0)(5|6|7)[0-9]{8}/i'),
             Text::make('Email')
                 ->hideFromIndex()
                 ->rules('required', 'email', 'max:254')
@@ -92,20 +96,22 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-            BelongsTo::make('role'),
-            NovaBelongsToDepend::make('establishment')
-                ->placeholder('Select establishment') // Add this just if you want to customize the placeholder
-                ->options(Establishment::all()),
+            BelongsTo::make('role')
+                ->rules('required'),
             NovaBelongsToDepend::make('Wilaya')
-                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
+                ->placeholder('Select Wilaya')
                 ->options(Wilaya::all()),
             NovaBelongsToDepend::make('Commune')
-                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
+                ->placeholder('Select Commune')
                 ->optionsResolve(function ($wilaya) {
-                    // Reduce the amount of unnecessary data sent
                     return $wilaya->communes()->get(['id', 'name']);
                 })
                 ->dependsOn('Wilaya'),
+            NovaBelongsToDepend::make('establishment')
+                ->placeholder('Select establishment')
+                ->optionsResolve(function ($wilaya) {
+                    return $wilaya->establishments()->get(['id', 'name_fr']);
+                })->dependsOn('Wilaya'),
         ];
     }
 

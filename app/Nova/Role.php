@@ -61,7 +61,7 @@ class Role extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
+            Text::make('name')->rules('required'),
         ];
     }
 

@@ -11,6 +11,11 @@ class Wilaya extends Model
 
     public function communes()
     {
-        return $this->hasMany(Commune::class)->where('wilaya_id', $this->id);
+        return $this->hasMany(Commune::class);
+    }
+
+    public function establishments()
+    {
+        return $this->hasMany(Establishment::class);
     }
 }

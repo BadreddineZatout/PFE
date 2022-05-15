@@ -2,13 +2,14 @@
 
 namespace App\Nova;
 
+use App\Models\Wilaya;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
@@ -84,12 +85,11 @@ class Establishment extends Resource
             Text::make('name arabe', 'name_arabe'),
             Date::make('creation date', 'creation_date'),
             NovaBelongsToDepend::make('wilaya')
-                ->placeholder('Select Wilaya') // Add this just if you want to customize the placeholder
-                ->options(\App\Models\Wilaya::all()),
+                ->placeholder('Select Wilaya')
+                ->options(Wilaya::all()),
             NovaBelongsToDepend::make('commune')
-                ->placeholder('Select Commune') // Add this just if you want to customize the placeholder
+                ->placeholder('Select Commune')
                 ->optionsResolve(function ($wilaya) {
-                    // Reduce the amount of unnecessary data sent
                     return $wilaya->communes()->get(['id', 'name']);
                 })
                 ->dependsOn('Wilaya'),
