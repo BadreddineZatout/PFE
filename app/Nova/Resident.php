@@ -130,27 +130,29 @@ class Resident extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('Student', 'user', 'App\Nova\Student'),
+            BelongsTo::make('Student', 'user', 'App\Nova\Student')->required(),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(Establishment::where('type', '=', 'résidence')->get()),
+                ->options(Establishment::where('type', '=', 'résidence')->get())
+                ->required(),
             NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
                     return $residence->blocks()->get();
                 })
-                ->dependsOn('establishment'),
+                ->dependsOn('establishment')
+                ->required(),
             NovaBelongsToDepend::make('chambre', 'place', 'App\Nova\Place')
                 ->placeholder('Select Chambre')
                 ->optionsResolve(function ($structure) {
                     return $structure->chambres()->get();
                 })
                 ->dependsOn('structure')
-                ->rules(new ChambreCanBeAllocated),
+                ->rules('required', new ChambreCanBeAllocated),
             Select::make('State')->options([
                 'renouvlé' => 'renouvlé',
                 'non renouvlé' => 'non renouvlé'
-            ])->required(),
+            ])->rules('required'),
         ];
     }
 
