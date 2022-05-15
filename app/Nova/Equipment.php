@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\EquipmentResidence;
+use App\Rules\MinEquipmentQuantity;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -99,9 +100,11 @@ class Equipment extends Resource
                 ->rules('required', 'string', 'max:50'),
             BelongsTo::make('residence', 'establishment')
                 ->searchable()
-                ->withSubtitles(),
-            Number::make('quantity'),
-            Boolean::make('bookable'),
+                ->withSubtitles()
+                ->rules('required'),
+            Number::make('quantity')
+                ->rules('required', new MinEquipmentQuantity),
+            Boolean::make('bookable')
         ];
     }
 
