@@ -62,9 +62,14 @@ class Vacation extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('name'),
-            Date::make('date'),
-            Select::make('type')->options(['vacances' => 'vacances', 'jour férié' => 'jour férié'])
+            Text::make('name')
+                ->rules('required', 'max:100'),
+            Date::make('date')
+                ->rules('required'),
+            Select::make('type')->options([
+                'vacances' => 'vacances',
+                'jour férié' => 'jour férié'
+            ])->rules('required')
         ];
     }
 
