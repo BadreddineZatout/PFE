@@ -27,6 +27,7 @@ use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use App\Nova\Lenses\ResidentsRenouvles as LensesResidentsRenouvles;
 use App\Nova\Lenses\ResidentsNonRenouvles as LensesResidentsNonRenouvles;
+use App\Rules\ChambreCanBeAllocated;
 
 class Resident extends Resource
 {
@@ -113,8 +114,9 @@ class Resident extends Resource
      */
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        if ($request->user()->isAgentHebergement()) {
-            return $query->whereIn('users.establishment_id', $request->user()->establishment->establishments->pluck('id'));
+        if ($request->user()->isAgentHebergement() || $request->user()->isResidenceDecider()) {
+            return $query->whereIn('users.establishment_id', $request->user()->establishment->establishments->pluck('id'))
+                ->whereNotIn('users.id', $request->user()->establishment->residents->pluck('user_id'));
         }
     }
 
@@ -143,11 +145,12 @@ class Resident extends Resource
                 ->optionsResolve(function ($structure) {
                     return $structure->chambres()->get();
                 })
-                ->dependsOn('structure'),
+                ->dependsOn('structure')
+                ->rules(new ChambreCanBeAllocated),
             Select::make('State')->options([
                 'renouvlé' => 'renouvlé',
                 'non renouvlé' => 'non renouvlé'
-            ]),
+            ])->required(),
         ];
     }
 

@@ -52,4 +52,18 @@ class Establishment extends Model
     {
         return $this->type != 'résidence';
     }
+
+    public function residents()
+    {
+        if ($this->isResidence()) {
+            return $this->hasMany(Resident::class);
+        }
+    }
+
+    public function students()
+    {
+        if ($this->isUniversity()) {
+            return $this->hasMany(User::class)->where('role_id', Role::where('name', 'Student')->first()->id);
+        }
+    }
 }
