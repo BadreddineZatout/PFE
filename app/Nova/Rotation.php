@@ -6,17 +6,23 @@ use App\Models\Bus;
 use App\Models\Line;
 use App\Models\Role;
 use App\Models\User;
+use App\Rules\RotationEnd;
+use Laravel\Nova\Fields\ID;
+use App\Rules\RotationStart;
+use Illuminate\Http\Request;
+use App\Rules\RotationDriver;
+use App\Rules\BusNumberInLine;
+use App\Rules\StartEndTimeRule;
 use App\Nova\Filters\RotationBus;
 use App\Nova\Filters\RotationDate;
-use App\Nova\Filters\RotationDriver;
 use App\Nova\Filters\RotationLine;
-use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Rules\RotationNumberInLine;
 use Laraning\NovaTimeField\TimeField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use App\Nova\Filters\RotationDriver as FiltersRotationDriver;
 
 class Rotation extends Resource
 {
@@ -97,7 +103,8 @@ class Rotation extends Resource
      */
     public static function relatableLines(NovaRequest $request, $query)
     {
-        return $query->where('plans.establishment_id', $request->user()->establishment_id)
+        return $query->join('plans', 'plan_id', 'plans.id')
+            ->where('plans.establishment_id', $request->user()->establishment_id)
             ->select('lines.*');
     }
 
@@ -159,14 +166,16 @@ class Rotation extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             NovaBelongsToDepend::make('line')
                 ->placeholder('Select Line')
-                ->options(Line::all()),
+                ->options(Line::all())
+                ->rules('required', new RotationNumberInLine),
             NovaBelongsToDepend::make('bus', 'bus', '\App\Nova\Bus')
                 ->placeholder('Select Bus')
                 ->optionsResolve(function ($line) {
                     return Bus::where('establishment_id', $line->plan->establishment_id)
                         ->get();
                 })
-                ->dependsOn('line'),
+                ->dependsOn('line')
+                ->rules(new BusNumberInLine),
             NovaBelongsToDepend::make('driver', 'user', '\App\Nova\User')
                 ->placeholder('Select Driver')
                 ->optionsResolve(function ($line) {
@@ -175,9 +184,12 @@ class Rotation extends Resource
                         'establishment_id' => $line->plan->establishment_id
                     ])->get();
                 })
-                ->dependsOn('line'),
-            TimeField::make('start time', 'start_time'),
-            TimeField::make('end time', 'end_time'),
+                ->dependsOn('line')
+                ->rules(new RotationDriver),
+            TimeField::make('start time', 'start_time')
+                ->rules('required', new StartEndTimeRule, new RotationStart),
+            TimeField::make('end time', 'end_time')
+                ->rules('required', new StartEndTimeRule, new RotationEnd),
         ];
     }
 
@@ -192,11 +204,16 @@ class Rotation extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('line'),
-            BelongsTo::make('bus', 'bus', '\App\Nova\Bus'),
-            BelongsTo::make('driver', 'user', '\App\Nova\User'),
-            TimeField::make('start time', 'start_time'),
-            TimeField::make('end time', 'end_time'),
+            BelongsTo::make('line')
+                ->rules(new RotationNumberInLine),
+            BelongsTo::make('bus', 'bus', '\App\Nova\Bus')
+                ->rules(new BusNumberInLine),
+            BelongsTo::make('driver', 'user', '\App\Nova\User')
+                ->rules(new RotationDriver),
+            TimeField::make('start time', 'start_time')
+                ->rules('required', new StartEndTimeRule, new RotationStart),
+            TimeField::make('end time', 'end_time')
+                ->rules('required', new StartEndTimeRule, new RotationEnd),
         ];
     }
 
@@ -223,7 +240,7 @@ class Rotation extends Resource
             return [
                 new RotationLine,
                 new RotationBus,
-                new RotationDriver,
+                new FiltersRotationDriver,
                 new RotationDate
             ];
         return [];
