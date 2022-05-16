@@ -130,6 +130,10 @@ class Reservation extends Resource
             (new ConsumedByDay)->width('1/2'),
             (new LeftoverByDay)->width('1/2'),
         ];
+
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [$global_filter, ...$filters];
+
         $stacked_chart = (new StackedChart())
             ->title('Reserved Consumed Meals vs Reserved Leftovers')
             ->model('\App\Models\FoodReservation')
@@ -173,8 +177,6 @@ class Reservation extends Resource
                 $stacked_chart
             ];
         }
-
-        return [$global_filter, ...$filters];
     }
 
     /**
