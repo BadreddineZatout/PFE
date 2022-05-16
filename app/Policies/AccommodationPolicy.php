@@ -18,7 +18,7 @@ class AccommodationPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin() || $user->isResidenceDecider() || $user->isMinister() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isMinister() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**
@@ -30,7 +30,7 @@ class AccommodationPolicy
      */
     public function view(User $user, Accommodation $accommodation)
     {
-        return $user->isAdmin() || $user->isResidenceDecider() || $user->isMinister() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isMinister() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**

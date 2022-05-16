@@ -19,7 +19,7 @@ class LinePolicy
      */
     public function view(User $user, Line $line)
     {
-        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport() || $user->isMinister();
+        return $user->isAdmin() || $user->isMinister() || $user->isDecider() || $user->isAgentTransport();
     }
 
     /**

@@ -19,7 +19,7 @@ class MenuPolicy
      */
     public function view(User $user, Menu $menu)
     {
-        return $user->isAdmin() || $user->isDecider() || $user->isMinister() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isMinister() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**

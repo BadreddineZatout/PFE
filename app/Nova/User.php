@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
 use App\Nova\Filters\UserRole;
+use App\Rules\EstablishmentNotRequired;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Password;
@@ -116,7 +117,7 @@ class User extends Resource
                 ->placeholder('Select establishment')
                 ->optionsResolve(function ($wilaya) {
                     return $wilaya->establishments()->get(['id', 'name_fr']);
-                })->dependsOn('Wilaya'),
+                })->dependsOn('Wilaya')->nullable(),
         ];
     }
 

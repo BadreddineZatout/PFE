@@ -19,7 +19,7 @@ class FoodReservationPolicy
      */
     public function view(User $user, FoodReservation $foodReservation)
     {
-        return $user->isAdmin() || $user->isDecider() || $user->isMinister() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isMinister() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**

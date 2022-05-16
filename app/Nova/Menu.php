@@ -78,7 +78,7 @@ class Menu extends Resource
     public static function availableForNavigation(Request $request)
     {
         $user = $request->user();
-        return $user->isAdmin() || $user->isDecider() || $user->isMinister() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isMinister() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**
