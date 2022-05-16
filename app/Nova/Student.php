@@ -23,7 +23,7 @@ class Student extends User
      * @var array
      */
     public static $search = [
-        'firstname', 'lastname'
+        'name'
     ];
 
     /**

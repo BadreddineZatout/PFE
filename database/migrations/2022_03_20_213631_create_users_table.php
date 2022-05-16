@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('name')->storedAs("concat(firstname, ' ', lastname)");
             $table->date('birthday')->nullable();
             $table->string('nin')->nullable();
             $table->string('email')->unique();

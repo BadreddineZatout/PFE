@@ -35,7 +35,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'firstname', 'lastname', 'email',
+        'id', 'name', 'email',
     ];
 
     /**
@@ -80,6 +80,11 @@ class User extends Resource
             Text::make('lastname')
                 ->sortable()
                 ->rules('required', 'alpha', 'max:255'),
+            Text::make('name')
+                ->hideFromDetail()
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
             Date::make('birthday')
                 ->hideFromIndex(),
             Text::make('NIN', 'nin')

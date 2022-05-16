@@ -44,10 +44,6 @@ class User extends Authenticatable
         'birthday' => 'date'
     ];
 
-    public function getNameAttribute()
-    {
-        return $this->firstname . ' ' . $this->lastname;
-    }
 
     public function establishment()
     {
