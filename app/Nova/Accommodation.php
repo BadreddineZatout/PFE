@@ -40,7 +40,7 @@ class Accommodation extends Resource
     }
 
     public static $searchRelations = [
-        'user' => ['firstname', 'lastname'],
+        'user' => ['name'],
         'establishment' => ['name_fr'],
     ];
 

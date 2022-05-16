@@ -4,7 +4,7 @@
       <h1 class="text-start text-3xl text-80 font-medium">
         Welcome Back
         <span class="font-semibold"
-          >{{ card.user.firstname }} {{ card.user.lastname }}</span
+          >{{ card.user.name }}</span
         >
       </h1>
     </div>

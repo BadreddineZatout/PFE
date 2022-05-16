@@ -52,7 +52,7 @@ class Resident extends Resource
      * @var array
      */
     public static $searchRelations = [
-        'user' => ['firstname', 'lastname'],
+        'user' => ['name'],
     ];
 
     /**

@@ -290,11 +290,7 @@ var render = function() {
         _c("h1", { staticClass: "text-start text-3xl text-80 font-medium" }, [
           _vm._v("\n      Welcome Back\n      "),
           _c("span", { staticClass: "font-semibold" }, [
-            _vm._v(
-              _vm._s(_vm.card.user.firstname) +
-                " " +
-                _vm._s(_vm.card.user.lastname)
-            )
+            _vm._v(_vm._s(_vm.card.user.name))
           ])
         ])
       ]),

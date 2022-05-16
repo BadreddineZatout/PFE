@@ -47,7 +47,9 @@ class Rotation extends Resource
      * @var array
      */
     public static $searchRelations = [
-        'line' => ['name']
+        'line' => ['name'],
+        'user' => ['name'],
+        'bus' => ['matricule']
     ];
 
     /**

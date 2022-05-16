@@ -42,7 +42,7 @@ class TransportReservation extends Resource
      * @var array
      */
     public static $searchRelations = [
-        'user' => ['firstname', 'lastname'],
+        'user' => ['name'],
         'rotation.line' => ['name']
     ];
 
