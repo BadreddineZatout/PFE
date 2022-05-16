@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Carbon\Carbon;
 use App\Models\Line;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Contracts\Validation\DataAwareRule;
@@ -48,7 +49,9 @@ class RotationEnd implements Rule, DataAwareRule
     public function passes($attribute, $value)
     {
         $line = Line::findOrFail($this->data['line']);
-        return $value > $line->start_time->format('H:i') && $value <= $line->end_time->format('H:i');
+        $start_time = Carbon::createFromTimeString($line->start_time);
+        $end_time = Carbon::createFromTimeString($line->end_time);
+        return $value > $start_time->format('H:i') && $value <= $end_time->format('H:i');
     }
 
     /**
