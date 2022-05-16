@@ -105,8 +105,11 @@ class Rotation extends Resource
      */
     public static function relatableLines(NovaRequest $request, $query)
     {
-        return $query->join('plans', 'plan_id', 'plans.id')
-            ->where('plans.establishment_id', $request->user()->establishment_id)
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return $query->join('plans', 'plan_id', 'plans.id')
+                ->where('plans.establishment_id', $request->user()->establishment_id)
+                ->select('lines.*');
+        return $query->where('plans.establishment_id', $request->user()->establishment_id)
             ->select('lines.*');
     }
 
@@ -207,11 +210,11 @@ class Rotation extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make('line')
-                ->rules(new RotationNumberInLine),
+                ->rules('required', new RotationNumberInLine),
             BelongsTo::make('bus', 'bus', '\App\Nova\Bus')
-                ->rules(new BusNumberInLine),
+                ->rules('required', new BusNumberInLine),
             BelongsTo::make('driver', 'user', '\App\Nova\User')
-                ->rules(new RotationDriver),
+                ->rules('required', new RotationDriver),
             TimeField::make('start time', 'start_time')
                 ->rules('required', new StartEndTimeRule, new RotationStart),
             TimeField::make('end time', 'end_time')

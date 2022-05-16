@@ -27,6 +27,7 @@ class RotationNumberInLine implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (!$value) return false;
         return Rotation::where('line_id', $value)->count() < Line::findOrFail($value)->rotations_number;
     }
 
