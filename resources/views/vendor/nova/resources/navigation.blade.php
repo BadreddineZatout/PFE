@@ -9,12 +9,23 @@
 
     @foreach ($navigation as $group => $resources)
         @if (count($groups) > 1)
-            <h4 class="ml-8 mb-4 text-xs text-white-50% uppercase tracking-wide">{{ $group }}</h4>
+            <div class="flex items-center w-full p-2 text-base font-normal text-white rounded-lg group cursor-pointer"
+                aria-controls="dropdown-{{ $group }}" data-collapse-toggle="dropdown-{{ $group }}"
+                onclick="toggleMenu('dropdown-{{ $group }}')">
+                <span class="flex-1 ml-3 text-left whitespace-nowrap font-semibold"
+                    sidebar-toggle-item>{{ $group }}</span>
+                <svg sidebar-toggle-item class="w-6 h-6 text-white mt-2" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </div>
         @endif
 
-        <ul class="list-reset mb-8">
+        <ul id="dropdown-{{ $group }}" class="hidden py-2 space-y-3">
             @foreach ($resources as $resource)
-                <li class="leading-tight mb-4 ml-8 text-sm">
+                <li class="leading-tight ml-8 text-sm">
                     <router-link
                         :to="{
                             name: 'index',
@@ -31,3 +42,16 @@
         </ul>
     @endforeach
 @endif
+<script>
+    function toggleMenu(group) {
+        let groups = document.querySelectorAll('ul[id]')
+        for (item of groups) {
+            if (!item.classList.contains('hidden')) {
+                item.classList.add('hidden');
+                continue;
+            }
+            item.classList.toggle('hidden', item.id != group);
+        }
+
+    }
+</script>
