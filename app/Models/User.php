@@ -67,41 +67,41 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role_id == Role::where('name', 'Admin')->first()->id;
+        return $this->role_id == Role::ADMIN;
     }
 
     public function isMinister()
     {
-        return $this->role_id == Role::where('name', 'Minister')->first()->id;
+        return $this->role_id == Role::MINISTER;
     }
 
     public function isDecider()
     {
-        return $this->role_id == Role::where('name', 'Decider')->first()->id;
+        return $this->role_id == Role::DECIDER;
     }
 
     public function isUniversityDecider()
     {
-        return $this->isDecider() && Establishment::findOrFail($this->establishment_id)->isUniversity();
+        return $this->isDecider() && $this->establishment?->isUniversity();
     }
 
     public function isResidenceDecider()
     {
-        return $this->isDecider() && Establishment::findOrFail($this->establishment_id)->isResidence();
+        return $this->isDecider() && $this->establishment?->isResidence();
     }
 
     public function isAgentRestauration()
     {
-        return $this->role_id == Role::where('name', 'Agent Restauration')->first()->id;
+        return $this->role_id == Role::AGENT_RESTAURATION;
     }
 
     public function isAgentHebergement()
     {
-        return $this->role_id == Role::where('name', 'Agent Hebergement')->first()->id;
+        return $this->role_id == Role::AGENT_HEBERGEMENT;
     }
 
     public function isAgentTransport()
     {
-        return $this->role_id == Role::where('name', 'Agent Transport')->first()->id;
+        return $this->role_id == Role::AGENT_TRANSPORT;
     }
 }
