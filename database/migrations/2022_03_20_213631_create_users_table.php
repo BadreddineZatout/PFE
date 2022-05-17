@@ -17,9 +17,10 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('name')->storedAs("concat(firstname, ' ', lastname)");
+            $table->string('name')->storedAs("firstname || ' ' || lastname"); //Postgres db
+            // $table->string('name')->storedAs("concat(firstname, ' ', lastname)"); Mysql db
             $table->date('birthday')->nullable();
-            $table->string('nin')->nullable();
+            $table->string('nin')->nullable()->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
