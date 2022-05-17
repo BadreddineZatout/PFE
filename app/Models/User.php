@@ -24,6 +24,11 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $with = [
+        'wilaya',
+        'establishment'
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
