@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d140a03b0a8dae320112f2c9de33dff8",
+    "content-hash": "97a099e992a0ac30a3132d35b4770561",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4139,6 +4139,53 @@
                 }
             ],
             "time": "2022-04-21T12:23:20+00:00"
+        },
+        {
+            "name": "suenerds/nova-searchable-belongs-to-filter",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/suenerds/nova-searchable-belongs-to-filter.git",
+                "reference": "2a7fe5096c3d9fcd7625dd31b969338700fb8467"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/suenerds/nova-searchable-belongs-to-filter/zipball/2a7fe5096c3d9fcd7625dd31b969338700fb8467",
+                "reference": "2a7fe5096c3d9fcd7625dd31b969338700fb8467",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Suenerds\\NovaSearchableBelongsToFilter\\FilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Suenerds\\NovaSearchableBelongsToFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Searchable Nova filter for belongsTo relationships.",
+            "keywords": [
+                "belongs-to",
+                "filter",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/suenerds/nova-searchable-belongs-to-filter/issues",
+                "source": "https://github.com/suenerds/nova-searchable-belongs-to-filter/tree/master"
+            },
+            "time": "2020-01-22T10:11:43+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

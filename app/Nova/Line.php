@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Rules\MinBusNumber;
+use App\Rules\MinStopOrder;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -135,7 +136,7 @@ class Line extends Resource
             BelongsToMany::make('stops')
                 ->fields(function ($request, $relatedModel) {
                     return [
-                        Text::make('order'),
+                        Number::make('order'),
                     ];
                 }),
         ];

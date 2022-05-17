@@ -72,8 +72,7 @@ class Stop extends Resource
             BelongsToMany::make('lines')
                 ->fields(function ($request, $relatedModel) {
                     return [
-                        Number::make('order')
-                            ->rule(new MinStopOrder),
+                        Number::make('order'),
                     ];
                 }),
         ];

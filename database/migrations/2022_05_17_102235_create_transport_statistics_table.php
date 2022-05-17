@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransportReservationsTable extends Migration
+class CreateTransportStatisticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTransportReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transport_reservations', function (Blueprint $table) {
+        Schema::create('transport_statistics', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->foreignId('rotation_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -29,6 +29,6 @@ class CreateTransportReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transport_reservations');
+        Schema::dropIfExists('transport_statistics');
     }
 }

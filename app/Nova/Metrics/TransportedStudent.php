@@ -28,7 +28,7 @@ class TransportedStudent extends Value
                 ->join('lines', 'rotations.line_id', 'lines.id')
                 ->join('plans', 'lines.plan_id', 'plans.id')
                 ->where('plans.establishment_id', $request->user()->establishment_id)
-                ->select('transport_reservations.*');
+                ->select('transport_statistics.*');
         return $this->count($request, $model);
     }
 

@@ -6,28 +6,23 @@ use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Filters\TransportDate;
-use App\Nova\Filters\TransportEstablishment;
 use App\Nova\Metrics\Transportations;
 use App\Nova\Filters\TransportRotation;
 use App\Nova\Metrics\TransportedStudent;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Filters\TransportEstablishment;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
-use Coroowicaksono\ChartJsIntegration\LineChart;
-use Coroowicaksono\ChartJsIntegration\StackedChart;
-use Titasgailius\SearchRelations\SearchesRelations;
 
-class TransportReservation extends Resource
+class TransportStatistic extends Resource
 {
-    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\TransportReservation::class;
+    public static $model = \App\Models\TransportStatistic::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -90,10 +85,10 @@ class TransportReservation extends Resource
                     'establishment_id' => $request->user()->establishment_id,
                     'role_id' => Role::where('name', 'Student')->first()->id
                 ])
-                ->select('transport_reservations.*');
-        return $query->join('residents', 'transport_reservations.user_id', 'residents.user_id')
+                ->select('transport_statistics.*');
+        return $query->join('residents', 'transport_statistics.user_id', 'residents.user_id')
             ->where('establishment_id', $request->user()->establishment_id)
-            ->select('transport_reservations.*');
+            ->select('transport_statistics.*');
     }
 
     /**
@@ -147,26 +142,6 @@ class TransportReservation extends Resource
                 ...$stats
             ];
         return $stats;
-        // return [
-        //     ...$stats,
-        //     (new StackedChart())
-        //         ->title('Transportations')
-        //         ->model('\App\Models\TransportReservation')
-        //         ->join('users', 'transport_reservations.user_id', '=', 'users.id')
-        //         // ->join('rotations', 'transport_reservations.rotation_id', '=', 'rotations.id')
-        //         // ->join('lines', 'rotations.line_id', '=', 'lines.id')
-        //         // ->join('plans', 'lines.plan_id', '=', 'plan_id')
-        //         ->options([
-        //             'queryFilter' => array([
-        //                 'key' => 'users.establishment_id',
-        //                 'operator' => '=',
-        //                 'value' => $request->user()->establishment_id
-        //             ]),
-        //             'uom' => 'day',
-        //             'latestData' => 30,
-        //             'showTotal' => false,
-        //         ]),
-        // ];
     }
 
     /**
