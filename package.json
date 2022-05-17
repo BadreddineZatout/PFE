@@ -11,7 +11,13 @@
         "build-today-meal": "cd nova-components/TodayMeal && npm run dev",
         "build-today-meal-prod": "cd nova-components/TodayMeal && npm run prod",
         "build-user-details": "cd nova-components/UserDetails && npm run dev",
-        "build-user-details-prod": "cd nova-components/UserDetails && npm run prod"
+        "build-user-details-prod": "cd nova-components/UserDetails && npm run prod",
+        "build-UserUniversity": "cd nova-components/UserUniversity && npm run dev",
+        "build-UserUniversity-prod": "cd nova-components/UserUniversity && npm run prod",
+        "build-user-university": "cd nova-components/UserUniversity && npm run dev",
+        "build-user-university-prod": "cd nova-components/UserUniversity && npm run prod",
+        "build-useruniversity": "cd nova-components/Useruniversity && npm run dev",
+        "build-useruniversity-prod": "cd nova-components/Useruniversity && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.21",

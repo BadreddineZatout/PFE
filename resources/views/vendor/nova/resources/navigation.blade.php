@@ -10,8 +10,7 @@
                         $icon = 'icons.' . strtolower($group);
                     @endphp
                     @include($icon)
-                    <span class="flex-1 text-left whitespace-nowrap font-semibold"
-                        sidebar-toggle-item>{{ $group }}</span>
+                    <span class="flex-1 text-left whitespace-nowrap" sidebar-toggle-item>{{ $group }}</span>
                 </div>
                 <div>
                     <svg sidebar-toggle-item class="w-6 h-6 text-white mt-2" fill="currentColor" viewBox="0 0 20 20"

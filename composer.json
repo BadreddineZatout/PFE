@@ -21,8 +21,10 @@
         "laravel/tinker": "^2.5",
         "nemrutco/nova-global-filter": "^1.2",
         "orlyapps/nova-belongsto-depend": "^3.0",
-        "suenerds/nova-searchable-belongs-to-filter": "^1.0",
-        "titasgailius/search-relations": "^2.0"
+        "titasgailius/search-relations": "^2.0",
+        "badi/UserUniversity": "*",
+        "badi/user-university": "*",
+        "badi/useruniversity": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
@@ -84,6 +86,18 @@
         "1": {
             "type": "path",
             "url": "./nova-components/UserDetails"
+        },
+        "2": {
+            "type": "path",
+            "url": "./nova-components/UserUniversity"
+        },
+        "3": {
+            "type": "path",
+            "url": "./nova-components/UserUniversity"
+        },
+        "4": {
+            "type": "path",
+            "url": "./nova-components/Useruniversity"
         }
     }
 }

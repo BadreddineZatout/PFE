@@ -16,3 +16,4 @@ yarn-error.log
 /nova
 /nova-components/TodayMeal/node_modules
 /nova-components/UserDetails/node_modules
+/nova-components/UserUniversity/node_modules
