@@ -12,6 +12,7 @@ use App\Nova\Filters\UserRole;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Rules\EstablishmentNotRequired;
+use App\Rules\UserEstablishment;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
@@ -118,7 +119,9 @@ class User extends Resource
                 ->placeholder('Select establishment')
                 ->optionsResolve(function ($wilaya) {
                     return $wilaya->establishments()->get(['id', 'name_fr']);
-                })->dependsOn('Wilaya')->nullable(),
+                })->dependsOn('Wilaya')
+                ->nullable()
+                ->rules(new UserEstablishment),
         ];
     }
 
