@@ -262,6 +262,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["card"],
@@ -281,34 +299,61 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass:
-        "flex flex-col items-start justify-center bg-white rounded-lg"
-    },
+    { staticClass: "flex justify-between bg-white rounded-lg items-center" },
     [
-      _c("div", { staticClass: "px-5 py-3" }, [
-        _c("h1", { staticClass: "text-start text-3xl text-80 font-medium" }, [
-          _vm._v("\n      Welcome Back\n      "),
-          _c("span", { staticClass: "font-semibold" }, [
-            _vm._v(_vm._s(_vm.card.user.name))
+      _c("div", { staticClass: "flex flex-col items-start justify-center" }, [
+        _c("div", { staticClass: "px-5 py-3" }, [
+          _c("h1", { staticClass: "text-start text-3xl text-80 font-medium" }, [
+            _vm._v("\n        Welcome Back\n        "),
+            _c("span", { staticClass: "font-semibold" }, [
+              _vm._v(_vm._s(_vm.card.user.name))
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "px-7 py-2 mb-2" }, [
+          _c("h1", { staticClass: "text-start text-lg text-80 font-medium" }, [
+            _c("span", { staticClass: "font-semibold" }, [
+              _vm._v(_vm._s(_vm.card.role))
+            ]),
+            _vm._v(" "),
+            _vm.card.establishment
+              ? _c("span", [
+                  _vm._v("\n          at "),
+                  _c("span", { staticClass: "font-semibold" }, [
+                    _vm._v(_vm._s(_vm.card.establishment))
+                  ])
+                ])
+              : _vm._e()
           ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "px-7 py-2 mb-2" }, [
-        _c("h1", { staticClass: "text-start text-lg text-80 font-medium" }, [
-          _c("span", { staticClass: "font-semibold" }, [
-            _vm._v(_vm._s(_vm.card.role))
-          ]),
-          _vm._v(" "),
-          _vm.card.establishment
-            ? _c("span", [
-                _vm._v("\n        at "),
-                _c("span", { staticClass: "font-semibold" }, [
-                  _vm._v(_vm._s(_vm.card.establishment))
-                ])
-              ])
-            : _vm._e()
+      _c("div", [
+        _c("a", { attrs: { href: "/nova/logout" } }, [
+          _c(
+            "svg",
+            {
+              staticClass: "w-12 h-12",
+              attrs: {
+                fill: "none",
+                stroke: "currentColor",
+                viewBox: "0 0 24 24",
+                xmlns: "http://www.w3.org/2000/svg"
+              }
+            },
+            [
+              _c("path", {
+                attrs: {
+                  "stroke-linecap": "round",
+                  "stroke-linejoin": "round",
+                  "stroke-width": "2",
+                  d:
+                    "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                }
+              })
+            ]
+          )
         ])
       ])
     ]
