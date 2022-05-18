@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84f5eae4320ae19d9b220da6ae1cc984",
+    "content-hash": "cef8c83c7a4f13d17bc117b98a988a49",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -84,42 +84,6 @@
             "autoload": {
                 "psr-4": {
                     "Badi\\TodayMeal\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "A Laravel Nova card.",
-            "keywords": [
-                "laravel",
-                "nova"
-            ],
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "badi/user-details",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "./nova-components/UserDetails",
-                "reference": "3b479dc2733a520f721088c5f4e9e3bf26096aba"
-            },
-            "require": {
-                "php": ">=7.1.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Badi\\UserDetails\\CardServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Badi\\UserDetails\\": "src/"
                 }
             },
             "license": [
@@ -1091,6 +1055,61 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "ericlagarda/nova-text-card",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Krato/NovaTextCard.git",
+                "reference": "ea56e68328085d1322364df25a1fef4fa88c425d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Krato/NovaTextCard/zipball/ea56e68328085d1322364df25a1fef4fa88c425d",
+                "reference": "ea56e68328085d1322364df25a1fef4fa88c425d",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "*",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ericlagarda\\NovaTextCard\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ericlagarda\\NovaTextCard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric Lagarda",
+                    "email": "eric@infinety.es",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A custom card for Laravel Nova to show Text in cards with some good options",
+            "keywords": [
+                "card",
+                "laravel",
+                "nova",
+                "text"
+            ],
+            "support": {
+                "issues": "https://github.com/Krato/NovaTextCard/issues",
+                "source": "https://github.com/Krato/NovaTextCard/tree/master"
+            },
+            "time": "2020-06-03T16:41:16+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

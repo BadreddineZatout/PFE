@@ -2,14 +2,17 @@
 
 namespace App\Providers;
 
+use App\Actions\UserWelcomeCard;
 use Laravel\Nova\Nova;
 use App\Models\Resident;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Observable;
 use Badi\UserDetails\UserDetails;
+use App\Nova\Metrics\StudentTotal;
 use App\Observers\ResidentObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Ericlagarda\NovaTextCard\TextCard;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -63,7 +66,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            (new UserDetails)->width('full')
+            UserWelcomeCard::getCard(),
+            new StudentTotal,
         ];
     }
 
