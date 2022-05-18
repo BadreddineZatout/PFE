@@ -52,6 +52,8 @@ class UserEstablishment implements Rule, DataAwareRule
             return false;
         if ($this->data['role'] == Role::AGENT_HEBERGEMENT && !Establishment::findOrFail($this->data['establishment'])->isResidence())
             return false;
+        if ($this->data['role'] == Role::STUDENT && Establishment::findOrFail($this->data['establishment'])->isResidence())
+            return false;
         return true;
     }
 
