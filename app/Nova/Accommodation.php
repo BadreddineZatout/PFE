@@ -18,6 +18,7 @@ use App\Nova\Metrics\TotalDemandeHebergementRefusee;
 use App\Nova\Metrics\TotalDemandeHebergementAcceptee;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use App\Nova\Metrics\TotalDemandeHebergementNonTraitee;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Accommodation extends Resource
 {
@@ -188,6 +189,7 @@ class Accommodation extends Resource
                 ->canSee(function ($request) {
                     return $request->user()->can('update', Accommodation::class);
                 }),
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
         ];
     }
 }

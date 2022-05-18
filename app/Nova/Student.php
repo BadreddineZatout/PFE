@@ -3,10 +3,11 @@
 namespace App\Nova;
 
 use App\Models\Role;
+use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Student extends User
 {
@@ -138,6 +139,8 @@ class Student extends User
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Establishment extends Resource
 {
@@ -139,6 +140,8 @@ class Establishment extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

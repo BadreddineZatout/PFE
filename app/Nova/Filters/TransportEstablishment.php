@@ -30,7 +30,7 @@ class TransportEstablishment extends Filter
             ->join('lines', 'rotations.line_id', 'lines.id')
             ->join('plans', 'lines.plan_id', 'plans.id')
             ->where('plans.establishment_id', $value)
-            ->select('transport_reservations.*');
+            ->select('transport_statistics.*');
     }
 
     /**

@@ -17,6 +17,7 @@ use Laravel\Nova\Fields\BelongsToMany;
 use App\Nova\Filters\LineEstablishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Line extends Resource
 {
@@ -187,6 +188,8 @@ class Line extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

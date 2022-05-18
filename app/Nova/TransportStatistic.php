@@ -14,6 +14,7 @@ use App\Nova\Metrics\TransportedStudent;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Filters\TransportEstablishment;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class TransportStatistic extends Resource
 {
@@ -177,6 +178,8 @@ class TransportStatistic extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

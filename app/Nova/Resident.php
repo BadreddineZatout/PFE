@@ -6,17 +6,18 @@ use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
-use App\Nova\Actions\ResidentNotRenewed;
-use App\Nova\Actions\ResidentRenewed;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Filters\UserUniversity;
 use App\Nova\Metrics\ResidentsTotal;
+use App\Rules\ChambreCanBeAllocated;
+use App\Nova\Actions\ResidentRenewed;
 use App\Nova\Metrics\ResidentStudents;
 use App\Nova\Filters\ResidentResidence;
+use App\Nova\Actions\ResidentNotRenewed;
 use App\Nova\Filters\ResidentUniversity;
-use App\Nova\Filters\UserUniversity;
 use App\Nova\Metrics\ResidentsRenouvles;
 use App\Nova\Metrics\ResidentByResidence;
 use App\Nova\Metrics\ResidentByUniversity;
@@ -25,9 +26,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use App\Nova\Lenses\ResidentsRenouvles as LensesResidentsRenouvles;
 use App\Nova\Lenses\ResidentsNonRenouvles as LensesResidentsNonRenouvles;
-use App\Rules\ChambreCanBeAllocated;
 
 class Resident extends Resource
 {
@@ -260,6 +261,7 @@ class Resident extends Resource
                 ->canSee(function ($request) {
                     return $request->user()->can('update', Resident::class);
                 }),
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
         ];
     }
 }

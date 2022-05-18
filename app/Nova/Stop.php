@@ -3,12 +3,13 @@
 namespace App\Nova;
 
 use App\Rules\MinStopOrder;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Stop extends Resource
 {
@@ -119,6 +120,8 @@ class Stop extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

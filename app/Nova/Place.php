@@ -2,14 +2,15 @@
 
 namespace App\Nova;
 
-use App\Models\Establishment;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Number;
+use App\Models\Establishment;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Place extends Resource
 {
@@ -134,6 +135,8 @@ class Place extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

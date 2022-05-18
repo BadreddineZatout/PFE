@@ -3,7 +3,7 @@
 namespace App\Nova\Metrics;
 
 use Laravel\Nova\Metrics\Value;
-use App\Models\TransportReservation;
+use App\Models\TransportStatistic;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Filters\TransportEstablishment;
 use Nemrutco\NovaGlobalFilter\GlobalFilterable;
@@ -20,7 +20,7 @@ class TransportedStudent extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $model = $this->globalFiltered(TransportReservation::class, [
+        $model = $this->globalFiltered(TransportStatistic::class, [
             TransportEstablishment::class
         ]);
         if ($request->user()->isDecider() || $request->user()->isAgentTransport())

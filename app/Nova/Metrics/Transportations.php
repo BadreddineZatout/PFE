@@ -3,7 +3,7 @@
 namespace App\Nova\Metrics;
 
 use Laravel\Nova\Metrics\Trend;
-use App\Models\TransportReservation;
+use App\Models\TransportStatistic;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Filters\TransportEstablishment;
 use Nemrutco\NovaGlobalFilter\GlobalFilterable;
@@ -19,7 +19,7 @@ class Transportations extends Trend
      */
     public function calculate(NovaRequest $request)
     {
-        $model = $this->globalFiltered(TransportReservation::class, [
+        $model = $this->globalFiltered(TransportStatistic::class, [
             TransportEstablishment::class
         ]);
         if ($request->user()->isDecider() || $request->user()->isAgentTransport())
@@ -27,7 +27,7 @@ class Transportations extends Trend
                 ->join('lines', 'rotations.line_id', 'lines.id')
                 ->join('plans', 'lines.plan_id', 'plans.id')
                 ->where('plans.establishment_id', $request->user()->establishment_id)
-                ->select('transport_reservations.*');
+                ->select('transport_statistics.*');
         return $this->countByDays($request, $model);
     }
 

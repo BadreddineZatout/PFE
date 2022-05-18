@@ -22,6 +22,7 @@ use Laraning\NovaTimeField\TimeField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use App\Nova\Filters\RotationDriver as FiltersRotationDriver;
 
 class Rotation extends Resource
@@ -270,6 +271,8 @@ class Rotation extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

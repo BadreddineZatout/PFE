@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Filters\PlanEstablishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Plan extends Resource
 {
@@ -155,6 +156,8 @@ class Plan extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

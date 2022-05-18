@@ -16,6 +16,7 @@ use App\Nova\Filters\BusEstablishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Titasgailius\SearchRelations\SearchesRelations;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 use App\Nova\Actions\BusesInService as ActionsBusesInService;
 use App\Nova\Actions\BusesOutOfOrder as ActionsBusesOutOfOrder;
 
@@ -206,6 +207,7 @@ class Bus extends Resource
                 ->canSee(function ($request) {
                     return $request->user()->can('update', Bus::class);
                 }),
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
         ];
     }
 }

@@ -135,15 +135,4 @@ class University extends Establishment
     {
         return [];
     }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
-    }
 }

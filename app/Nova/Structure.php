@@ -2,13 +2,14 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Structure extends Resource
 {
@@ -122,6 +123,8 @@ class Structure extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
+        ];
     }
 }

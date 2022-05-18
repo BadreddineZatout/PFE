@@ -6,13 +6,14 @@ use App\Models\Wilaya;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
-use App\Nova\Filters\UserRole;
-use App\Rules\EstablishmentNotRequired;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Filters\UserRole;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Rules\EstablishmentNotRequired;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class User extends Resource
 {
@@ -164,6 +165,8 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isAdmin())
+        ];
     }
 }
