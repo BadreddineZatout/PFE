@@ -26,6 +26,7 @@ class User extends Authenticatable
 
     protected $with = [
         'wilaya',
+        'role',
         'establishment'
     ];
 

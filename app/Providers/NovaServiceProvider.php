@@ -2,17 +2,22 @@
 
 namespace App\Providers;
 
-use App\Actions\UserWelcomeCard;
 use Laravel\Nova\Nova;
 use App\Models\Resident;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Observable;
+use App\Nova\Metrics\TotalBus;
+use App\Actions\UserWelcomeCard;
 use Badi\UserDetails\UserDetails;
 use App\Nova\Metrics\StudentTotal;
+use App\Nova\Metrics\WorkersTotal;
 use App\Observers\ResidentObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Nova\Metrics\ResidencesTotal;
+use App\Nova\Metrics\RestaurantsTotal;
 use Ericlagarda\NovaTextCard\TextCard;
+use App\Nova\Metrics\EstablishmentsTotal;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -68,6 +73,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             UserWelcomeCard::getCard(),
             new StudentTotal,
+            new EstablishmentsTotal,
+            new ResidencesTotal,
+            new WorkersTotal,
+            new RestaurantsTotal,
+            new TotalBus,
         ];
     }
 

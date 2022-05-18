@@ -6,23 +6,23 @@ use Ericlagarda\NovaTextCard\TextCard;
 
 class UserWelcomeCard
 {
-    public static function getCard()
-    {
-        $content = '<div class="flex justify-between bg-white rounded-lg items-center">
+  public static function getCard()
+  {
+    $content = '<div class="flex justify-between bg-white rounded-lg items-center">
         <div class="flex flex-col items-start justify-center">
           <div class="px-5 py-3">
             <h1 class="text-start text-3xl text-80 font-medium">
-              Welcome Back
+              You are connected as : 
               <span class="font-semibold">' . Auth()->user()->name . '</span>
             </h1>
           </div>
           <div class="px-7 py-2 mb-2">
             <h1 class="text-start text-lg text-80 font-medium">
               <span class="font-semibold">' . Auth()->user()->role->name . '</span>';
-        if (Auth()->user()->establishment) {
-            $content .= ' at <span class="font-semibold">' . Auth()->user()->establishment->name_fr . '</span>';
-        }
-        $content .= '</h1>
+    if (Auth()->user()->establishment) {
+      $content .= ' at <span class="font-semibold">' . Auth()->user()->establishment->name_fr . '</span>';
+    }
+    $content .= '</h1>
         </div>
       </div>
       <div>
@@ -45,10 +45,10 @@ class UserWelcomeCard
       </div>
     </div>';
 
-        return (new TextCard())
-            ->forceFullWidth()
-            ->center(false)
-            ->text($content)
-            ->textAsHtml();
-    }
+    return (new TextCard())
+      ->forceFullWidth()
+      ->center(false)
+      ->text($content)
+      ->textAsHtml();
+  }
 }

@@ -4,8 +4,9 @@ namespace App\Nova\Metrics;
 
 use App\Models\Role;
 use App\Models\User;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Models\Resident;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class StudentTotal extends Value
 {
@@ -17,6 +18,15 @@ class StudentTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isUniversityDecider())
+            return $this->count($request, User::where([
+                'role_id' => Role::STUDENT,
+                'establishment_id' => $request->user()->establishment_id
+            ]));
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement())
+            return $this->count($request, Resident::where([
+                'establishment_id' => $request->user()->establishment_id
+            ]));
         return $this->count($request, User::where('role_id', Role::STUDENT));
     }
 
@@ -27,7 +37,7 @@ class StudentTotal extends Value
      */
     public function ranges()
     {
-        return [];
+        return ['ALL' => 'All Time'];
     }
 
     /**

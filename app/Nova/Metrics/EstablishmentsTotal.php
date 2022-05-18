@@ -2,6 +2,7 @@
 
 namespace App\Nova\Metrics;
 
+use App\Models\Establishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 
@@ -15,7 +16,7 @@ class EstablishmentsTotal extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Model::class, 'groupByColumn');
+        return $this->count($request, Establishment::where('type', '!=', 'résidence'), 'type');
     }
 
     /**

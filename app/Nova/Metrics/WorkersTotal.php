@@ -2,8 +2,10 @@
 
 namespace App\Nova\Metrics;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Models\Role;
+use App\Models\User;
 use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class WorkersTotal extends Partition
 {
@@ -15,7 +17,9 @@ class WorkersTotal extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Model::class, 'groupByColumn');
+        $model = User::join('roles', 'role_id', 'roles.id')->whereNotIn('roles.id', [Role::STUDENT, Role::ADMIN, Role::MINISTER]);
+
+        return $this->count($request, $model, 'roles.name');
     }
 
     /**

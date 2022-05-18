@@ -2,8 +2,9 @@
 
 namespace App\Nova\Metrics;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Models\Establishment;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ResidencesTotal extends Value
 {
@@ -15,7 +16,7 @@ class ResidencesTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Model::class);
+        return $this->count($request, Establishment::where('type', 'résidence'));
     }
 
     /**
@@ -25,15 +26,7 @@ class ResidencesTotal extends Value
      */
     public function ranges()
     {
-        return [
-            30 => __('30 Days'),
-            60 => __('60 Days'),
-            365 => __('365 Days'),
-            'TODAY' => __('Today'),
-            'MTD' => __('Month To Date'),
-            'QTD' => __('Quarter To Date'),
-            'YTD' => __('Year To Date'),
-        ];
+        return ['ALL' => 'All Time'];
     }
 
     /**
