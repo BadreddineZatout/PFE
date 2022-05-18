@@ -18,12 +18,12 @@ class StudentTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        if ($request->user()->isUniversityDecider())
+        if ($request->user()->isUniversityDecider() || $request->user()->isUniversityAgentRestauration())
             return $this->count($request, User::where([
                 'role_id' => Role::STUDENT,
                 'establishment_id' => $request->user()->establishment_id
             ]));
-        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement())
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement() || $request->user()->isResidenceAgentRestauration())
             return $this->count($request, Resident::where([
                 'establishment_id' => $request->user()->establishment_id
             ]));
@@ -37,7 +37,10 @@ class StudentTotal extends Value
      */
     public function ranges()
     {
-        return ['ALL' => 'All Time'];
+        return [
+            'ALL' => 'All Time',
+            365 => __('This Year'),
+        ];
     }
 
     /**

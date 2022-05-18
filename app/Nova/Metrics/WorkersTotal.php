@@ -17,6 +17,13 @@ class WorkersTotal extends Partition
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isDecider()) {
+            $model = User::join('roles', 'role_id', 'roles.id')
+                ->where('users.establishment_id', $request->user()->establishment_id)
+                ->whereNotIn('roles.id', [Role::STUDENT, Role::ADMIN, Role::MINISTER, Role::DECIDER]);
+            return $this->count($request, $model, 'roles.name');
+        }
+
         $model = User::join('roles', 'role_id', 'roles.id')->whereNotIn('roles.id', [Role::STUDENT, Role::ADMIN, Role::MINISTER]);
 
         return $this->count($request, $model, 'roles.name');

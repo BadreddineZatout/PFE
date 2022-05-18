@@ -1,12 +1,24 @@
 <?php
 
-namespace App\Actions;
+namespace App\Services;
 
+use App\Nova\Metrics\TotalBus;
+use App\Nova\Metrics\StudentTotal;
+use App\Nova\Metrics\WorkersTotal;
+use App\Nova\Metrics\ResidencesTotal;
+use App\Nova\Metrics\RestaurantsTotal;
 use Ericlagarda\NovaTextCard\TextCard;
+use App\Nova\Metrics\EstablishmentsTotal;
 
-class UserWelcomeCard
+class DashboardCardsService
 {
-  public static function getCard()
+  /**
+   * getWelcomeCard
+   *
+   * @return Ericlagarda\NovaTextCard\TextCard;
+
+   */
+  public static function getWelcomeCard()
   {
     $content = '<div class="flex justify-between bg-white rounded-lg items-center">
         <div class="flex flex-col items-start justify-center">
@@ -50,5 +62,53 @@ class UserWelcomeCard
       ->center(false)
       ->text($content)
       ->textAsHtml();
+  }
+
+  public static function getMinisterCards()
+  {
+    return [
+      DashboardCardsService::getWelcomeCard(),
+      new StudentTotal,
+      new EstablishmentsTotal,
+      new ResidencesTotal,
+      new WorkersTotal,
+      new RestaurantsTotal,
+      new TotalBus,
+    ];
+  }
+
+  public static function getDeciderCards()
+  {
+    return [
+      DashboardCardsService::getWelcomeCard(),
+      (new EstablishmentsTotal)->width('1/2'),
+      (new ResidencesTotal)->width('1/2'),
+      new StudentTotal,
+      new WorkersTotal,
+      new TotalBus,
+    ];
+  }
+
+  public static function getRestaurationAgentCards()
+  {
+    return [
+      DashboardCardsService::getWelcomeCard(),
+      (new StudentTotal)->width('1/2'),
+    ];
+  }
+
+  public static function getHebergementAgentCards()
+  {
+    return [
+      DashboardCardsService::getWelcomeCard(),
+      (new StudentTotal)->width('1/2'),
+    ];
+  }
+  public static function getTransportAgentCards()
+  {
+    return [
+      DashboardCardsService::getWelcomeCard(),
+      (new TotalBus())->width('1/2'),
+    ];
   }
 }

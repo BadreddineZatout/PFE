@@ -39,6 +39,7 @@ class TotalBus extends Value
     {
         return [
             'ALL' => 'All Time',
+            365 => __('This Year'),
         ];
     }
 

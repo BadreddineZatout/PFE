@@ -26,7 +26,9 @@ class ResidencesTotal extends Value
      */
     public function ranges()
     {
-        return ['ALL' => 'All Time'];
+        return [
+            'ALL' => 'All Time',
+        ];
     }
 
     /**

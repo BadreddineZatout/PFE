@@ -101,6 +101,16 @@ class User extends Authenticatable
         return $this->role_id == Role::AGENT_RESTAURATION;
     }
 
+    public function isUniversityAgentRestauration()
+    {
+        return $this->role_id == Role::AGENT_RESTAURATION && $this->establishment?->isUniversity();
+    }
+
+    public function isResidenceAgentRestauration()
+    {
+        return $this->role_id == Role::AGENT_RESTAURATION && $this->establishment?->isResidence();
+    }
+
     public function isAgentHebergement()
     {
         return $this->role_id == Role::AGENT_HEBERGEMENT;
