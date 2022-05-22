@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class UserResourceTest extends TestCase
 {
     use NovaAssertions;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+
     public function test_UserResourceIndex()
     {
         $user = User::findOrFail(1);
