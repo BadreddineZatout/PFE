@@ -26,11 +26,14 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
+        "dillingham/nova-assertions": "^1.2",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
+        "joshgaber/novaunit": "2.2",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
+        "pestphp/pest": "^1.21",
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
