@@ -117,9 +117,7 @@ class User extends Resource
                 ->dependsOn('Wilaya'),
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select establishment')
-                ->optionsResolve(function ($wilaya) {
-                    return $wilaya->establishments()->get(['id', 'name_fr']);
-                })->dependsOn('Wilaya')
+                ->options(Establishment::all())
                 ->nullable()
                 ->rules(new UserEstablishment),
         ];
