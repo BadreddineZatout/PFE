@@ -5,6 +5,8 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Models\Signalement;
+use App\Nova\Actions\TreatIncident;
 use App\Nova\Filters\IncidentDate;
 use App\Nova\Filters\IncidentEstablishment;
 use App\Nova\Lenses\AnonymousReports;
@@ -136,6 +138,14 @@ class Incident extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new TreatIncident())->showOnTableRow()
+                ->confirmText('Are you sure you want to do this action?')
+                ->confirmButtonText('Confirm')
+                ->cancelButtonText("Cancel")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', Signalement::class);
+                }),
+        ];
     }
 }

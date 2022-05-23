@@ -40,7 +40,7 @@ class SignalementPolicy
      * @param  \App\Models\Signalement  $signalement
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Signalement $signalement)
+    public function update(User $user)
     {
         return $user->isAdmin() || $user->isDecider();
     }
