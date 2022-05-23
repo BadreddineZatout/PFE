@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\Establishment;
 use App\Nova\Filters\IncidentDate;
 use App\Nova\Filters\IncidentEstablishment;
+use App\Nova\Lenses\AnonymousReports;
+use App\Nova\Lenses\NotTreatedIncidents;
+use App\Nova\Lenses\TreatedIncidents;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Titasgailius\SearchRelations\SearchesRelations;
 
@@ -121,7 +121,11 @@ class Incident extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new TreatedIncidents(),
+            new NotTreatedIncidents(),
+            new AnonymousReports()
+        ];
     }
 
     /**
