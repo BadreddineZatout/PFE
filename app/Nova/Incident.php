@@ -5,6 +5,8 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Filters\IncidentDate;
+use App\Nova\Filters\IncidentEstablishment;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
@@ -103,7 +105,12 @@ class Incident extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [
+                new IncidentDate,
+                new IncidentEstablishment
+            ];
+        return [new IncidentDate];
     }
 
     /**
