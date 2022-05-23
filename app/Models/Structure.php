@@ -18,6 +18,11 @@ class Structure extends Model
         return $this->belongsTo(Establishment::class);
     }
 
+    public function places()
+    {
+        return $this->hasMany(Place::class)->where('structure_id', $this->id);
+    }
+
     public function chambres()
     {
         return $this->hasMany(Place::class)->where('structure_id', $this->id)->where('type', 'chambre');
