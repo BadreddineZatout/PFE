@@ -2,9 +2,9 @@
 
 namespace App\Nova;
 
-use App\Models\Incident as ModelsIncident;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -19,7 +19,7 @@ class Incident extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Incident::class;
+    public static $model = \App\Models\Signalement::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -57,13 +57,7 @@ class Incident extends Resource
             BelongsTo::make('establishment'),
             Text::make('description'),
             Date::make('date'),
-            Select::make('state')->options([
-                'traité' => 'traité',
-                'non traité' => 'non traité'
-            ]),
-            Number::make('Reports Number', function () {
-                return ModelsIncident::where('description', $this->description)->where('establishment_id', $this->establishment_id)->count();
-            })->onlyOnIndex()
+            Boolean::make('treated', 'is_treated'),
         ];
     }
 
