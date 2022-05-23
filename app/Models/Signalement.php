@@ -13,8 +13,35 @@ class Signalement extends Model
         'date' => 'date'
     ];
 
+    protected $with = [
+        'user',
+        'establishment',
+        'structure',
+        'place'
+    ];
+
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function establishment()
     {
         return $this->belongsTo(Establishment::class);
+    }
+
+    public function structure()
+    {
+        return $this->belongsTo(Structure::class);
+    }
+
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
     }
 }

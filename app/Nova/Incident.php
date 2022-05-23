@@ -2,18 +2,22 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use App\Models\Establishment;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Incident extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -26,15 +30,18 @@ class Incident extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
-     * The columns that should be searched.
+     * The relationship columns that should be searched.
      *
      * @var array
      */
-    public static $search = [
-        'id',
+    public static $searchRelations = [
+        'user' => ['name'],
+        'establishment' => ['name_fr'],
+        'structure' => ['name'],
+        'place' => ['name']
     ];
 
     /**
@@ -54,10 +61,26 @@ class Incident extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('establishment'),
-            Text::make('description'),
+            BelongsTo::make('user'),
+            NovaBelongsToDepend::make('establishment')
+                ->placeholder('Select Establishment')
+                ->options(Establishment::all()),
+            NovaBelongsToDepend::make('structure')
+                ->placeholder('Select Structure')
+                ->optionsResolve(function ($establishment) {
+                    return $establishment->structures;
+                })->dependsOn('establishment')
+                ->nullable(),
+            NovaBelongsToDepend::make('place')
+                ->placeholder('Select Place')
+                ->optionsResolve(function ($structure) {
+                    return $structure->places;
+                })->dependsOn('structure')
+                ->nullable(),
+            Text::make('description')->hideFromIndex(),
             Date::make('date'),
             Boolean::make('treated', 'is_treated'),
+            Boolean::make('anonymous', 'is_anonymous')->hideFromIndex(),
         ];
     }
 
