@@ -12,6 +12,7 @@ use App\Nova\Filters\IncidentEstablishment;
 use App\Nova\Lenses\AnonymousReports;
 use App\Nova\Lenses\NotTreatedIncidents;
 use App\Nova\Lenses\TreatedIncidents;
+use App\Rules\AnonymousUserRule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
@@ -65,7 +66,8 @@ class Incident extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            BelongsTo::make('user'),
+            BelongsTo::make('user')
+                ->rules(new AnonymousUserRule),
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select Establishment')
                 ->options(Establishment::all()),
