@@ -22,7 +22,7 @@ class Signalement extends Model
 
     public function getNameAttribute()
     {
-        return $this->user->name;
+        return $this->user->name ?? $this->establishment->name;
     }
 
     public function user()

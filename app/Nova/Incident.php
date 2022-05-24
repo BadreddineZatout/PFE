@@ -2,23 +2,29 @@
 
 namespace App\Nova;
 
+use App\Models\Signalement;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
-use App\Models\Signalement;
-use App\Nova\Actions\TreatIncident;
-use App\Nova\Filters\IncidentDate;
-use App\Nova\Filters\IncidentEstablishment;
-use App\Nova\Lenses\AnonymousReports;
-use App\Nova\Lenses\NotTreatedIncidents;
-use App\Nova\Lenses\TreatedIncidents;
-use App\Rules\AnonymousUserRule;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use App\Rules\AnonymousUserRule;
 use Laravel\Nova\Fields\Boolean;
+use App\Nova\Filters\IncidentDate;
 use Laravel\Nova\Fields\BelongsTo;
-use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use App\Nova\Actions\TreatIncident;
+use App\Nova\Metrics\IncidentsTotal;
+use App\Nova\Lenses\AnonymousReports;
+use App\Nova\Lenses\TreatedIncidents;
+use App\Nova\Metrics\ReportedIncidents;
+use App\Nova\Lenses\NotTreatedIncidents;
+use App\Nova\Filters\IncidentEstablishment;
+use App\Nova\Metrics\ReportedIncidentsType;
+use App\Nova\Metrics\TreatedIncidentsTotal;
+use App\Nova\Metrics\ReportedIncidentsState;
+use App\Nova\Metrics\NotTreatedIncidentsTotal;
 use Titasgailius\SearchRelations\SearchesRelations;
+use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Incident extends Resource
 {
@@ -67,7 +73,8 @@ class Incident extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make('user')
-                ->rules(new AnonymousUserRule),
+                ->rules(new AnonymousUserRule)
+                ->nullable(),
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select Establishment')
                 ->options(Establishment::all()),
@@ -98,7 +105,14 @@ class Incident extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new IncidentsTotal(),
+            new TreatedIncidentsTotal(),
+            new NotTreatedIncidentsTotal(),
+            (new ReportedIncidentsState())->width('1/2'),
+            (new ReportedIncidentsType())->width('1/2'),
+            (new ReportedIncidents())->width('full'),
+        ];
     }
 
     /**
