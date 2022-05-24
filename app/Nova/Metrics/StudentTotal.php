@@ -18,12 +18,12 @@ class StudentTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        if ($request->user()->isUniversityDecider() || $request->user()->isUniversityAgentRestauration())
+        if ($request->user()->isUniversityDecider() || $request->user()->isUniversityAgentRestauration() || $request->user()->isUniversityAgentIncident())
             return $this->count($request, User::where([
                 'role_id' => Role::STUDENT,
                 'establishment_id' => $request->user()->establishment_id
             ]));
-        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement() || $request->user()->isResidenceAgentRestauration())
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement() || $request->user()->isResidenceAgentRestauration() || $request->user()->isResidenceAgentIncident())
             return $this->count($request, Resident::where([
                 'establishment_id' => $request->user()->establishment_id
             ]));

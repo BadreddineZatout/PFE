@@ -64,7 +64,7 @@ class DashboardCardsService
       ->textAsHtml();
   }
 
-  public static function getMinisterCards()
+  public static function getCards()
   {
     return [
       DashboardCardsService::getWelcomeCard(),
@@ -74,47 +74,6 @@ class DashboardCardsService
       new WorkersTotal,
       new RestaurantsTotal,
       new TotalBus,
-    ];
-  }
-
-  public static function getDeciderCards()
-  {
-    return [
-      DashboardCardsService::getWelcomeCard(),
-      (new EstablishmentsTotal)->width('1/2'),
-      (new ResidencesTotal)->width('1/2'),
-      new StudentTotal,
-      new WorkersTotal,
-      new TotalBus,
-    ];
-  }
-
-  public static function getRestaurationAgentCards()
-  {
-    return [
-      DashboardCardsService::getWelcomeCard(),
-      (new StudentTotal)->width('1/2'),
-    ];
-  }
-
-  public static function getHebergementAgentCards()
-  {
-    return [
-      DashboardCardsService::getWelcomeCard(),
-      (new StudentTotal)->width('1/2'),
-    ];
-  }
-  public static function getTransportAgentCards()
-  {
-    return [
-      DashboardCardsService::getWelcomeCard(),
-      (new TotalBus())->width('1/2'),
-    ];
-  }
-  public static function getIncidentAgentCards()
-  {
-    return [
-      DashboardCardsService::getWelcomeCard(),
     ];
   }
 }

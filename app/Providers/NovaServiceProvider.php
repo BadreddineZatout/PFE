@@ -61,19 +61,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function cards()
     {
-        $user = Auth::user();
-        if ($user->isMinister() || $user->isAdmin())
-            return DashboardCardsService::getMinisterCards();
-        if ($user->isDecider())
-            return DashboardCardsService::getDeciderCards();
-        if ($user->isAgentRestauration())
-            return DashboardCardsService::getRestaurationAgentCards();
-        if ($user->isAgentHebergement())
-            return DashboardCardsService::getHebergementAgentCards();
-        if ($user->isAgentTransport())
-            return DashboardCardsService::getTransportAgentCards();
-        if ($user->isAgentIncident())
-            return DashboardCardsService::getIncidentAgentCards();
+        return DashboardCardsService::getCards();
     }
 
     /**

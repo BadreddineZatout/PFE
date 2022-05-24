@@ -125,4 +125,14 @@ class User extends Authenticatable
     {
         return $this->role_id == Role::AGENT_INCIDENT;
     }
+
+    public function isUniversityAgentIncident()
+    {
+        return $this->role_id == Role::AGENT_INCIDENT && $this->establishment?->isUniversity();
+    }
+
+    public function isResidenceAgentIncident()
+    {
+        return $this->role_id == Role::AGENT_INCIDENT && $this->establishment?->isResidence();
+    }
 }
