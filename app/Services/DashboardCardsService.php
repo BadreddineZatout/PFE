@@ -111,4 +111,10 @@ class DashboardCardsService
       (new TotalBus())->width('1/2'),
     ];
   }
+  public static function getIncidentAgentCards()
+  {
+    return [
+      DashboardCardsService::getWelcomeCard(),
+    ];
+  }
 }

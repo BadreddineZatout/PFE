@@ -120,4 +120,9 @@ class User extends Authenticatable
     {
         return $this->role_id == Role::AGENT_TRANSPORT;
     }
+
+    public function isAgentIncident()
+    {
+        return $this->role_id == Role::AGENT_INCIDENT;
+    }
 }

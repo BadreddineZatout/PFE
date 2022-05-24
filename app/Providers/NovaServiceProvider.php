@@ -72,6 +72,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return DashboardCardsService::getHebergementAgentCards();
         if ($user->isAgentTransport())
             return DashboardCardsService::getTransportAgentCards();
+        if ($user->isAgentIncident())
+            return DashboardCardsService::getIncidentAgentCards();
     }
 
     /**

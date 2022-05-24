@@ -19,7 +19,7 @@ class SignalementPolicy
      */
     public function view(User $user, Signalement $signalement)
     {
-        return $user->isAdmin() || $user->isMinister() || $user->isDecider();
+        return $user->isAdmin() || $user->isMinister() || $user->isDecider() || $user->isAgentIncident();
     }
 
     /**
@@ -30,7 +30,7 @@ class SignalementPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isAgentIncident();
     }
 
     /**
@@ -42,7 +42,7 @@ class SignalementPolicy
      */
     public function update(User $user)
     {
-        return $user->isAdmin() || $user->isDecider();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentIncident();
     }
 
     /**
@@ -54,6 +54,6 @@ class SignalementPolicy
      */
     public function delete(User $user, Signalement $signalement)
     {
-        return $user->isAdmin() || $user->isDecider();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentIncident();
     }
 }
