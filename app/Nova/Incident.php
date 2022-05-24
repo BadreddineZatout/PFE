@@ -21,6 +21,7 @@ use App\Nova\Lenses\NotTreatedIncidents;
 use App\Nova\Filters\IncidentEstablishment;
 use App\Nova\Metrics\ReportedIncidentsType;
 use App\Nova\Metrics\TreatedIncidentsTotal;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Metrics\ReportedIncidentsState;
 use App\Nova\Metrics\NotTreatedIncidentsTotal;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -61,6 +62,34 @@ class Incident extends Resource
      * @var string
      */
     public static $group = 'Incident';
+
+    /**
+     * Determine if this resource is available for navigation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public static function availableForNavigation(Request $request)
+    {
+        return $request->user()->isAdmin()
+            || $request->user()->isMinister()
+            || $request->user()->isDecider()
+            || $request->user()->isAgentIncident();
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isDecider() || $request->user()->isAgentIncident())
+            return $query->where('establishment_id', $request->user()->establishment_id);
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.

@@ -16,6 +16,8 @@ class ReportedIncidents extends Trend
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isDecider() || $request->user()->isAgentIncident())
+            return $this->countByDays($request, Signalement::where('establishment_id', $request->user()->establishment_id));
         return $this->countByDays($request, Signalement::class);
     }
 

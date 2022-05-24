@@ -17,7 +17,11 @@ class ReportedIncidentsState extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Signalement::class, 'is_Treated')
+        $model = ($request->user()->isDecider() || $request->user()->isAgentIncident())
+            ? Signalement::where('establishment_id', $request->user()->establishment_id)
+            : Signalement::class;
+
+        return $this->count($request, $model, 'is_Treated')
             ->label(function ($value) {
                 switch ($value) {
                     case 1:

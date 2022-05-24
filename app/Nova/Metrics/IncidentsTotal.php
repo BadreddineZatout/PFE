@@ -16,6 +16,9 @@ class IncidentsTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isDecider() || $request->user()->isAgentIncident())
+            return $this->count($request, Signalement::where('establishment_id', $request->user()->establishment_id));
+
         return $this->count($request, Signalement::class);
     }
 

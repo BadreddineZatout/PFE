@@ -18,6 +18,11 @@ class NotTreatedIncidentsTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
+        if ($request->user()->isDecider() || $request->user()->isAgentIncident())
+            return $this->count($request, Signalement::where([
+                'is_treated' => false,
+                'establishment_id' => $request->user()->establishment_id
+            ]));
         return $this->count($request, Signalement::where('is_treated', false));
     }
 
