@@ -12,6 +12,7 @@ use App\Nova\Filters\UserRole;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Rules\EstablishmentNotRequired;
+use App\Rules\RequiredEstablishment;
 use App\Rules\UserEstablishment;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -105,7 +106,7 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
             BelongsTo::make('role')
-                ->rules('required'),
+                ->rules('required', new RequiredEstablishment),
             NovaBelongsToDepend::make('Wilaya')
                 ->placeholder('Select Wilaya')
                 ->options(Wilaya::all()),
@@ -118,8 +119,8 @@ class User extends Resource
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select establishment')
                 ->options(Establishment::all())
-                ->nullable()
-                ->rules(new UserEstablishment),
+                ->rules(new UserEstablishment)
+                ->nullable(),
         ];
     }
 

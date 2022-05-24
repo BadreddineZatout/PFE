@@ -2,12 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\Establishment;
 use App\Models\Role;
-use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\DataAwareRule;
 
-class UserEstablishment implements Rule, DataAwareRule
+class RequiredEstablishment implements Rule, DataAwareRule
 {
     /**
      * All of the data under validation.
@@ -48,13 +47,8 @@ class UserEstablishment implements Rule, DataAwareRule
      */
     public function passes($attribute, $value)
     {
-        if ($this->data['role'] == Role::ADMIN || $this->data['role'] == Role::MINISTER)
+        if (!isset($this->data['establishment']) && ($this->data['role'] != Role::ADMIN && $this->data['role'] != Role::MINISTER))
             return false;
-        if ($this->data['role'] == Role::AGENT_HEBERGEMENT && !Establishment::findOrFail($this->data['establishment'])->isResidence())
-            return false;
-        if ($this->data['role'] == Role::STUDENT && Establishment::findOrFail($this->data['establishment'])->isResidence())
-            return false;
-
         return true;
     }
 
@@ -65,8 +59,6 @@ class UserEstablishment implements Rule, DataAwareRule
      */
     public function message()
     {
-        if ($this->data['role'] == Role::ADMIN || $this->data['role'] == Role::MINISTER)
-            return "An Admin or a minister can't have an establihsment";
-        return "This Establishment can't be assigned to this type of user.";
+        return 'You need to choose an establishment.';
     }
 }
