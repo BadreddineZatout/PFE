@@ -3,11 +3,16 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class Feedback extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -20,7 +25,17 @@ class Feedback extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
+
+    /**
+     * The relationship columns that should be searched.
+     *
+     * @var array
+     */
+    public static $searchRelations = [
+        'user' => ['name'],
+        'question' => ['question']
+    ];
 
     /**
      * The columns that should be searched.
@@ -28,7 +43,7 @@ class Feedback extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'description',
     ];
 
     /**
@@ -36,7 +51,7 @@ class Feedback extends Resource
      *
      * @var bool
      */
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
 
     /**
      * The logical group associated with the resource.
@@ -55,6 +70,12 @@ class Feedback extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            BelongsTo::make('user'),
+            BelongsTo::make('question'),
+            Text::make('description')
+                ->rules('required', 'min:1', 'max:255'),
+            Date::make('date')
+                ->required(),
         ];
     }
 
