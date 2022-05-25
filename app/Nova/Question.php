@@ -2,8 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\FeedbackType;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Question extends Resource
@@ -20,7 +23,7 @@ class Question extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'question';
 
     /**
      * The columns that should be searched.
@@ -28,7 +31,7 @@ class Question extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'question',
     ];
 
     /**
@@ -60,18 +63,10 @@ class Question extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Text::make('question')
+                ->rules('required', 'min:5', 'max:255'),
+            BelongsTo::make('FeedbackType', 'TypeFeedback'),
         ];
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
     }
 
     /**
@@ -82,28 +77,8 @@ class Question extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
+        return [
+            new FeedbackType
+        ];
     }
 }
