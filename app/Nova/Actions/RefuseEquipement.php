@@ -30,14 +30,4 @@ class RefuseEquipement extends DestructiveAction
         }
         return Action::danger('Accommodation requests refused');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

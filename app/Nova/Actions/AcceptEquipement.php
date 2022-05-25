@@ -28,14 +28,4 @@ class AcceptEquipement extends Action
         }
         return Action::message('Equipment requests accepted');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

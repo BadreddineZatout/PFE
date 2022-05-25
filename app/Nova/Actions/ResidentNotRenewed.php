@@ -29,14 +29,4 @@ class ResidentNotRenewed extends DestructiveAction
         }
         return Action::danger('Resident non renouvlé');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

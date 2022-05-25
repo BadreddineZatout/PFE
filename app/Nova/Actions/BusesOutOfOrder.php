@@ -30,14 +30,4 @@ class BusesOutOfOrder extends DestructiveAction
         }
         return Action::danger('Buses are out of order');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

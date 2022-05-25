@@ -28,14 +28,4 @@ class TreatIncident extends Action
         }
         return Action::message('Incident Treated');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

@@ -28,14 +28,4 @@ class ResidentRenewed extends Action
         }
         return Action::message('Resident renouvlé');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

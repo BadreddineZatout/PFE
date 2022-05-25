@@ -28,14 +28,4 @@ class BusesInService extends Action
         }
         return Action::message('Buses are in service');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }

@@ -28,14 +28,4 @@ class AcceptAccommodation extends Action
         }
         return Action::message('Accommodation requests accepted');
     }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
 }
