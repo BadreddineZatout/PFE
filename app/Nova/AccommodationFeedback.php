@@ -2,35 +2,13 @@
 
 namespace App\Nova;
 
+use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AccommodationFeedback extends Feedback
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = \App\Models\Feedback::class;
-
-    /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'id';
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id',
-    ];
-
     /**
      * The logical group associated with the resource.
      *
@@ -50,16 +28,23 @@ class AccommodationFeedback extends Feedback
     }
 
     /**
-     * Get the fields displayed by the resource.
+     * Build an "index" query for the given resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function fields(Request $request)
+    public static function indexQuery(NovaRequest $request, $query)
     {
-        return [
-            ID::make(__('ID'), 'id')->sortable(),
-        ];
+        $query->join('questions', 'question_id', 'questions.id')
+            ->where('type_feedback_id', TypeFeedback::ACCOMMODATION_TYPE);
+        if ($request->user()->isUniversityDecider())
+            $query->join('users', 'user_id', 'users.id')
+                ->where('users.establishment_id', $request->user()->establishment_id);
+        if ($request->user()->isResidenceDecider())
+            $query->join('residents', 'feedback.user_id', 'residents.user_id')
+                ->where('residents.establishment_id', $request->user()->establishment_id);
+        return $query->select('feedback.*');
     }
 
     /**
@@ -73,16 +58,6 @@ class AccommodationFeedback extends Feedback
         return [];
     }
 
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
 
     /**
      * Get the lenses available for the resource.

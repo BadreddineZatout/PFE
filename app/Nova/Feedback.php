@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use App\Nova\Filters\FeedbackDate;
-use App\Nova\Filters\FeedbackType;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -53,7 +52,7 @@ class Feedback extends Resource
      *
      * @var bool
      */
-    public static $displayInNavigation = true;
+    public static $displayInNavigation = false;
 
     /**
      * The logical group associated with the resource.
@@ -102,7 +101,6 @@ class Feedback extends Resource
     {
         return [
             new FeedbackDate,
-            new FeedbackType
         ];
     }
 

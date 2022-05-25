@@ -25,11 +25,6 @@ class FeedbackType extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        if ($query->getModel()::class == 'App\Models\Feedback') {
-            return $query->join('questions', 'question_id', 'questions.id')
-                ->where('type_feedback_id', $value)
-                ->select('feedback.*');
-        }
         return $query->where('type_feedback_id', $value);
     }
 
