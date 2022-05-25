@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Lenses\Lens;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\LensRequest;
+use App\Nova\Metrics\NotTreatedIncidentsTotal;
 
 class NotTreatedIncidents extends Lens
 {
@@ -53,20 +54,10 @@ class NotTreatedIncidents extends Lens
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new NotTreatedIncidentsTotal,
+        ];
     }
-
-    /**
-     * Get the filters available for the lens.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
     /**
      * Get the actions available on the lens.
      *

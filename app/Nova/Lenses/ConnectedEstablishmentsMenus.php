@@ -59,17 +59,6 @@ class ConnectedEstablishmentsMenus extends Lens
     }
 
     /**
-     * Get the cards available on the lens.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
      * Get the filters available for the lens.
      *
      * @param  \Illuminate\Http\Request  $request

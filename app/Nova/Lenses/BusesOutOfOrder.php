@@ -55,17 +55,6 @@ class BusesOutOfOrder extends Lens
     }
 
     /**
-     * Get the filters available for the lens.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
      * Get the actions available on the lens.
      *
      * @param  \Illuminate\Http\Request  $request

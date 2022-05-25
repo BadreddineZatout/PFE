@@ -2,6 +2,7 @@
 
 namespace App\Nova\Lenses;
 
+use App\Nova\Metrics\TreatedIncidentsTotal;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -53,18 +54,9 @@ class TreatedIncidents extends Lens
      */
     public function cards(Request $request)
     {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the lens.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
+        return [
+            new TreatedIncidentsTotal()
+        ];
     }
 
     /**
@@ -75,7 +67,7 @@ class TreatedIncidents extends Lens
      */
     public function actions(Request $request)
     {
-        return [];
+        return parent::actions($request);
     }
 
     /**
