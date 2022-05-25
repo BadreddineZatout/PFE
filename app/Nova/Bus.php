@@ -89,9 +89,8 @@ class Bus extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if ($request->user()->isDecider() || $request->user()->isAgentTransport()) {
+        if ($request->user()->isDecider() || $request->user()->isAgentTransport())
             return $query->where('establishment_id', $request->user()->establishment_id);
-        }
         return $query;
     }
 

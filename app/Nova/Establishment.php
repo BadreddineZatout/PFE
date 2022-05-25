@@ -46,7 +46,7 @@ class Establishment extends Resource
      *
      * @var array
      */
-    public static $with = ['wilaya', 'commune'];
+    public static $with = ['wilaya', 'commune', 'establishments'];
 
     /**
      * The logical group associated with the resource.
@@ -97,39 +97,6 @@ class Establishment extends Resource
             Number::make('longitude')->hideFromIndex(),
             Number::make('latitude')->hideFromIndex(),
         ];
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
     }
 
     /**

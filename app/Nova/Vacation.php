@@ -31,7 +31,7 @@ class Vacation extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'name'
     ];
 
     /**
@@ -71,49 +71,5 @@ class Vacation extends Resource
                 'jour férié' => 'jour férié'
             ])->rules('required')
         ];
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the actions available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function actions(Request $request)
-    {
-        return [];
     }
 }

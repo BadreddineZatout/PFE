@@ -21,29 +21,6 @@ class Residence extends Establishment
     public static $model = \App\Models\Establishment::class;
 
     /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'name_fr';
-
-    /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'id', 'name_fr'
-    ];
-
-    /**
-     * The relationships that should be eager loaded on index queries.
-     *
-     * @var array
-     */
-    public static $with = ['establishments'];
-
-    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -104,38 +81,5 @@ class Residence extends Establishment
         $fields[] = BelongsToMany::make('Universities', 'Establishments');
 
         return $fields;
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
     }
 }

@@ -142,14 +142,14 @@ class Reservation extends Resource
             ->series(array([
                 'label' => 'Consumed',
                 'filter' => [
-                    'key' => 'has_ate', // State Column for Count Calculation Here
+                    'key' => 'has_ate',
                     'value' => true
                 ],
                 'backgroundColor' => '#4055B2',
             ], [
                 'label' => 'Leftovers',
                 'filter' => [
-                    'key' => 'has_ate', // State Column for Count Calculation Here
+                    'key' => 'has_ate',
                     'value' => 'false'
                 ],
                 'backgroundColor' => '#D7E1F3',
@@ -200,17 +200,6 @@ class Reservation extends Resource
             new ReservationDate,
             new MealType
         ];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
     }
 
     /**

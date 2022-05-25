@@ -19,22 +19,6 @@ class Student extends User
     public static $model = \App\Models\User::class;
 
     /**
-     * The columns that should be searched.
-     *
-     * @var array
-     */
-    public static $search = [
-        'name'
-    ];
-
-    /**
-     * The relationships that should be eager loaded on index queries.
-     *
-     * @var array
-     */
-    public static $with = ['role'];
-
-    /**
      * The logical group associated with the resource.
      *
      * @var string
@@ -96,39 +80,6 @@ class Student extends User
         $fields[8] = BelongsTo::make('role')->default(Role::where('name', 'Student')->first()->id);
 
         return $fields;
-    }
-
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the filters available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
     }
 
     /**

@@ -156,17 +156,6 @@ class Accommodation extends Resource
     }
 
     /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
-    }
-
-    /**
      * Get the actions available for the resource.
      *
      * @param  \Illuminate\Http\Request  $request

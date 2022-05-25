@@ -39,7 +39,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'name', 'email',
     ];
 
     /**
@@ -47,7 +47,7 @@ class User extends Resource
      *
      * @var array
      */
-    public static $with = ['establishment', 'wilaya', 'commune'];
+    public static $with = ['establishment', 'wilaya', 'commune', 'role'];
 
     /**
      * The logical group associated with the resource.
