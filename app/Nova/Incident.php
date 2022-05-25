@@ -26,6 +26,7 @@ use App\Nova\Metrics\ReportedIncidentsState;
 use App\Nova\Metrics\NotTreatedIncidentsTotal;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
 class Incident extends Resource
 {
@@ -191,6 +192,7 @@ class Incident extends Resource
                 ->canSee(function ($request) {
                     return $request->user()->can('update', Signalement::class);
                 }),
+            (new DownloadExcel)->onlyOnIndex()->canSee(fn ($request) => $request->user()->isMinister())
         ];
     }
 }
