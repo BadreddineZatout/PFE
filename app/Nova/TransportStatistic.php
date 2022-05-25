@@ -84,7 +84,7 @@ class TransportStatistic extends Resource
             return $query->join('users', 'user_id', 'users.id')
                 ->where([
                     'establishment_id' => $request->user()->establishment_id,
-                    'role_id' => Role::where('name', 'Student')->first()->id
+                    'role_id' => Role::STUDENT
                 ])
                 ->select('transport_statistics.*');
         return $query->join('residents', 'transport_statistics.user_id', 'residents.user_id')
@@ -104,7 +104,7 @@ class TransportStatistic extends Resource
      */
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'Student')->first()->id);
+        return $query->where('role_id', Role::STUDENT);
     }
 
     /**

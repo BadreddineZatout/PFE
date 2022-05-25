@@ -19,7 +19,7 @@ class ResidentByUniversity extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $student_role_id = Role::where('name', 'Student')->first()->id;
+        $student_role_id = Role::STUDENT;
         $model = User::where('role_id', $student_role_id)
             ->join('residents', 'users.id', 'residents.user_id')
             ->join('establishments', 'users.establishment_id', 'establishments.id')

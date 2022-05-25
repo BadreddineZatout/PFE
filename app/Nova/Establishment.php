@@ -61,7 +61,7 @@ class Establishment extends Resource
      * @var array
      */
     public static $search = [
-        'name_fr'
+        'name_fr', 'name_arabe'
     ];
 
     /**

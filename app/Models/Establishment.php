@@ -13,6 +13,7 @@ class Establishment extends Model
         'creation_date' => 'date'
     ];
 
+
     public function establishments()
     {
         return $this->belongsToMany(Establishment::class, 'connected_establishments', 'establishment_id', 'connected_establishment_id');
@@ -63,7 +64,7 @@ class Establishment extends Model
     public function students()
     {
         if ($this->isUniversity()) {
-            return $this->hasMany(User::class)->where('role_id', Role::where('name', 'Student')->first()->id);
+            return $this->hasMany(User::class)->where('role_id', Role::STUDENT);
         }
     }
 }

@@ -22,13 +22,10 @@ class ResidentStudents extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $student_role_id = Role::where('name', 'Student')->first()->id;
-
-        // Filter your model with existing filters
         $model = $this->globalFiltered(User::class, [
             UserUniversity::class
         ]);
-        $model->where('role_id', $student_role_id);
+        $model->where('role_id', Role::STUDENT);
         if ($request->user()->isUniversityDecider()) $model->where('establishment_id', $request->user()->establishment_id);
 
         return $this->count($request, $model->select('users.id', 'is_resident'), 'is_resident')

@@ -38,7 +38,7 @@ class RotationDriver extends Filter
     public function options(Request $request)
     {
         $drivers = [];
-        User::where('role_id', Role::where('name', 'Driver')->first()->id)->each(function ($e) use (&$drivers) {
+        User::where('role_id', Role::DRIVER)->each(function ($e) use (&$drivers) {
             $drivers[$e->name] = $e->id;
         });
         return $drivers;

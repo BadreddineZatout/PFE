@@ -50,7 +50,7 @@ class Accommodation extends Resource
      *
      * @var array
      */
-    public static $with = ['establishment', 'structure', 'place'];
+    public static $with = ['establishment', 'structure', 'place', 'user'];
 
     /**
      * The logical group associated with the resource.
@@ -87,7 +87,7 @@ class Accommodation extends Resource
      */
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->where('role_id', Role::where('name', 'Student')->first()->id);
+        return $query->where('role_id', Role::STUDENT);
     }
 
     /**

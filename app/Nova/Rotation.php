@@ -142,7 +142,7 @@ class Rotation extends Resource
     public static function relatableUsers(NovaRequest $request, $query)
     {
         return $query->where([
-            'role_id' => Role::where('name', 'Driver')->first()->id,
+            'role_id' => Role::DRIVER,
             'establishment_id' => $request->user()->establishment_id
         ]);
     }
@@ -186,7 +186,7 @@ class Rotation extends Resource
                 ->placeholder('Select Driver')
                 ->optionsResolve(function ($line) {
                     return User::where([
-                        'role_id' => Role::where('name', 'Driver')->first()->id,
+                        'role_id' => Role::DRIVER,
                         'establishment_id' => $line->plan->establishment_id
                     ])->get();
                 })

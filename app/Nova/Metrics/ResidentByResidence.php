@@ -23,13 +23,11 @@ class ResidentByResidence extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        $student_role_id = Role::where('name', 'Student')->first()->id;
-        // Filter your model with existing filters
         $model = $this->globalFiltered(User::class, [
             UserUniversity::class
         ]);
 
-        $model->where('role_id', $student_role_id)
+        $model->where('role_id', Role::STUDENT)
             ->join('residents', 'users.id', 'residents.user_id')
             ->join('establishments', 'residents.establishment_id', 'establishments.id');
 

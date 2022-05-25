@@ -45,7 +45,7 @@ class Student extends User
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->where('role_id', Role::where('name', 'Student')->first()->id);
+        $query->where('role_id', Role::STUDENT);
 
         if ($request->user()->isUniversityDecider()) {
             $query->where('establishment_id', $request->user()->establishment_id);
@@ -77,7 +77,7 @@ class Student extends User
     public function fields(Request $request)
     {
         $fields = parent::fields($request);
-        $fields[8] = BelongsTo::make('role')->default(Role::where('name', 'Student')->first()->id);
+        $fields[8] = BelongsTo::make('role')->default(Role::STUDENT);
 
         return $fields;
     }
