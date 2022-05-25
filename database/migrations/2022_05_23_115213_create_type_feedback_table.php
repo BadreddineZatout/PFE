@@ -15,7 +15,7 @@ class CreateTypeFeedbackTable extends Migration
     {
         Schema::create('type_feedback', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['Restauration', 'Transport', 'Accomodation']);
+            $table->enum('type', ['Restauration', 'Transport', 'Accommodation']);
             $table->timestamps();
         });
     }
