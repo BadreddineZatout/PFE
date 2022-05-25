@@ -10,6 +10,7 @@ class NotTreatedIncidentsTotal extends Value
 {
 
     public $name = 'Not Treated Incidents';
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *
@@ -42,16 +43,6 @@ class NotTreatedIncidentsTotal extends Value
             'QTD' => __('Quarter To Date'),
             'YTD' => __('Year To Date'),
         ];
-    }
-
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
-    {
-        // return now()->addMinutes(5);
     }
 
     /**

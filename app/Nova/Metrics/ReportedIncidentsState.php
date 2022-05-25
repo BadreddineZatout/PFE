@@ -9,6 +9,7 @@ use Laravel\Nova\Metrics\Partition;
 class ReportedIncidentsState extends Partition
 {
     public $name = "Treated vs Not Treated";
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *
@@ -33,16 +34,6 @@ class ReportedIncidentsState extends Partition
                 1 => '#4055B2',
                 0 => '#D7E1F3',
             ]);
-    }
-
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
-    {
-        // return now()->addMinutes(5);
     }
 
     /**

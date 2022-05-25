@@ -9,6 +9,7 @@ use Laravel\Nova\Metrics\Value;
 class TreatedIncidentsTotal extends Value
 {
     public $name = 'Treated Incidents';
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *

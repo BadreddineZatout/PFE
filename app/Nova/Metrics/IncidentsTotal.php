@@ -8,6 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class IncidentsTotal extends Value
 {
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *
@@ -38,16 +39,6 @@ class IncidentsTotal extends Value
             'QTD' => __('Quarter To Date'),
             'YTD' => __('Year To Date'),
         ];
-    }
-
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
-    {
-        // return now()->addMinutes(5);
     }
 
     /**
