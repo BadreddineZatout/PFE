@@ -88,7 +88,7 @@ class Establishment extends Resource
             Date::make('creation date', 'creation_date'),
             NovaBelongsToDepend::make('wilaya')
                 ->placeholder('Select Wilaya')
-                ->options(Cache::remember('wilayas', 60 * 60 * 24, function () {
+                ->options(Cache::rememberForever('wilayas', function () {
                     return Wilaya::all();
                 })),
             NovaBelongsToDepend::make('commune')

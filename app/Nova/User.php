@@ -110,7 +110,7 @@ class User extends Resource
                 ->rules('required', new RequiredEstablishment),
             NovaBelongsToDepend::make('Wilaya')
                 ->placeholder('Select Wilaya')
-                ->options(Cache::remember('wilayas', 60 * 60 * 24, function () {
+                ->options(Cache::rememberForever('wilayas', function () {
                     return Wilaya::all();
                 })),
             NovaBelongsToDepend::make('Commune')
