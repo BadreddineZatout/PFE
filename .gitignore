@@ -15,5 +15,5 @@ yarn-error.log
 /.vscode
 /nova
 /nova-components/TodayMeal/node_modules
-/nova-components/UserDetails/node_modules
-/nova-components/UserUniversity/node_modules
+composer.lock
+package-lock.json
