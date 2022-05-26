@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\TransportReservation;
+use App\Models\TransportStatistic;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TransportReservationPolicy
+class TransportStatisticPolicy
 {
     use HandlesAuthorization;
 
@@ -14,10 +14,10 @@ class TransportReservationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TransportReservation  $transportReservation
+     * @param  \App\Models\TransportStatistic  $transportStatistic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, TransportReservation $transportReservation)
+    public function view(User $user, TransportStatistic $transportStatistic)
     {
         return $user->isAdmin() || $user->isMinister() || $user->isDecider() || $user->isAgentTransport();
     }
@@ -37,10 +37,10 @@ class TransportReservationPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TransportReservation  $transportReservation
+     * @param  \App\Models\TransportStatistic  $transportStatistic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, TransportReservation $transportReservation)
+    public function update(User $user, TransportStatistic $transportStatistic)
     {
         return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
     }
@@ -49,10 +49,10 @@ class TransportReservationPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\TransportReservation  $transportReservation
+     * @param  \App\Models\TransportStatistic  $transportStatistic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, TransportReservation $transportReservation)
+    public function delete(User $user, TransportStatistic $transportStatistic)
     {
         return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
     }

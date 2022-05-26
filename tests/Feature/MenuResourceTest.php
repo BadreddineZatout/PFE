@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Establishment;
 use App\Models\Menu;
 use Tests\TestCase;
 use App\Models\Role;
@@ -25,7 +26,6 @@ class MenuResourceTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertResourceCount(Menu::all()->count());
-        $response->assertCardsExclude(new TodayMeal(Auth::user()->establishment_id));
         $response->assertCanView();
         $response->assertCanCreate();
         $response->assertCanUpdate();
@@ -33,12 +33,12 @@ class MenuResourceTest extends TestCase
 
         Auth::logout();
 
-        $user = User::findOrFail(1);
-        $user->role_id = Role::DECIDER;
+        $user = User::findOrFail(3);
         Auth::login($user);
 
         $response = $this->novaIndex('menus');
 
+        $response->assertStatus(200);
         $response->assertResourceCount(
             Menu::join('structures', 'menus.structure_id', 'structures.id')
                 ->where('structures.establishment_id', $user->establishment_id)->count()
@@ -53,12 +53,13 @@ class MenuResourceTest extends TestCase
 
         Auth::logout();
 
-        $user = User::findOrFail(1);
+        $user = User::findOrFail(3);
         $user->role_id = Role::AGENT_RESTAURATION;
         Auth::login($user);
 
         $response = $this->novaIndex('menus');
 
+        $response->assertStatus(200);
         $response->assertResourceCount(
             Menu::join('structures', 'menus.structure_id', 'structures.id')
                 ->where('structures.establishment_id', $user->establishment_id)->count()

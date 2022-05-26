@@ -46,8 +46,7 @@ class FoodReservationResourceTest extends TestCase
 
     public function test_ReservationResourceIndexForDecider()
     {
-        $user = User::findOrFail(1);
-        $user->role_id = Role::DECIDER;
+        $user = User::findOrFail(3);
         Auth::login($user);
         $response = $this->novaIndex('reservations');
 
