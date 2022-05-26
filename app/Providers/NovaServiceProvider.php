@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
+use App\Models\Line;
 use Laravel\Nova\Nova;
 use App\Models\Resident;
 use Laravel\Nova\Observable;
+use App\Models\Establishment;
+use App\Observers\LineObserver;
 use App\Observers\ResidentObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Services\DashboardCardsService;
+use App\Observers\EstablishmentObserver;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -23,6 +27,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         parent::boot();
 
         Observable::make(Resident::class, ResidentObserver::class);
+        Observable::make(Establishment::class, EstablishmentObserver::class);
+        Observable::make(Line::class, LineObserver::class);
     }
 
     /**
