@@ -9,11 +9,12 @@ use App\Models\Establishment;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use App\Nova\Filters\UserRole;
+use App\Rules\UserEstablishment;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\BelongsTo;
-use App\Rules\EstablishmentNotRequired;
 use App\Rules\RequiredEstablishment;
-use App\Rules\UserEstablishment;
+use Illuminate\Support\Facades\Cache;
+use App\Rules\EstablishmentNotRequired;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
@@ -109,7 +110,9 @@ class User extends Resource
                 ->rules('required', new RequiredEstablishment),
             NovaBelongsToDepend::make('Wilaya')
                 ->placeholder('Select Wilaya')
-                ->options(Wilaya::all()),
+                ->options(Cache::remember('wilayas', 60 * 60 * 24, function () {
+                    return Wilaya::all();
+                })),
             NovaBelongsToDepend::make('Commune')
                 ->placeholder('Select Commune')
                 ->optionsResolve(function ($wilaya) {
@@ -118,7 +121,9 @@ class User extends Resource
                 ->dependsOn('Wilaya'),
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select establishment')
-                ->options(Establishment::all())
+                ->options(Cache::remember('establishments', 60 * 60 * 24, function () {
+                    return Establishment::all();
+                }))
                 ->rules(new UserEstablishment)
                 ->nullable(),
         ];

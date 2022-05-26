@@ -2,15 +2,17 @@
 
 namespace App\Nova\Lenses;
 
-use App\Nova\Metrics\ResidentsNonRenouvles as MetricsResidentsNonRenouvles;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use App\Models\Establishment;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Lenses\Lens;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
+use App\Nova\Metrics\ResidentsNonRenouvles as MetricsResidentsNonRenouvles;
 
 class ResidentsNonRenouvles extends Lens
 {
@@ -41,7 +43,11 @@ class ResidentsNonRenouvles extends Lens
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(\App\Models\Establishment::where('type', '=', 'résidence')->get())
+                ->options(
+                    Cache::remember('residences', 60 * 60 * 24, function () {
+                        return Establishment::where('type', '=', 'résidence')->get();
+                    })
+                )
                 ->dependsOn('user'),
             NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')

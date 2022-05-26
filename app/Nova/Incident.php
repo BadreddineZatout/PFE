@@ -16,6 +16,7 @@ use App\Nova\Actions\TreatIncident;
 use App\Nova\Metrics\IncidentsTotal;
 use App\Nova\Lenses\AnonymousReports;
 use App\Nova\Lenses\TreatedIncidents;
+use Illuminate\Support\Facades\Cache;
 use App\Nova\Metrics\ReportedIncidents;
 use App\Nova\Lenses\NotTreatedIncidents;
 use App\Nova\Filters\IncidentEstablishment;
@@ -107,7 +108,11 @@ class Incident extends Resource
                 ->nullable(),
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select Establishment')
-                ->options(Establishment::all()),
+                ->options(
+                    Cache::remember('establishments', 60 * 60 * 24, function () {
+                        return Establishment::all();
+                    })
+                ),
             NovaBelongsToDepend::make('structure')
                 ->placeholder('Select Structure')
                 ->optionsResolve(function ($establishment) {

@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -87,7 +88,9 @@ class Establishment extends Resource
             Date::make('creation date', 'creation_date'),
             NovaBelongsToDepend::make('wilaya')
                 ->placeholder('Select Wilaya')
-                ->options(Wilaya::all()),
+                ->options(Cache::remember('wilayas', 60 * 60 * 24, function () {
+                    return Wilaya::all();
+                })),
             NovaBelongsToDepend::make('commune')
                 ->placeholder('Select Commune')
                 ->optionsResolve(function ($wilaya) {

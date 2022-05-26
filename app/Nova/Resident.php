@@ -14,6 +14,7 @@ use App\Nova\Filters\UserUniversity;
 use App\Nova\Metrics\ResidentsTotal;
 use App\Rules\ChambreCanBeAllocated;
 use App\Nova\Actions\ResidentRenewed;
+use Illuminate\Support\Facades\Cache;
 use App\Nova\Metrics\ResidentStudents;
 use App\Nova\Filters\ResidentResidence;
 use App\Nova\Actions\ResidentNotRenewed;
@@ -134,7 +135,11 @@ class Resident extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\Student')->required(),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(Establishment::where('type', '=', 'résidence')->get())
+                ->options(
+                    Cache::remember('residences', 60 * 60 * 24, function () {
+                        return Establishment::where('type', '=', 'résidence')->get();
+                    })
+                )
                 ->required(),
             NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')

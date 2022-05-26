@@ -8,6 +8,7 @@ use App\Models\Establishment;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -75,7 +76,9 @@ class Place extends Resource
             Text::make('name'),
             NovaBelongsToDepend::make('establishment')
                 ->placeholder('Select Establishment')
-                ->options(Establishment::all()),
+                ->options(Cache::remember('establishments', 60 * 60 * 24, function () {
+                    return Establishment::all();
+                })),
             NovaBelongsToDepend::make('structure')
                 ->placeholder('Select Structure')
                 ->optionsResolve(function ($establishment) {

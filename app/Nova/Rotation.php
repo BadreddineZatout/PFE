@@ -18,6 +18,7 @@ use App\Nova\Filters\RotationDate;
 use App\Nova\Filters\RotationLine;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Rules\RotationNumberInLine;
+use Illuminate\Support\Facades\Cache;
 use Laraning\NovaTimeField\TimeField;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Titasgailius\SearchRelations\SearchesRelations;
@@ -172,7 +173,11 @@ class Rotation extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             NovaBelongsToDepend::make('line')
                 ->placeholder('Select Line')
-                ->options(Line::all())
+                ->options(
+                    Cache::remember('lines', 60 * 60, function () {
+                        return Line::all();
+                    })
+                )
                 ->rules('required', new RotationNumberInLine),
             NovaBelongsToDepend::make('bus', 'bus', '\App\Nova\Bus')
                 ->placeholder('Select Bus')

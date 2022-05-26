@@ -6,13 +6,14 @@ use App\Models\Role;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
-use App\Nova\Actions\AcceptAccommodation;
-use App\Nova\Actions\RefuseAccommodation;
-use App\Nova\Filters\AccommodationRequestState;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
+use Illuminate\Support\Facades\Cache;
+use App\Nova\Actions\AcceptAccommodation;
+use App\Nova\Actions\RefuseAccommodation;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Metrics\TotalDemandeHebergement;
+use App\Nova\Filters\AccommodationRequestState;
 use Titasgailius\SearchRelations\SearchesRelations;
 use App\Nova\Metrics\TotalDemandeHebergementRefusee;
 use App\Nova\Metrics\TotalDemandeHebergementAcceptee;
@@ -103,7 +104,9 @@ class Accommodation extends Resource
             BelongsTo::make('Student', 'user', 'App\Nova\User'),
             NovaBelongsToDepend::make('residence', 'establishment')
                 ->placeholder('Select Residence')
-                ->options(Establishment::where('type', '=', 'résidence')->get()),
+                ->options(Cache::remember('residences', 60 * 60 * 24, function () {
+                    return Establishment::where('type', '=', 'résidence')->get();
+                })),
             NovaBelongsToDepend::make('block', 'structure', 'App\Nova\Structure')
                 ->placeholder('Select Block')
                 ->optionsResolve(function ($residence) {
