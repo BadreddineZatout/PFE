@@ -26,7 +26,10 @@ class ResidentsNonRenouvles extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->where('state', 'non renouvlé')
+            $query->where([
+                'state' => 'non renouvlé',
+                'residents.establishment_id' => $request->user()->establishment_id
+            ])
         ));
     }
 

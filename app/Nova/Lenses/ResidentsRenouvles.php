@@ -26,7 +26,10 @@ class ResidentsRenouvles extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->where('state', 'renouvlé')
+            $query->where([
+                'state' => 'renouvlé',
+                'residents.establishment_id' => $request->user()->establishment_id
+            ])
         ));
     }
 
