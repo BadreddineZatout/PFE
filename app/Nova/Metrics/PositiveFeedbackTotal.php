@@ -2,11 +2,19 @@
 
 namespace App\Nova\Metrics;
 
+use App\Models\Feedback;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
 class PositiveFeedbackTotal extends Value
 {
+    private $type;
+
+    public function __construct($type)
+    {
+        $this->type = $type;
+    }
+
     /**
      * Calculate the value of the metric.
      *
@@ -15,7 +23,20 @@ class PositiveFeedbackTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Model::class);
+        $model = Feedback::join('questions', 'question_id', 'questions.id')
+            ->where([
+                'type_feedback_id' => $this->type,
+                'is_positive' => true
+            ]);
+
+        if ($request->user()->isUniversityDecider())
+            $model->join('users', 'user_id', 'users.id')
+                ->where('users.establishment_id', $request->user()->establishment_id);
+        if ($request->user()->isResidenceDecider())
+            $model->join('residents', 'feedback.user_id', 'residents.user_id')
+                ->where('residents.establishment_id', $request->user()->establishment_id);
+
+        return $this->count($request, $model);
     }
 
     /**
@@ -26,10 +47,10 @@ class PositiveFeedbackTotal extends Value
     public function ranges()
     {
         return [
+            'TODAY' => __('Today'),
             30 => __('30 Days'),
             60 => __('60 Days'),
             365 => __('365 Days'),
-            'TODAY' => __('Today'),
             'MTD' => __('Month To Date'),
             'QTD' => __('Quarter To Date'),
             'YTD' => __('Year To Date'),

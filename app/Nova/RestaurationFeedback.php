@@ -4,10 +4,13 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
+use Illuminate\Http\Request;
+use App\Nova\Metrics\FeedbackTotal;
+use App\Nova\Metrics\NegativeFeedbackTotal;
+use App\Nova\Metrics\PositiveFeedbackTotal;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Lenses\RestaurationNegativeFeedbacks;
 use App\Nova\Lenses\RestaurationPositiveFeedbacks;
-use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class RestaurationFeedback extends Feedback
 {
@@ -57,7 +60,11 @@ class RestaurationFeedback extends Feedback
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new FeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
+            new PositiveFeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
+            new NegativeFeedbackTotal(TypeFeedback::RESTAURATION_TYPE)
+        ];
     }
 
     /**

@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Lenses\Lens;
 use App\Nova\Filters\FeedbackDate;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\LensRequest;
 
 class AccommodationPositiveFeedbacks extends Lens
@@ -85,7 +86,9 @@ class AccommodationPositiveFeedbacks extends Lens
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new PositiveFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
+        ];
     }
 
     /**

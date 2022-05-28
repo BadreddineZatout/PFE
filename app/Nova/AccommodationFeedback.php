@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Lenses\AccommodationNegativeFeedbacks;
 use App\Nova\Lenses\AccommodationPositiveFeedbacks;
+use App\Nova\Metrics\FeedbackTotal;
+use App\Nova\Metrics\NegativeFeedbackTotal;
+use App\Nova\Metrics\PositiveFeedbackTotal;
 
 class AccommodationFeedback extends Feedback
 {
@@ -57,7 +60,11 @@ class AccommodationFeedback extends Feedback
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new FeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
+            new PositiveFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
+            new NegativeFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE)
+        ];
     }
 
 

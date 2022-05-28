@@ -5,6 +5,9 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
+use App\Nova\Metrics\FeedbackTotal;
+use App\Nova\Metrics\NegativeFeedbackTotal;
+use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Lenses\TransportNegativeFeedbacks;
 use App\Nova\Lenses\TransportPositiveFeedbacks;
@@ -57,7 +60,11 @@ class TransportFeedback extends Feedback
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new FeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
+            new PositiveFeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
+            new NegativeFeedbackTotal(TypeFeedback::TRANSPORT_TYPE)
+        ];
     }
 
     /**
