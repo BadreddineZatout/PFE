@@ -69,7 +69,7 @@ class Resident extends Resource
      *
      * @var string
      */
-    public static $group = 'Hebergement';
+    public static $group = 'Accommodation';
 
     /**
      * Determine if this resource is available for navigation.

@@ -58,7 +58,7 @@ class Accommodation extends Resource
      *
      * @var string
      */
-    public static $group = 'Hebergement';
+    public static $group = 'Accommodation';
 
     /**
      * Build an "index" query for the given resource.

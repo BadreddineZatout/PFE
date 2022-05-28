@@ -25,7 +25,7 @@ class Residence extends Establishment
      *
      * @var string
      */
-    public static $group = 'Hebergement';
+    public static $group = 'Accommodation';
 
     /**
      * Determine if this resource is available for navigation.
