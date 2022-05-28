@@ -6,6 +6,8 @@ use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Lenses\TransportNegativeFeedbacks;
+use App\Nova\Lenses\TransportPositiveFeedbacks;
 
 class TransportFeedback extends Feedback
 {
@@ -66,6 +68,9 @@ class TransportFeedback extends Feedback
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new TransportPositiveFeedbacks(),
+            new TransportNegativeFeedbacks()
+        ];
     }
 }
