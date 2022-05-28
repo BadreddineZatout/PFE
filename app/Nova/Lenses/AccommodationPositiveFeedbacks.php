@@ -5,10 +5,11 @@ namespace App\Nova\Lenses;
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Lenses\Lens;
+use App\Nova\Filters\FeedbackDate;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\LensRequest;
 
 class AccommodationPositiveFeedbacks extends Lens
@@ -95,7 +96,9 @@ class AccommodationPositiveFeedbacks extends Lens
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new FeedbackDate,
+        ];
     }
 
     /**

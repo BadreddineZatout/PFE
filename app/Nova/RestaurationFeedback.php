@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
+use App\Nova\Lenses\RestaurationNegativeFeedbacks;
+use App\Nova\Lenses\RestaurationPositiveFeedbacks;
 use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -66,6 +68,9 @@ class RestaurationFeedback extends Feedback
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new RestaurationPositiveFeedbacks(),
+            new RestaurationNegativeFeedbacks()
+        ];
     }
 }

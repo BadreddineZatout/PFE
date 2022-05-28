@@ -2,14 +2,19 @@
 
 namespace App\Nova\Lenses;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use App\Models\TypeFeedback;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Lenses\Lens;
+use App\Nova\Filters\FeedbackDate;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Http\Requests\LensRequest;
 
 class RestaurationPositiveFeedbacks extends Lens
 {
+    public $name = "Positive Feedback";
     /**
      * Get the query builder / paginator for the lens.
      *
@@ -19,8 +24,37 @@ class RestaurationPositiveFeedbacks extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
+        if ($request->user()->isUniversityDecider()) {
+            return $request->withOrdering($request->withFilters(
+                $query->join('questions', 'question_id', 'questions.id')
+                    ->join('users', 'user_id', 'users.id')
+                    ->where([
+                        'type_feedback_id' => TypeFeedback::RESTAURATION_TYPE,
+                        'is_positive' => true,
+                        'users.establishment_id' => $request->user()->establishment_id
+                    ])
+                    ->select('feedback.*')
+            ));
+        }
+        if ($request->user()->isResidenceDecider()) {
+            return $request->withOrdering($request->withFilters(
+                $query->join('questions', 'question_id', 'questions.id')
+                    ->join('residents', 'feedback.user_id', 'residents.user_id')
+                    ->where([
+                        'type_feedback_id' => TypeFeedback::RESTAURATION_TYPE,
+                        'is_positive' => true,
+                        'residents.establishment_id' => $request->user()->establishment_id
+                    ])
+                    ->select('feedback.*')
+            ));
+        }
         return $request->withOrdering($request->withFilters(
-            $query
+            $query->join('questions', 'question_id', 'questions.id')
+                ->where([
+                    'type_feedback_id' => TypeFeedback::RESTAURATION_TYPE,
+                    'is_positive' => true,
+                ])
+                ->select('feedback.*')
         ));
     }
 
@@ -34,6 +68,12 @@ class RestaurationPositiveFeedbacks extends Lens
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            BelongsTo::make('user'),
+            BelongsTo::make('question'),
+            Text::make('description')
+                ->rules('required', 'min:1', 'max:255'),
+            Date::make('date')
+                ->required(),
         ];
     }
 
@@ -56,7 +96,9 @@ class RestaurationPositiveFeedbacks extends Lens
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new FeedbackDate,
+        ];
     }
 
     /**
