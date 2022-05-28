@@ -5,6 +5,7 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Filters\AccessRequestState;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use Illuminate\Support\Facades\Cache;
@@ -48,6 +49,21 @@ class AccessRequest extends Resource
      * @var string
      */
     public static $group = 'Restauration';
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isDecider() || $request->user()->isAgentRestauration()) {
+            return $query->where('establishment_id', $request->user()->establishment_id);
+        }
+        return $query;
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -102,7 +118,9 @@ class AccessRequest extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new AccessRequestState
+        ];
     }
 
     /**

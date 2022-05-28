@@ -24,7 +24,7 @@ class AccessRequestState extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query;
+        return $query->where('state', $value);
     }
 
     /**
@@ -35,6 +35,10 @@ class AccessRequestState extends Filter
      */
     public function options(Request $request)
     {
-        return [];
+        return [
+            'non traité' => 'non traité',
+            'accepté' => 'accepté',
+            'refusé' => 'refusé'
+        ];
     }
 }

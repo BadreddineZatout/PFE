@@ -18,7 +18,7 @@ class AccessRequestPolicy
      */
     public function viewAny(User $user)
     {
-        $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**
@@ -30,7 +30,7 @@ class AccessRequestPolicy
      */
     public function view(User $user, AccessRequest $accessRequest)
     {
-        $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**
@@ -41,7 +41,7 @@ class AccessRequestPolicy
      */
     public function create(User $user)
     {
-        $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**
@@ -53,7 +53,7 @@ class AccessRequestPolicy
      */
     public function update(User $user)
     {
-        $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
     }
 
     /**
@@ -65,6 +65,6 @@ class AccessRequestPolicy
      */
     public function delete(User $user, AccessRequest $accessRequest)
     {
-        $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentRestauration();
     }
 }
