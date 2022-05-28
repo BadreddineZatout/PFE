@@ -2,15 +2,14 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
 use App\Nova\Metrics\Feedbacks;
 use App\Nova\Metrics\FeedbackTotal;
+use App\Services\FeedbackBarChartService;
 use App\Nova\Metrics\NegativeFeedbackTotal;
 use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Coroowicaksono\ChartJsIntegration\BarChart;
 use App\Nova\Lenses\AccommodationNegativeFeedbacks;
 use App\Nova\Lenses\AccommodationPositiveFeedbacks;
 
@@ -21,7 +20,7 @@ class AccommodationFeedback extends Feedback
      *
      * @var string
      */
-    public static $group = 'Hebergement';
+    public static $group = 'Accommodation';
 
     /**
      * Determine if this resource is available for navigation.
@@ -62,11 +61,11 @@ class AccommodationFeedback extends Feedback
     public function cards(Request $request)
     {
         return [
-            new FeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
-            new PositiveFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
-            new NegativeFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
-            new Feedbacks(TypeFeedback::ACCOMMODATION_TYPE),
-
+            (new FeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE))->width('1/2'),
+            (new Feedbacks(TypeFeedback::ACCOMMODATION_TYPE))->width('1/2'),
+            (new PositiveFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE))->width('1/2'),
+            (new NegativeFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE))->width('1/2'),
+            FeedbackBarChartService::getBarChart($request->user(), TypeFeedback::ACCOMMODATION_TYPE)
         ];
     }
 

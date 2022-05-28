@@ -75,6 +75,7 @@ class Feedback extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make('user'),
             BelongsTo::make('question'),
+            BelongsTo::make('FeedbackType', 'TypeFeedback')->hideFromIndex(),
             Text::make('description')
                 ->rules('required', 'min:1', 'max:255'),
             Date::make('date')

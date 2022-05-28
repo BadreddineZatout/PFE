@@ -14,7 +14,7 @@ class Feedback extends Model
     ];
 
 
-    protected $with = ['user', 'question'];
+    protected $with = ['user', 'question', 'TypeFeedback'];
 
     public function getTitleAttribute()
     {
@@ -29,5 +29,10 @@ class Feedback extends Model
     public function question()
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function TypeFeedback()
+    {
+        return $this->belongsTo(TypeFeedback::class);
     }
 }

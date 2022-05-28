@@ -2,11 +2,11 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
 use App\Nova\Metrics\Feedbacks;
 use App\Nova\Metrics\FeedbackTotal;
+use App\Services\FeedbackBarChartService;
 use App\Nova\Metrics\NegativeFeedbackTotal;
 use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -61,10 +61,11 @@ class RestaurationFeedback extends Feedback
     public function cards(Request $request)
     {
         return [
-            new FeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
-            new PositiveFeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
-            new NegativeFeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
-            new Feedbacks(TypeFeedback::RESTAURATION_TYPE),
+            (new FeedbackTotal(TypeFeedback::RESTAURATION_TYPE))->width('1/2'),
+            (new Feedbacks(TypeFeedback::RESTAURATION_TYPE))->width('1/2'),
+            (new PositiveFeedbackTotal(TypeFeedback::RESTAURATION_TYPE))->width('1/2'),
+            (new NegativeFeedbackTotal(TypeFeedback::RESTAURATION_TYPE))->width('1/2'),
+            FeedbackBarChartService::getBarChart($request->user(), TypeFeedback::RESTAURATION_TYPE)
         ];
     }
 

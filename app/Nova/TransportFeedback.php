@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
 use App\Nova\Metrics\Feedbacks;
@@ -12,6 +11,7 @@ use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Lenses\TransportNegativeFeedbacks;
 use App\Nova\Lenses\TransportPositiveFeedbacks;
+use App\Services\FeedbackBarChartService;
 
 class TransportFeedback extends Feedback
 {
@@ -61,10 +61,11 @@ class TransportFeedback extends Feedback
     public function cards(Request $request)
     {
         return [
-            new FeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
-            new PositiveFeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
-            new NegativeFeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
-            new Feedbacks(TypeFeedback::TRANSPORT_TYPE),
+            (new FeedbackTotal(TypeFeedback::TRANSPORT_TYPE))->width('1/2'),
+            (new Feedbacks(TypeFeedback::TRANSPORT_TYPE))->width('1/2'),
+            (new PositiveFeedbackTotal(TypeFeedback::TRANSPORT_TYPE))->width('1/2'),
+            (new NegativeFeedbackTotal(TypeFeedback::TRANSPORT_TYPE))->width('1/2'),
+            FeedbackBarChartService::getBarChart($request->user(), TypeFeedback::TRANSPORT_TYPE)
         ];
     }
 
