@@ -25,16 +25,22 @@ class AccessRequest extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->user->name;
+    }
+
+    public static $searchRelations = [
+        'user' => ['name'],
+        'establishment' => ['name_fr'],
+    ];
 
     /**
-     * The columns that should be searched.
+     * The relationships that should be eager loaded on index queries.
      *
      * @var array
      */
-    public static $search = [
-        'id',
-    ];
+    public static $with = ['establishment', 'structure', 'user'];
 
     /**
      * The logical group associated with the resource.
