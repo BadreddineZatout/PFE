@@ -5,12 +5,13 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Lenses\AccommodationNegativeFeedbacks;
-use App\Nova\Lenses\AccommodationPositiveFeedbacks;
+use App\Nova\Metrics\Feedbacks;
 use App\Nova\Metrics\FeedbackTotal;
 use App\Nova\Metrics\NegativeFeedbackTotal;
 use App\Nova\Metrics\PositiveFeedbackTotal;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Lenses\AccommodationNegativeFeedbacks;
+use App\Nova\Lenses\AccommodationPositiveFeedbacks;
 
 class AccommodationFeedback extends Feedback
 {
@@ -63,7 +64,8 @@ class AccommodationFeedback extends Feedback
         return [
             new FeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
             new PositiveFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
-            new NegativeFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE)
+            new NegativeFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
+            new Feedbacks(TypeFeedback::ACCOMMODATION_TYPE),
         ];
     }
 

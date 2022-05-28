@@ -5,6 +5,7 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
+use App\Nova\Metrics\Feedbacks;
 use App\Nova\Metrics\FeedbackTotal;
 use App\Nova\Metrics\NegativeFeedbackTotal;
 use App\Nova\Metrics\PositiveFeedbackTotal;
@@ -63,7 +64,8 @@ class TransportFeedback extends Feedback
         return [
             new FeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
             new PositiveFeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
-            new NegativeFeedbackTotal(TypeFeedback::TRANSPORT_TYPE)
+            new NegativeFeedbackTotal(TypeFeedback::TRANSPORT_TYPE),
+            new Feedbacks(TypeFeedback::TRANSPORT_TYPE),
         ];
     }
 

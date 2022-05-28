@@ -5,6 +5,7 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
+use App\Nova\Metrics\Feedbacks;
 use App\Nova\Metrics\FeedbackTotal;
 use App\Nova\Metrics\NegativeFeedbackTotal;
 use App\Nova\Metrics\PositiveFeedbackTotal;
@@ -63,7 +64,8 @@ class RestaurationFeedback extends Feedback
         return [
             new FeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
             new PositiveFeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
-            new NegativeFeedbackTotal(TypeFeedback::RESTAURATION_TYPE)
+            new NegativeFeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
+            new Feedbacks(TypeFeedback::RESTAURATION_TYPE),
         ];
     }
 
