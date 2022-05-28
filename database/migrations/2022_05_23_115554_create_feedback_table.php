@@ -17,6 +17,7 @@ class CreateFeedbackTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('question_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('type_feedback_id')->constrained('type_feedback')->onDelete('cascade')->onUpdate('cascade');
             $table->date('date');
             $table->string('description');
             $table->boolean('is_positive');

@@ -23,11 +23,10 @@ class NegativeFeedbackTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $model = Feedback::join('questions', 'question_id', 'questions.id')
-            ->where([
-                'type_feedback_id' => $this->type,
-                'is_positive' => false
-            ]);
+        $model = Feedback::where([
+            'type_feedback_id' => $this->type,
+            'is_positive' => false
+        ]);
 
         if ($request->user()->isUniversityDecider())
             $model->join('users', 'user_id', 'users.id')

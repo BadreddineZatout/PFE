@@ -42,8 +42,7 @@ class RestaurationFeedback extends Feedback
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->join('questions', 'question_id', 'questions.id')
-            ->where('type_feedback_id', TypeFeedback::RESTAURATION_TYPE);
+        $query->where('type_feedback_id', TypeFeedback::RESTAURATION_TYPE);
         if ($request->user()->isUniversityDecider())
             $query->join('users', 'user_id', 'users.id')
                 ->where('users.establishment_id', $request->user()->establishment_id);

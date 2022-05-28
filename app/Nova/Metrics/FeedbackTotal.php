@@ -23,8 +23,7 @@ class FeedbackTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $model = Feedback::join('questions', 'question_id', 'questions.id')
-            ->where('type_feedback_id', $this->type);
+        $model = Feedback::where('type_feedback_id', $this->type);
         if ($request->user()->isUniversityDecider())
             $model->join('users', 'user_id', 'users.id')
                 ->where('users.establishment_id', $request->user()->establishment_id);

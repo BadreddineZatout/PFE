@@ -10,6 +10,7 @@ use App\Nova\Metrics\FeedbackTotal;
 use App\Nova\Metrics\NegativeFeedbackTotal;
 use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Coroowicaksono\ChartJsIntegration\BarChart;
 use App\Nova\Lenses\AccommodationNegativeFeedbacks;
 use App\Nova\Lenses\AccommodationPositiveFeedbacks;
 
@@ -42,8 +43,7 @@ class AccommodationFeedback extends Feedback
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $query->join('questions', 'question_id', 'questions.id')
-            ->where('type_feedback_id', TypeFeedback::ACCOMMODATION_TYPE);
+        $query->where('type_feedback_id', TypeFeedback::ACCOMMODATION_TYPE);
         if ($request->user()->isUniversityDecider())
             $query->join('users', 'user_id', 'users.id')
                 ->where('users.establishment_id', $request->user()->establishment_id);
@@ -66,6 +66,7 @@ class AccommodationFeedback extends Feedback
             new PositiveFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
             new NegativeFeedbackTotal(TypeFeedback::ACCOMMODATION_TYPE),
             new Feedbacks(TypeFeedback::ACCOMMODATION_TYPE),
+
         ];
     }
 

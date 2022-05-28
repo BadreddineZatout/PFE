@@ -27,8 +27,7 @@ class TransportNegativeFeedbacks extends Lens
     {
         if ($request->user()->isUniversityDecider()) {
             return $request->withOrdering($request->withFilters(
-                $query->join('questions', 'question_id', 'questions.id')
-                    ->join('users', 'user_id', 'users.id')
+                $query->join('users', 'user_id', 'users.id')
                     ->where([
                         'type_feedback_id' => TypeFeedback::TRANSPORT_TYPE,
                         'is_positive' => false,
@@ -39,8 +38,7 @@ class TransportNegativeFeedbacks extends Lens
         }
         if ($request->user()->isResidenceDecider()) {
             return $request->withOrdering($request->withFilters(
-                $query->join('questions', 'question_id', 'questions.id')
-                    ->join('residents', 'feedback.user_id', 'residents.user_id')
+                $query->join('residents', 'feedback.user_id', 'residents.user_id')
                     ->where([
                         'type_feedback_id' => TypeFeedback::TRANSPORT_TYPE,
                         'is_positive' => false,
@@ -50,11 +48,10 @@ class TransportNegativeFeedbacks extends Lens
             ));
         }
         return $request->withOrdering($request->withFilters(
-            $query->join('questions', 'question_id', 'questions.id')
-                ->where([
-                    'type_feedback_id' => TypeFeedback::TRANSPORT_TYPE,
-                    'is_positive' => false,
-                ])
+            $query->where([
+                'type_feedback_id' => TypeFeedback::TRANSPORT_TYPE,
+                'is_positive' => false,
+            ])
                 ->select('feedback.*')
         ));
     }
