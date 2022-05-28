@@ -6,6 +6,7 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Boolean;
 use App\Nova\Filters\FeedbackDate;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -78,19 +79,10 @@ class Feedback extends Resource
                 ->rules('required', 'min:1', 'max:255'),
             Date::make('date')
                 ->required(),
+            Boolean::make('Positive', 'is_positive'),
         ];
     }
 
-    /**
-     * Get the cards available for the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function cards(Request $request)
-    {
-        return [];
-    }
 
     /**
      * Get the filters available for the resource.
@@ -103,17 +95,6 @@ class Feedback extends Resource
         return [
             new FeedbackDate,
         ];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
     }
 
     /**

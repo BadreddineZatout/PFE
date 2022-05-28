@@ -19,6 +19,7 @@ class CreateFeedbackTable extends Migration
             $table->foreignId('question_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->date('date');
             $table->string('description');
+            $table->boolean('is_positive');
             $table->timestamps();
         });
     }

@@ -80,13 +80,7 @@ class TransportStatistic extends Resource
     public static function indexQuery(NovaRequest $request, $query)
     {
         if ($request->user()->isAdmin() || $request->user()->isMinister()) return $query;
-        // if ($request->user()->isUniversityDecider())
-        //     return $query->join('users', 'user_id', 'users.id')
-        //         ->where([
-        //             'establishment_id' => $request->user()->establishment_id,
-        //             'role_id' => Role::STUDENT
-        //         ])
-        //         ->select('transport_statistics.*');
+
         return $query->join('rotations', 'rotation_id', 'rotations.id')
             ->join('lines', 'rotations.line_id', 'lines.id')
             ->join('plans', 'lines.plan_id', 'plans.id')

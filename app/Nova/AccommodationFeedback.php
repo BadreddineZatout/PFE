@@ -2,10 +2,12 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\ID;
 use App\Models\TypeFeedback;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Lenses\AccommodationNegativeFeedbacks;
+use App\Nova\Lenses\AccommodationPositiveFeedbacks;
 
 class AccommodationFeedback extends Feedback
 {
@@ -67,6 +69,9 @@ class AccommodationFeedback extends Feedback
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new AccommodationPositiveFeedbacks(),
+            new AccommodationNegativeFeedbacks(),
+        ];
     }
 }
