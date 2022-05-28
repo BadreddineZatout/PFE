@@ -21,6 +21,13 @@ class AnonymousReports extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
+        if ($request->user()->isDecider() || $request->user()->isAgentIncident())
+            return $request->withOrdering($request->withFilters(
+                $query->where([
+                    'is_anonymous' => true,
+                    'establishment_id' => $request->user()->establishment_id
+                ])
+            ));
         return $request->withOrdering($request->withFilters(
             $query->where('is_anonymous', true)
         ));
