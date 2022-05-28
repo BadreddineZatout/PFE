@@ -2,11 +2,13 @@
 
 namespace App\Nova\Metrics;
 
+use App\Models\AccessRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
 class AccessRequestsTotal extends Value
 {
+    public $name = 'Total';
     /**
      * Calculate the value of the metric.
      *
@@ -15,7 +17,10 @@ class AccessRequestsTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Model::class);
+        if ($request->user()->isDecider() || $request->user()->isAgentRestauration()) {
+            return $this->count($request, AccessRequest::where('establishment_id', $request->user()->establishment_id));
+        }
+        return $this->count($request, AccessRequest::class);
     }
 
     /**
@@ -26,10 +31,10 @@ class AccessRequestsTotal extends Value
     public function ranges()
     {
         return [
+            'TODAY' => __('Today'),
             30 => __('30 Days'),
             60 => __('60 Days'),
             365 => __('365 Days'),
-            'TODAY' => __('Today'),
             'MTD' => __('Month To Date'),
             'QTD' => __('Quarter To Date'),
             'YTD' => __('Year To Date'),

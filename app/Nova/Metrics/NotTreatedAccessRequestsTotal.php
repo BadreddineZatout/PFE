@@ -2,11 +2,13 @@
 
 namespace App\Nova\Metrics;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Models\AccessRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NotTreatedAccessRequestsTotal extends Value
 {
+    public $name = 'Not Treated';
     /**
      * Calculate the value of the metric.
      *
@@ -15,7 +17,13 @@ class NotTreatedAccessRequestsTotal extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Model::class);
+        if ($request->user()->isDecider() || $request->user()->isAgentRestauration()) {
+            return $this->count($request, AccessRequest::where([
+                'establishment_id' => $request->user()->establishment_id,
+                'state' => 'non traité'
+            ]));
+        }
+        return $this->count($request, AccessRequest::where('state', 'non traité'));
     }
 
     /**
@@ -26,10 +34,10 @@ class NotTreatedAccessRequestsTotal extends Value
     public function ranges()
     {
         return [
+            'TODAY' => __('Today'),
             30 => __('30 Days'),
             60 => __('60 Days'),
             365 => __('365 Days'),
-            'TODAY' => __('Today'),
             'MTD' => __('Month To Date'),
             'QTD' => __('Quarter To Date'),
             'YTD' => __('Year To Date'),

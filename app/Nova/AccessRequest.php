@@ -6,6 +6,10 @@ use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
 use App\Nova\Filters\AccessRequestState;
+use App\Nova\Metrics\AcceptedAccessRequestsTotal;
+use App\Nova\Metrics\AccessRequestsTotal;
+use App\Nova\Metrics\NotTreatedAccessRequestsTotal;
+use App\Nova\Metrics\RefusedAccessRequestsTotal;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use Illuminate\Support\Facades\Cache;
@@ -107,7 +111,12 @@ class AccessRequest extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            (new AccessRequestsTotal())->width('1/4'),
+            (new NotTreatedAccessRequestsTotal())->width('1/4'),
+            (new AcceptedAccessRequestsTotal())->width('1/4'),
+            (new RefusedAccessRequestsTotal())->width('1/4'),
+        ];
     }
 
     /**
@@ -121,17 +130,6 @@ class AccessRequest extends Resource
         return [
             new AccessRequestState
         ];
-    }
-
-    /**
-     * Get the lenses available for the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function lenses(Request $request)
-    {
-        return [];
     }
 
     /**
