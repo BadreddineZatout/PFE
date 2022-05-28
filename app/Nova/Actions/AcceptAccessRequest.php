@@ -22,16 +22,10 @@ class AcceptAccessRequest extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        //
-    }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
+        foreach ($models as $model) {
+            $model->state = 'accepté';
+            $model->save();
+        }
+        return Action::message('Access requests accepted');
     }
 }

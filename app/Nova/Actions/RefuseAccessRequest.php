@@ -3,12 +3,13 @@
 namespace App\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Laravel\Nova\Actions\Action;
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\DestructiveAction;
 use Laravel\Nova\Fields\ActionFields;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Laravel\Nova\Actions\DestructiveAction;
 
 class RefuseAccessRequest extends DestructiveAction
 {
@@ -23,16 +24,10 @@ class RefuseAccessRequest extends DestructiveAction
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        //
-    }
-
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
+        foreach ($models as $model) {
+            $model->state = 'refusé';
+            $model->save();
+        }
+        return Action::danger('Access requests refused');
     }
 }

@@ -163,14 +163,14 @@ class EquipmentRequest extends Resource
                 ->cancelButtonText("Don't accept")
                 ->canSee(function ($request) {
                     return $request->user()->can('update', EquipmentRequest::class);
-                })->onlyOnIndex(),
+                }),
             (new RefuseEquipement())->showOnTableRow()
                 ->confirmText('Are you sure you want to refuse this request?')
                 ->confirmButtonText('Refuse')
                 ->cancelButtonText("Don't refuse")
                 ->canSee(function ($request) {
                     return $request->user()->can('update', EquipmentRequest::class);
-                })->onlyOnIndex(),
+                }),
         ];
     }
 }

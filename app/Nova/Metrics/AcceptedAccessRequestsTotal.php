@@ -9,6 +9,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class AcceptedAccessRequestsTotal extends Value
 {
     public $name = 'Accepted';
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *

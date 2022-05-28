@@ -9,6 +9,7 @@ use Laravel\Nova\Metrics\Value;
 class AccessRequestsTotal extends Value
 {
     public $name = 'Total';
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *

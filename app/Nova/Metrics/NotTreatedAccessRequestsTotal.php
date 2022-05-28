@@ -9,6 +9,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class NotTreatedAccessRequestsTotal extends Value
 {
     public $name = 'Not Treated';
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *

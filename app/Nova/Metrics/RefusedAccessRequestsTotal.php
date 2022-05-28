@@ -9,6 +9,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class RefusedAccessRequestsTotal extends Value
 {
     public $name = 'Refused';
+    public $refreshWhenActionRuns = true;
     /**
      * Calculate the value of the metric.
      *

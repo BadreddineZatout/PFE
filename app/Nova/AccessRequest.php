@@ -5,6 +5,8 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
+use App\Nova\Actions\AcceptAccessRequest;
+use App\Nova\Actions\RefuseAccessRequest;
 use App\Nova\Filters\AccessRequestState;
 use App\Nova\Metrics\AcceptedAccessRequestsTotal;
 use App\Nova\Metrics\AccessRequestsTotal;
@@ -140,6 +142,21 @@ class AccessRequest extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new AcceptAccessRequest())->showOnTableRow()
+                ->confirmText('Are you sure you want to accept this request?')
+                ->confirmButtonText('Accept')
+                ->cancelButtonText("Don't accept")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', AccessRequest::class);
+                }),
+            (new RefuseAccessRequest())->showOnTableRow()
+                ->confirmText('Are you sure you want to refuse this request?')
+                ->confirmButtonText('Refuse')
+                ->cancelButtonText("Don't refuse")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', AccessRequest::class);
+                }),
+        ];
     }
 }
