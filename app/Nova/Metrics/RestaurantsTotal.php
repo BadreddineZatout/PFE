@@ -8,6 +8,7 @@ use Laravel\Nova\Metrics\Value;
 
 class RestaurantsTotal extends Value
 {
+    public $name = 'Restaurants';
     /**
      * Calculate the value of the metric.
      *

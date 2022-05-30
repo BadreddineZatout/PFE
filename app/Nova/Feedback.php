@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
-use App\Nova\Filters\FeedbackDate;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
@@ -94,7 +94,7 @@ class Feedback extends Resource
     public function filters(Request $request)
     {
         return [
-            new FeedbackDate,
+            new DateRangeFilter('Date Range', 'date', [])
         ];
     }
 

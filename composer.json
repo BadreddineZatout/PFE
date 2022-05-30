@@ -22,6 +22,7 @@
         "maatwebsite/laravel-nova-excel": "1.2.10",
         "nemrutco/nova-global-filter": "^1.2",
         "orlyapps/nova-belongsto-depend": "^3.0",
+        "pos-lifestyle/laravel-nova-date-range-filter": "^1.3",
         "titasgailius/search-relations": "^2.0"
     },
     "require-dev": {

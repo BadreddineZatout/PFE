@@ -10,6 +10,7 @@ use Nemrutco\NovaGlobalFilter\GlobalFilterable;
 
 class TotalBus extends Value
 {
+    public $name = 'Buses';
     use GlobalFilterable;
 
     public $refreshWhenActionRuns = true;

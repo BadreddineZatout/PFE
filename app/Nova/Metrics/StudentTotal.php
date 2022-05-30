@@ -10,6 +10,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class StudentTotal extends Value
 {
+    public $name = 'Students';
     /**
      * Calculate the value of the metric.
      *

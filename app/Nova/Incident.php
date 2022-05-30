@@ -10,7 +10,6 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use App\Rules\AnonymousUserRule;
 use Laravel\Nova\Fields\Boolean;
-use App\Nova\Filters\IncidentDate;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Actions\TreatIncident;
 use App\Nova\Metrics\IncidentsTotal;
@@ -25,6 +24,7 @@ use App\Nova\Metrics\TreatedIncidentsTotal;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use App\Nova\Metrics\ReportedIncidentsState;
 use App\Nova\Metrics\NotTreatedIncidentsTotal;
+use PosLifestyle\DateRangeFilter\DateRangeFilter;
 use Titasgailius\SearchRelations\SearchesRelations;
 use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
@@ -160,10 +160,10 @@ class Incident extends Resource
     {
         if ($request->user()->isAdmin() || $request->user()->isMinister())
             return [
-                new IncidentDate,
-                new IncidentEstablishment
+                new IncidentEstablishment,
+                new DateRangeFilter('Date Range', 'date', [])
             ];
-        return [new IncidentDate];
+        return [new DateRangeFilter('Date Range', 'date', [])];
     }
 
     /**

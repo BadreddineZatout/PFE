@@ -8,6 +8,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ResidencesTotal extends Value
 {
+    public $name = 'Residences';
     /**
      * Calculate the value of the metric.
      *

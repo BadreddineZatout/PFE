@@ -8,6 +8,7 @@ use Laravel\Nova\Metrics\Partition;
 
 class EstablishmentsTotal extends Partition
 {
+    public $name = 'Establishment';
     /**
      * Calculate the value of the metric.
      *

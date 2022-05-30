@@ -9,6 +9,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class WorkersTotal extends Partition
 {
+    public $name = 'Workers';
     /**
      * Calculate the value of the metric.
      *
