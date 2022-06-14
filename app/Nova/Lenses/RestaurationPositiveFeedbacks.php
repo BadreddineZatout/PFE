@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Lenses\Lens;
-use App\Nova\Filters\FeedbackDate;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Metrics\PositiveFeedbackTotal;
 use Laravel\Nova\Http\Requests\LensRequest;
@@ -85,19 +84,6 @@ class RestaurationPositiveFeedbacks extends Lens
     {
         return [
             new PositiveFeedbackTotal(TypeFeedback::RESTAURATION_TYPE),
-        ];
-    }
-
-    /**
-     * Get the filters available for the lens.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function filters(Request $request)
-    {
-        return [
-            new FeedbackDate,
         ];
     }
 
