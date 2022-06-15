@@ -2,12 +2,13 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\AcceptEquipement;
-use App\Nova\Actions\RefuseEquipement;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Actions\AcceptEquipement;
+use App\Nova\Actions\RefuseEquipement;
 use App\Nova\Filters\EquipmentRequestState;
 use App\Nova\Metrics\TotalDemandeEquipment;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -103,6 +104,7 @@ class EquipmentRequest extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make('resident'),
             BelongsTo::make('equipment'),
+            Number::make('quantity'),
             Select::make('state')->options([
                 'non traité' => 'non traité',
                 'accepté' => 'accepté',

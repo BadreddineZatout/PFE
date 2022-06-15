@@ -18,6 +18,7 @@ class CreateEquipmentRequestsTable extends Migration
             $table->foreignId('resident_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('equipment_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->enum('state', ['accepté', 'non traité', 'refusé'])->default('non traité');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
