@@ -17,10 +17,12 @@ use App\Nova\Metrics\ConsumedMeals;
 use App\Nova\Metrics\LeftoverByDay;
 use Illuminate\Support\Facades\Auth;
 use App\Nova\Filters\ReservationDate;
-use App\Nova\Metrics\PredictedStudentsNumber;
 use App\Nova\Metrics\ReservationsByDay;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Metrics\PredictedStudentsNumber;
+use Carbon\Carbon;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
+use Coroowicaksono\ChartJsIntegration\LineChart;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Maatwebsite\LaravelNovaExcel\Actions\DownloadExcel;
 
@@ -131,7 +133,23 @@ class Reservation extends Resource
             (new Leftovers)->width('1/4'),
             (new ConsumedByDay)->width('1/2'),
             (new LeftoverByDay)->width('1/2'),
-            (new PredictedStudentsNumber)->width('full')
+            (new LineChart())
+                ->title('Predicted Students Number')
+                ->model('\App\Models\Presence')
+                ->options([
+                    'queryFilter' => array([
+                        'key' => 'created_at',
+                        'operator' => '>=',
+                        'value' => Carbon::now()
+                    ], [
+                        'key' => 'created_at',
+                        'operator' => '<=',
+                        'value' => Carbon::now()->addDays(15)
+                    ]),
+                    'sum' => 'presence',
+                    'uom' => 'day',
+                    'backgroundColor' => '#000',
+                ])
         ];
 
         if ($request->user()->isAdmin() || $request->user()->isMinister())
