@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Nova\Filters\ReservationDate;
 use App\Nova\Metrics\ReservationsByDay;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Metrics\PredictedStudentsNumber;
 use Carbon\Carbon;
 use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Coroowicaksono\ChartJsIntegration\LineChart;
