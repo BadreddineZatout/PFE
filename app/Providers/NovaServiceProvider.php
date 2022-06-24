@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\EquipmentRequest;
 use App\Models\Line;
 use Laravel\Nova\Nova;
 use App\Models\Resident;
 use Laravel\Nova\Observable;
 use App\Models\Establishment;
 use App\Models\Menu;
+use App\Observers\EquipmentRequestObserver;
 use App\Observers\LineObserver;
 use App\Observers\ResidentObserver;
 use Illuminate\Support\Facades\Gate;
@@ -31,6 +33,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Observable::make(Establishment::class, EstablishmentObserver::class);
         Observable::make(Line::class, LineObserver::class);
         Observable::make(Menu::class, MenuObserver::class);
+        Observable::make(EquipmentRequest::class, EquipmentRequestObserver::class);
     }
 
     /**
