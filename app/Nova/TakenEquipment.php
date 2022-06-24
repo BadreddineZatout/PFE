@@ -2,15 +2,19 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\ReturnDateFilter;
+use App\Nova\Filters\TakeDateFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Titasgailius\SearchRelations\SearchesRelations;
 
 class TakenEquipment extends Resource
 {
+    use SearchesRelations;
     /**
      * The model the resource corresponds to.
      *
@@ -75,7 +79,10 @@ class TakenEquipment extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new TakeDateFilter,
+            new ReturnDateFilter
+        ];
     }
 
     /**
