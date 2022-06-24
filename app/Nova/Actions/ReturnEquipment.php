@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Date;
 
 class ReturnEquipment extends Action
 {
@@ -22,7 +23,11 @@ class ReturnEquipment extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        //
+        foreach ($models as $model) {
+            $model->return_date = $fields->return_date;
+            $model->save();
+        }
+        return Action::message('Equipment returned');
     }
 
     /**
@@ -32,6 +37,8 @@ class ReturnEquipment extends Action
      */
     public function fields()
     {
-        return [];
+        return [
+            Date::make('return date', 'return_date'),
+        ];
     }
 }

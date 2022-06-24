@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ReturnEquipment;
 use App\Nova\Filters\ReturnDateFilter;
 use App\Nova\Filters\TakeDateFilter;
 use App\Nova\Lenses\ReturnedEquipment;
@@ -67,8 +68,8 @@ class TakenEquipment extends Resource
             BelongsTo::make('resident')->required(),
             BelongsTo::make('equipment')->required(),
             Number::make('quantity')->required(),
-            Date::make('take_date')->required(),
-            Date::make('return_date')->nullable()
+            Date::make('take date', 'take_date')->required(),
+            Date::make('return date', 'return_date')->nullable()
         ];
     }
 
@@ -107,6 +108,14 @@ class TakenEquipment extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new ReturnEquipment())->showOnTableRow()
+                ->confirmText('Are you sure you want to accept this request?')
+                ->confirmButtonText('Accept')
+                ->cancelButtonText("Don't accept")
+                ->canSee(function ($request) {
+                    return $request->user()->can('update', TakenEquipment::class);
+                }),
+        ];
     }
 }
