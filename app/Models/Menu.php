@@ -13,6 +13,8 @@ class Menu extends Model
         'date' => 'date'
     ];
 
+    protected $fillable = ['created_at'];
+
     public function getNameAttribute()
     {
         return $this->main_dish . ' - ' . $this->secondary_dish . ' - ' . $this->dessert;
