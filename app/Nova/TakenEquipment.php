@@ -56,6 +56,23 @@ class TakenEquipment extends Resource
     public static $group = 'Accommodation';
 
     /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->isResidenceDecider() || $request->user()->isAgentHebergement()) {
+            return $query->join('residents', 'resident_id', 'residents.id')
+                ->where('establishment_id', $request->user()->establishment_id)
+                ->select('taken_equipment.*');
+        }
+        return $query;
+    }
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Illuminate\Http\Request  $request
