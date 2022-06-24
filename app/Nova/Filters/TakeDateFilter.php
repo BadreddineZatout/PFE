@@ -8,6 +8,7 @@ use Laravel\Nova\Filters\DateFilter;
 
 class TakeDateFilter extends DateFilter
 {
+    public $name = 'Take Date';
     /**
      * Apply the filter to the given query.
      *

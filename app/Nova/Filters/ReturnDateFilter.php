@@ -8,6 +8,8 @@ use Laravel\Nova\Filters\DateFilter;
 
 class ReturnDateFilter extends DateFilter
 {
+    public $name = 'Retrun Date';
+
     /**
      * Apply the filter to the given query.
      *

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Filters\ReturnDateFilter;
 use App\Nova\Filters\TakeDateFilter;
+use App\Nova\Lenses\ReturnedEquipment;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
@@ -93,7 +94,9 @@ class TakenEquipment extends Resource
      */
     public function lenses(Request $request)
     {
-        return [];
+        return [
+            new ReturnedEquipment()
+        ];
     }
 
     /**
