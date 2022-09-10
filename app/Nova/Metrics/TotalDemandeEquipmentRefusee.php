@@ -38,6 +38,7 @@ class TotalDemandeEquipmentRefusee extends Value
     public function ranges()
     {
         return [
+            'ALL' => 'All Time',
             30 => __('30 Days'),
             60 => __('60 Days'),
             365 => __('365 Days'),

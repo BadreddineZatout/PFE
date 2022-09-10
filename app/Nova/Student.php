@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Role;
+use App\Nova\Filters\StudentUniversity;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -90,7 +91,9 @@ class Student extends User
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new StudentUniversity
+        ];
     }
 
     /**
