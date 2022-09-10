@@ -91,9 +91,11 @@ class Student extends User
      */
     public function filters(Request $request)
     {
-        return [
-            new StudentUniversity
-        ];
+        if ($request->user()->isAdmin() || $request->user()->isMinister())
+            return [
+                new StudentUniversity
+            ];
+        return [];
     }
 
     /**
