@@ -53,6 +53,21 @@ class TransportFeedback extends Feedback
     }
 
     /**
+     * Build a "relatable" query for residences.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableQuestions(NovaRequest $request, $query)
+    {
+        return $query->where('type_feedback_id', TypeFeedback::TRANSPORT_TYPE);
+    }
+
+    /**
      * Get the cards available for the request.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -30,7 +30,7 @@ class MenuPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isAgentRestauration() || $user->isDecider();
     }
 
     /**
@@ -42,7 +42,7 @@ class MenuPolicy
      */
     public function update(User $user, Menu $menu)
     {
-        return $user->isAdmin() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isAgentRestauration() || $user->isDecider();
     }
 
     /**
@@ -54,6 +54,6 @@ class MenuPolicy
      */
     public function delete(User $user, Menu $menu)
     {
-        return $user->isAdmin() || $user->isAgentRestauration();
+        return $user->isAdmin() || $user->isAgentRestauration() || $user->isDecider();
     }
 }
