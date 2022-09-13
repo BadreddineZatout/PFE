@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Line;
 use App\Models\Stop;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -53,6 +54,21 @@ class StopPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, Stop $stop)
+    {
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+    }
+
+    public function attachAnyEstablishment(User $user, Stop $stop)
+    {
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+    }
+
+    public function attachEstablishment(User $user, Stop $stop, Line $line)
+    {
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+    }
+
+    public function detachEstablishment(User $user, Stop $stop, Line $line)
     {
         return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
     }

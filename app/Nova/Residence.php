@@ -3,13 +3,10 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
+use App\Models\Establishment as EstablishmentModel;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
 
 class Residence extends Establishment
 {
@@ -51,7 +48,9 @@ class Residence extends Establishment
     public static function relatableEstablishments(NovaRequest $request, $query)
     {
 
-        return $query->where('id', '!=', $request->resourceId)->where('type', '!=', 'résidence');
+        return $query->where('id', '!=', $request->resourceId)
+            ->where('type', '!=', 'résidence')
+            ->whereNotIn('id', EstablishmentModel::find($request->resourceId)->establishments->pluck('id'));
     }
 
     /**

@@ -56,4 +56,19 @@ class EstablishmentPolicy
     {
         return $user->isAdmin();
     }
+
+    public function attachAnyLine(User $user, Establishment $establishment)
+    {
+        return $user->isAdmin();
+    }
+
+    public function attachLine(User $user, Establishment $establishment)
+    {
+        return $user->isAdmin();
+    }
+
+    public function detachLine(User $user, Establishment $establishment)
+    {
+        return $user->isAdmin();
+    }
 }

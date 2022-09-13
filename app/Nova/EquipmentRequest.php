@@ -104,7 +104,7 @@ class EquipmentRequest extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             BelongsTo::make('resident'),
             BelongsTo::make('equipment'),
-            Number::make('quantity'),
+            Number::make('quantity')->min(1),
             Select::make('state')->options([
                 'non traité' => 'non traité',
                 'accepté' => 'accepté',

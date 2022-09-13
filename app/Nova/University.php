@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\Establishment as EstablishmentModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Select;
@@ -47,7 +48,9 @@ class University extends Establishment
      */
     public static function relatableEstablishments(NovaRequest $request, $query)
     {
-        return $query->where('id', '!=', $request->resourceId)->where('type', 'résidence');
+        return $query->where('id', '!=', $request->resourceId)
+            ->where('type', 'résidence')
+            ->whereNotIn('id', EstablishmentModel::find($request->resourceId)->establishments->pluck('id'));
     }
 
     /**

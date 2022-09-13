@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Lenses\Lens;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\LensRequest;
 
 class AnonymousReports extends Lens
@@ -49,6 +50,7 @@ class AnonymousReports extends Lens
             BelongsTo::make('place'),
             Text::make('description')->hideFromIndex(),
             Date::make('date'),
+            Boolean::make('treated', 'is_treated'),
         ];
     }
 

@@ -53,7 +53,7 @@ class TakenEquipmentPolicy
      */
     public function update(User $user)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**
@@ -65,6 +65,6 @@ class TakenEquipmentPolicy
      */
     public function delete(User $user, TakenEquipment $takenEquipment)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 }

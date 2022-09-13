@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Line;
+use App\Models\Stop;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -53,6 +54,21 @@ class LinePolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, Line $line)
+    {
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+    }
+
+    public function attachAnyStop(User $user, Line $line)
+    {
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+    }
+
+    public function attachStop(User $user, Line $line, Stop $stop)
+    {
+        return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
+    }
+
+    public function detachStop(User $user, Line $line, Stop $stop)
     {
         return $user->isAdmin() || $user->isDecider() || $user->isAgentTransport();
     }

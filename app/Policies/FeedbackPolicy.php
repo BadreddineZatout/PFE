@@ -65,6 +65,6 @@ class FeedbackPolicy
      */
     public function delete(User $user, Feedback $feedback)
     {
-        return $user->isAdmin() || $user->isMinister() || $user->isDecider();
+        return $user->isAdmin() || $user->isDecider();
     }
 }

@@ -16,19 +16,20 @@ class EquipmentRequestObserver
      */
     public function updated(EquipmentRequest $equipmentRequest)
     {
-        if ($equipmentRequest->state == 'accepté') {
-            TakenEquipment::create([
+        if ($equipmentRequest->wasChanged('state')) {
+            if ($equipmentRequest->state == 'accepté') {
+                TakenEquipment::create([
+                    'resident_id' => $equipmentRequest->resident_id,
+                    'equipment_id' => $equipmentRequest->equipment_id,
+                    'quantity' => $equipmentRequest->quantity,
+                    'take_date' => Carbon::now()
+                ]);
+                return;
+            }
+            TakenEquipment::where([
                 'resident_id' => $equipmentRequest->resident_id,
                 'equipment_id' => $equipmentRequest->equipment_id,
-                'quantity' => $equipmentRequest->quantity,
-                'take_date' => Carbon::now()
-            ]);
-            return;
+            ])->delete();
         }
-        TakenEquipment::where([
-            'resident_id' => $equipmentRequest->resident_id,
-            'equipment_id' => $equipmentRequest->equipment_id,
-            'quantity' => $equipmentRequest->quantity,
-        ])->delete();
     }
 }

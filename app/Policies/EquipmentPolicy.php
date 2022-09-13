@@ -41,7 +41,7 @@ class EquipmentPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**
@@ -53,7 +53,7 @@ class EquipmentPolicy
      */
     public function update(User $user, Equipment $equipment)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**
@@ -65,6 +65,6 @@ class EquipmentPolicy
      */
     public function delete(User $user, Equipment $equipment)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 }

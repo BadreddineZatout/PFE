@@ -30,7 +30,7 @@ class VacationPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isMinister();
     }
 
     /**
@@ -42,7 +42,7 @@ class VacationPolicy
      */
     public function update(User $user, Vacation $vacation)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isMinister();
     }
 
     /**
@@ -54,6 +54,6 @@ class VacationPolicy
      */
     public function delete(User $user, Vacation $vacation)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isMinister();
     }
 }

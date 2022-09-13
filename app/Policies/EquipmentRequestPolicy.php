@@ -53,7 +53,7 @@ class EquipmentRequestPolicy
      */
     public function update(User $user)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**
@@ -65,6 +65,6 @@ class EquipmentRequestPolicy
      */
     public function delete(User $user, EquipmentRequest $equipmentRequest)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 }

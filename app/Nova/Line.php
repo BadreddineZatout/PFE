@@ -2,8 +2,8 @@
 
 namespace App\Nova;
 
+use App\Models\Line as ModelsLine;
 use App\Rules\MinBusNumber;
-use App\Rules\MinStopOrder;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
@@ -12,7 +12,6 @@ use App\Rules\MinRotationNumber;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BelongsTo;
 use Laraning\NovaTimeField\TimeField;
-use App\Nova\Filters\BusEstablishment;
 use Laravel\Nova\Fields\BelongsToMany;
 use App\Nova\Filters\LineEstablishment;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -106,6 +105,20 @@ class Line extends Resource
         if ($request->user()->isDecider() || $request->user()->isAgentTransport())
             return $query->where('establishment_id', $request->user()->establishment_id);
         return $query;
+    }
+    /**
+     * Build a "relatable" query for plans.
+     *
+     * This query determines which instances of the model may be attached to other resources.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function relatableStops(NovaRequest $request, $query)
+    {
+        return $query->whereNotIn('id', ModelsLine::find($request->resourceId)->stops->pluck('id'));
     }
 
     /**
