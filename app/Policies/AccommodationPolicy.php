@@ -53,7 +53,7 @@ class AccommodationPolicy
      */
     public function update(User $user)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 
     /**
@@ -65,6 +65,6 @@ class AccommodationPolicy
      */
     public function delete(User $user, Accommodation $accommodation)
     {
-        return $user->isAdmin() || $user->isAgentHebergement();
+        return $user->isAdmin() || $user->isResidenceDecider() || $user->isAgentHebergement();
     }
 }
