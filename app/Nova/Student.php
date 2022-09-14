@@ -78,8 +78,6 @@ class Student extends User
     public function fields(Request $request)
     {
         $fields = parent::fields($request);
-        $fields[8] = BelongsTo::make('role')->default(Role::STUDENT);
-
         return $fields;
     }
 
